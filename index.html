@@ -433,7 +433,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </li>
 <li><a href="#_abbreviations">Abbreviations</a></li>
-<li><a href="#_contact">Contact</a></li>
+<li><a href="#_contact_impressum">Contact &amp; Impressum</a></li>
 </ul>
 </div>
 </div>
@@ -554,7 +554,7 @@ cloud platform.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_contact">Contact</h2>
+<h2 id="_contact_impressum">Contact &amp; Impressum</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Peter Vittali<br>
@@ -562,19 +562,18 @@ Weidenweg 1<br>
 CH-4127 Birsfelden, Schweiz<br>
 +41 61 271 89 33</p>
 </div>
-    <form action="//formspree.io/vittali@sunrise.ch" method="POST">
-      <div class="row uniform 50%">
-        <input type="hidden" name="_subject" value="New email from your portfolio" />
-        <div class="6u 12u$(xsmall)"><input type="text" name="name" id="name" placeholder="Name" required/></div>
-        <div class="6u$ 12u$(xsmall)"><input type="email" name="_replyto" name="email" id="email" placeholder="Email" required/></div>
-        <div class="12u$"><textarea name="message" id="message" placeholder="Nachricht" rows="4" required></textarea></div>
-        <input type="text" name="_gotcha" style="display:none" />
-
-        <ul class="actions">
-          <li><input type="submit" value="Senden" /></li>
-        </ul>
-      </div>
-    </form>
+<form id="contactform" method="POST">
+    <input type="text" name="name" placeholder="Your name">
+    <input type="email" name="_replyto" placeholder="Your email">
+    <input type="hidden" name="_subject" value="Website contact" />
+    <textarea name="message" placeholder="Your message"></textarea>
+    <input type="text" name="_gotcha" style="display:none" />
+    <input type="submit" value="Send">
+</form>
+<script>
+    var contactform =  document.getElementById('contactform');
+    contactform.setAttribute('action', '//formspree.io/' + 'vittali' + '@' + 'sunrise' + '.' + 'ch');
+</script>
 </div>
 </div>
 </div>
