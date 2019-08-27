@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<title>Software &amp; Electronics &amp; Embedded</title>
+<title>ST1: Getting started with the TI SensorTag CC2650</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -420,136 +420,412 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Software &amp; Electronics &amp; Embedded</h1>
+<h1>ST1: Getting started with the TI SensorTag CC2650</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_getting_started_tutorials">Getting started tutorials</a>
+<li><a href="#_hardware_preparation_and_requirements">1. Hardware Preparation and Requirements</a></li>
+<li><a href="#_setup_the_empty_project">2. Setup the Empty Project</a></li>
+<li><a href="#_setup_logging_optional">3. Setup logging (optional)</a></li>
+<li><a href="#_start_a_debug_session">4. Start a debug session</a></li>
+<li><a href="#_references">5. References</a>
 <ul class="sectlevel2">
-<li><a href="#_a_dog_s_best_friend_the_beagle_bone_black_and_his_programmable_realtime_unit">A dog&#8217;s best friend: The Beagle Bone Black and his Programmable Realtime Unit</a></li>
-<li><a href="#_iot_internet_of_things">IoT (Internet of Things)</a></li>
-<li><a href="#_sensor_tags_by_texas_instruments_ti">Sensor Tags by Texas Instruments (TI)</a></li>
+<li><a href="#_technical_documents">5.1. Technical Documents</a></li>
+<li><a href="#_development_tools">5.2. Development Tools</a></li>
+<li><a href="#_software">5.3. Software</a></li>
+<li><a href="#_ti_e2e_support_forum">5.4. TI E2E support forum</a></li>
+<li><a href="#_sensor_tags_cc1350_cc2650">5.5. Sensor Tags (CC1350 &amp; CC2650)</a></li>
+<li><a href="#_mcu">5.6. MCU</a></li>
+<li><a href="#_ble">5.7. BLE</a></li>
 </ul>
 </li>
-<li><a href="#_abbreviations">Abbreviations</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph">
-<p>A variety of small projects, tutorials and development notes in the field sofware development, electronics design and embedded devices.</p>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+WORK IN PROGRESS
+</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
-<p>You can clone these projects including this <a href="https://bitbucket.org/pvittali/pvittali.bitbucket.io">documentation</a>
-and create issues to provide feedback and corrections.
-This work is licensed under the terms of the MIT license.</p>
+<p>The <a href="http://www.ti.com/tool/CC2650STK">SimpleLink™ Bluetooth low energy/Multi-standard SensorTag CC2650STK</a> is a tiny board based on the <a href="http://www.ti.com/product/CC2650">CC2650F128RGZ</a> capable of providing BLE connectivity to your electronics design project. The product
+is can be purchased directly from the Texas Instrument web store as well as from various distributors.
+The name <em>CC2650STK</em> is the official part number, but I will use <em>Sensor Tag</em> hereafter to make it clear that this is a piece of
+hardware, the relevant software development kit is part
+of a TI-RTOS variant for the CC2650 and CC1350 family of wireless MCUs <a href="#st-sw1">[st-sw1]</a>.</p>
 </div>
 <div class="paragraph">
-<p>Peter Vittali</p>
+<p>The project files for this Getting Started Tutorial (gst) can be cloned from this <a href="https://bitbucket.org/pvittali/pvittali.gst.st1/src/master">git repo</a>.
+Here is an <a href="https://pvittali.bitbucket.io">overwiew</a> of related projects.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_getting_started_tutorials">Getting started tutorials</h2>
+<h2 id="_hardware_preparation_and_requirements">1. Hardware Preparation and Requirements</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Short step-by-step recipes to get up and running on a very specific topic
-without trying to be generic. Prone to be obsolete by the time you read it.</p>
+<p>This is tutorial requires the following hardware:</p>
 </div>
-<div class="sect2">
-<h3 id="_a_dog_s_best_friend_the_beagle_bone_black_and_his_programmable_realtime_unit">A dog&#8217;s best friend: The Beagle Bone Black and his Programmable Realtime Unit</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>the <a href="http://www.ti.com/tool/CC2650STK">SimpleLink™ Bluetooth low energy/Multi-standard SensorTag CC2650STK</a></p>
+</li>
+<li>
+<p>the XDS110 Debug Probe <a href="#mcu-dt1">[mcu-dt1]</a></p>
+</li>
+</ul>
+</div>
 <div class="paragraph">
-<p>A series of tutorials dedicated to real-time programming on the Beagle Bone Black (BBB)
-leveraging the PRU (Programmable Realtime Unit) on the Cortex A8 Sitara processor.
-I am interested in using the BBB as an inexpensive test equipment
-to apply stimulus to other embedded systems and to obtain time correlated measurements.
-These tutorials have been written and tested with Linux Mint 18.2 on the development host PC.</p>
+<p>and software;</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://pvittali.bitbucket.io/bbb1">BBB1: Getting started</a>,
-<a href="https://bitbucket.org/pvittali/pvittali.gst.bbb1/src/master">git repo</a>.</p>
+<p>Code Composer Studio 9.1 (CCS)</p>
+</li>
+<li>
+<p>TI-RTOS for CC13XX and CC26XX, version 2.21.0.06 <a href="#st-sw1">[st-sw1]</a></p>
 </li>
 </ul>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_iot_internet_of_things">IoT (Internet of Things)</h3>
 <div class="paragraph">
-<p>Embedded resource restraint devices like microcontrollers without operating system
-communicate with a central hub running on a publicly accessible
-cloud platform.</p>
+<p>The Sensor Tag comes with a lithium coin cell which is inadequate for development because the JTAG pull-up/pull-down resistors
+will quickly drain the battery.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://pvittali.bitbucket.io/rb1">RB1: Run Node-RED on the IBM bluemix cloud and receive sensor data from your things</a>,
-<a href="https://bitbucket.org/pvittali/pvittali.gst.rb1/src/master">git repo</a>.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>I decided to strip the coin holder and attach cables suitable for lab power supply:</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/CC2650.jpg" alt="CC2650STK" width="300">
 </div>
-<div class="sect2">
-<h3 id="_sensor_tags_by_texas_instruments_ti">Sensor Tags by Texas Instruments (TI)</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://pvittali.bitbucket.io/st1">ST1: Getting started with the TI CC2650 Sensor Tag</a>,
-<a href="https://bitbucket.org/pvittali/pvittali.gst.st1/src/master">git repo</a>.</p>
-</li>
-<li>
-<p><a href="https://pvittali.bitbucket.io/st2">ST2: Getting started with the TI CC1350 Sensor Tag</a>,
-<a href="https://bitbucket.org/pvittali/pvittali.gst.st2/src/master">git repo</a>.</p>
-</li>
-</ul>
+<div class="title">Figure 1. The CC2650STK without coin cell slot ready for an external supply (1.8V - 3.8V)</div>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+You might want to label the board and the buttons <em>1</em> and <em>2</em> because we need to refer to them
+later.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Next, you need one of the small adapter boards that come with the XDS110 and connect the JTAG header as shown:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/JTAG-connection.jpg" alt="JTAG connection" width="300">
+</div>
+<div class="title">Figure 2. JTAG connection between the XSD110 debugger and the CC2650STK ( the small adapter PCB is part of the XDS110 deliverable)</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_abbreviations">Abbreviations</h2>
+<h2 id="_setup_the_empty_project">2. Setup the Empty Project</h2>
 <div class="sectionbody">
-<div class="dlist">
-<dl>
-<dt class="hdlist1">gst</dt>
-<dd>
-<p>getting started tutorial</p>
-</dd>
-<dt class="hdlist1">st,ST</dt>
-<dd>
-<p>sensor tag</p>
-</dd>
-<dt class="hdlist1">iot</dt>
-<dd>
-<p>internet of things</p>
-</dd>
-<dt class="hdlist1">TI</dt>
-<dd>
-<p>Texas Instruments</p>
-</dd>
-<dt class="hdlist1">RB</dt>
-<dd>
-<p>Node-Red on Bluemix</p>
-</dd>
-<dt class="hdlist1">BBB</dt>
-<dd>
-<p>Beagle Bone Black</p>
-</dd>
-<dt class="hdlist1">BLE</dt>
-<dd>
-<p>Bluetooth Low Energy</p>
-</dd>
-<dt class="hdlist1">MCU</dt>
-<dd>
-<p>microcontroller</p>
-</dd>
-</dl>
+<div class="paragraph">
+<p>From within CCS, open the <em>Resource Explorer</em> and download and install the <code>empty_min_CC2650STK_TI</code> project.
+You need to modify the target configuration file <code>CC2650F128.ccxml</code>. Go to the <em>Advanced</em> tab, and make sure that the following attributes are correct:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>Power Selection</em>:</p>
+</li>
+<li>
+<p><em>Voltage Level</em>:</p>
+</li>
+<li>
+<p><em>JTAG/SWD/cJTAG Mode</em>:</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/target-conf.png" alt="Target configuration">
+</div>
+<div class="title">Figure 3. Required target configuration <code>CC2650F128.ccxml</code></div>
+</div>
+<div class="paragraph">
+<p>Finally, adjust the <em>Debug Settings</em> as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>check <em>Reset Target on a connect</em></p>
+</li>
+<li>
+<p>check <em>Reset the target on a program load or restart</em>.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Debug-Settings.png" alt="Debug Settings">
+</div>
+<div class="title">Figure 4. Debug Settings</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+when using the default Debug Settings you encounter errors, see <a href="#e2e1">[e2e1]</a>, <a href="#e2e2">[e2e2]</a>, <a href="#e2e3">[e2e3]</a>,
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_setup_logging_optional">3. Setup logging (optional)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>README.md</code> of the <code>empty_min_CC2650STK_TI</code> project claims that the System Analyzer Unit is enabled.
+This is not correct and if you try to open xxxx in the Debug Perspective, you get this <a href="#e2e5">[e2e5]</a>:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/DAC.png" alt="Analysis Configuration">
+</div>
+<div class="title">Figure 5. System Analyzer</div>
+</div>
+<div class="paragraph">
+<p>We first need to enable System Analyzer by modifying the TI-RTOS config file <code>empty_min.cfg</code> <a href="#e2e5">[e2e5]</a>:</p>
+</div>
+<div class="listingblock">
+<div class="title">empty_min.cfg</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript" data-lang="javascript">BIOS.logsEnabled = true; // 1. Enable BIOS logging:
+// 2. Disable the ROM build by commenting out these lines:
+
+//var ROM = xdc.useModule('ti.sysbios.rom.ROM');
+if (Program.cpu.deviceName.match(/CC2640R2F/)) {
+//    ROM.romName = ROM.CC2640R2F;
+}
+else if (Program.cpu.deviceName.match(/CC26.2/)) {
+//    ROM.romName = ROM.CC26X2V2;
+}
+else if (Program.cpu.deviceName.match(/CC13.2/)) {
+//    ROM.romName = ROM.CC13X2V2;
+}
+else if (Program.cpu.deviceName.match(/CC26/)) {
+//    ROM.romName = ROM.CC2650;
+}
+else if (Program.cpu.deviceName.match(/CC13/)) {
+//    ROM.romName = ROM.CC1350;
+}
+
+var LoggingSetup = xdc.useModule('ti.uia.sysbios.LoggingSetup'); // 3. Add LoggingSetup</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>That should be enough to get you CPU load and Execution graph.
+You should see the CPU load and Task state messages in the Live Session window.
+If you want to do context aware profiling, it is a bit tricky, see <a href="#e2e5">[e2e5]</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_start_a_debug_session">4. Start a debug session</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Click on the <em>Debug</em> icon to flash the program and start a debug session.
+Click on <em>Tools &#8594; xxxx</em> to open the System Analyzer.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_references">5. References</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_technical_documents">5.1. Technical Documents</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="td1"></a>[td1] <a href="http://www.ti.com/lit/ds/symlink/cc2650.pdf">CC2650 SimpleLinkTM Multistandard Wireless MCU Data Sheet</a></p>
+</li>
+</ul>
+</div>
+<div class="sect3">
+<h4 id="_more_literature">5.1.1. More literature</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="ble1"></a>[ble1] <a href="http://www.ti.com/lit/ug/swru393e/swru393e.pdf">CC26x0 SimpleLink™Bluetooth ®low energy Software Stack 2.2.x, Developer&#8217;s Guide</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_development_tools">5.2. Development Tools</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="dt1"></a>[dt1] <a href="http://www.ti.com/tool/CC2650STK">SimpleLink™ Bluetooth low energy/Multi-standard SensorTag CC2650STK</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_software">5.3. Software</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="sw1"></a>[sw1] <a href="http://www.ti.com/lit/ug/swru393e/swru393e.pdf">CC26x0 SimpleLink™ Bluetooth® low energy Software Stack 2.2.x</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ti_e2e_support_forum">5.4. TI E2E support forum</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="e2e1"></a>[e2e1] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/766831?CCS-CC2640R2F-INFO-Cortex-M3-0-File-Loader-Memory-write-failed-Timed-out-waiting-for-target-flashloader-to-execute-command-">CCS/CC2640R2F: INFO&#8201;&#8212;&#8201;Cortex_M3_0: File Loader: Memory write failed: Timed out waiting for target flashloader to execute command.</a></p>
+</li>
+<li>
+<p><a id="e2e2"></a>[e2e2]  <a href="https://e2e.ti.com/support/tools/ccs/f/81/t/578693">CCS/CC2650: Memory write failed: Timed out waiting for target to halt</a></p>
+</li>
+<li>
+<p><a id="e2e3"></a>[e2e3]  <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/803609?CCS-CC2640-The-program-works-perfectly-on-first-launch-but-has-Memory-write-failed-error-on-the-next-launch-">CCS/CC2640: The program works perfectly on first launch, but has "Memory write failed" error on the next launch.</a></p>
+</li>
+<li>
+<p><a id="e2e4"></a>[e2e4] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/744902?CCS-CC2652R-Cant-run-ble5-simple-central-cc2640r2lp-app">CCS/CC2652R: Cant run ble5_simple_central_cc2640r2lp_app</a></p>
+</li>
+<li>
+<p><a id="e2e5"></a>[e2e5] <a href="https://e2e.ti.com/support/tools/ccs/f/81/p/831543/3077956">CCS/CC2650STK: Can&#8217;t start the System Analyzer despite the README.md saying so</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sensor_tags_cc1350_cc2650">5.5. Sensor Tags (CC1350 &amp; CC2650)</h3>
+<div class="sect3">
+<h4 id="_technical_documents_2">5.5.1. Technical Documents</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="st-td1"></a>[st-td1] <a href="http://www.ti.com/lit/ug/swcu117h/swcu117h.pdf">CC13x0,CC26x0SimpleLink™ Wireless MCU Technical Reference Manual</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_more_literature_2">5.5.2. More literature</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="st-ml1"></a>[st-ml1] <a href="http://www.ti.com/lit/an/swra578a/swra578a.pdf">Getting Started With the CC13xx and CC26xx SensorController</a></p>
+</li>
+<li>
+<p><a id="st-ml2"></a>[st-ml2] <a href="http://www.ti.com/lit/ml/swat014/swat014.pdf">Meet the SimpleLink™ Sensor Controller</a></p>
+</li>
+<li>
+<p><a id="st-ml3"></a>[st-ml3] <a href="http://www.ti.com/lit/an/swra640b/swra640b.pdf">CC13xx/CC26xx Hardware Configuration and PCB Design Considerations</a></p>
+</li>
+<li>
+<p><a id="st-ml4"></a>[st-ml4] <a href="http://www.ti.com/lit/an/swru537/swru537.pdf">Integrating Sensor Controller Studio Examples Into ProjectZero</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_software_2">5.5.3. Software</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="st-sw1"></a>[st-sw1] <a href="http://dev.ti.com/tirex/content/tirtos_cc13xx_cc26xx_2_21_00_06/release_notes_tirtos_cc13xx_cc26xx_2_21_00_06.html">TI-RTOS CC13XX and CC26XX</a></p>
+</li>
+<li>
+<p><a id="st-sw2"></a>[st-sw2] <a href="http://www.ti.com/lit/ml/swru439j/swru439j.pdf">CC26xx,CC13xx Sensor Controller Studio Version2.5</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mcu">5.6. MCU</h3>
+<div class="sect3">
+<h4 id="_development_tools_2">5.6.1. Development Tools</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="mcu-dt1"></a>[mcu-dt1] <a href="http://www.ti.com/tool/TMDSEMU110-U">XDS110 JTAG Debug Probe</a></p>
+</li>
+<li>
+<p><a id="mcu-dt2"></a>[mcu-dt2] <a href="http://www.ti.com/tool/UNIFLASH">Uniflash Standalone Flash Tool for TI Microcontrollers (MCU), Sitara Processors &amp; SimpleLink devices</a></p>
+</li>
+<li>
+<p><a id="mcu-dt3"></a>[mcu-dt3] <a href="http://downloads.ti.com/ccs/esd/uniflash/docs/latest_qsguide.html">UniFlash Quick Start Guide</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ble">5.7. BLE</h3>
+<div class="sect3">
+<h4 id="_technical_documents_3">5.7.1. Technical Documents</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="ble-td1"></a>[ble-td1] <a href="https://github.com/ti-simplelink/ble_examples/tree/ble_examples-2.2">Extra examples for TI BLE-Stack 2.2.x SDK</a></p>
+</li>
+<li>
+<p><a id="ble-td2"></a>[ble-td2] <a href="http://software-dl.ti.com/lprf/simplelink_academy/modules/ble_01_basic/ble_01_basic.html">Bluetooth Low Energy Fundamentals</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_ti_e2e_support_forum_2">5.7.2. TI E2E support forum</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="ble-e2e1"></a>[ble-e2e1] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/404236">BLE Getting Started and FAQ</a></p>
+</li>
+<li>
+<p><a id="ble-e2e2"></a>[ble-e2e2] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/594609">Bluetooth® 5 Is Here: Top Five Questions Answered [Updated with Long Range Connections</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_software_3">5.7.3. Software</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="ble-sw1"></a>[ble-sw1] <a href="http://www.ti.com/lit/zip/swrc258">TI BLE Device Monitor</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 </div>
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
 </body>
 </html>

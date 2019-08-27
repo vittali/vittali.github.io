@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<title>Software &amp; Electronics &amp; Embedded</title>
+<title>BBB1: Getting started with the Beagle Bone Black and the PRU via JTAG</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -418,20 +418,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
 </head>
-<body class="article toc2 toc-left">
+<body class="article">
 <div id="header">
-<h1>Software &amp; Electronics &amp; Embedded</h1>
-<div id="toc" class="toc2">
+<h1>BBB1: Getting started with the Beagle Bone Black and the PRU via JTAG</h1>
+<div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_getting_started_tutorials">Getting started tutorials</a>
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#_preparing_the_hardware">Preparing the hardware</a></li>
+<li><a href="#_preventing_linux_from_booting">Preventing Linux from booting</a></li>
+<li><a href="#_installing_the_software_development_environment">Installing the software development environment</a></li>
+<li><a href="#_using_the_demo_examples_from_the_support_package">Using the demo examples from the support package</a></li>
+<li><a href="#_further_reading">Further Reading</a></li>
+<li><a href="#_appendix">Appendix</a>
 <ul class="sectlevel2">
-<li><a href="#_a_dog_s_best_friend_the_beagle_bone_black_and_his_programmable_realtime_unit">A dog&#8217;s best friend: The Beagle Bone Black and his Programmable Realtime Unit</a></li>
-<li><a href="#_iot_internet_of_things">IoT (Internet of Things)</a></li>
-<li><a href="#_sensor_tags_by_texas_instruments_ti">Sensor Tags by Texas Instruments (TI)</a></li>
+<li><a href="#_jtag_debugging">JTAG debugging</a></li>
 </ul>
 </li>
-<li><a href="#_abbreviations">Abbreviations</a></li>
 </ul>
 </div>
 </div>
@@ -439,114 +442,410 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>A variety of small projects, tutorials and development notes in the field sofware development, electronics design and embedded devices.</p>
+<p>This is the first of a series of <a href="https://pvittali.bitbucket.io">tutorials</a> dedicated to real-time programming on the Beagle Bone Black (BBB). I am interested
+in using the BBB as an inexpensive test equipment to apply stimulus to other embedded
+systems and to obtain time correlated measurements.
+This tutorial has been tested with Linux Mint 18.2 on the development host PC.</p>
 </div>
 <div class="paragraph">
-<p>You can clone these projects including this <a href="https://bitbucket.org/pvittali/pvittali.bitbucket.io">documentation</a>
-and create issues to provide feedback and corrections.
-This work is licensed under the terms of the MIT license.</p>
-</div>
-<div class="paragraph">
-<p>Peter Vittali</p>
+<p>The project files can be cloned from this <a href="https://bitbucket.org/pvittali/pvittali.gst.bbb1/src/master">git repo</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_getting_started_tutorials">Getting started tutorials</h2>
+<h2 id="_introduction">Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Short step-by-step recipes to get up and running on a very specific topic
-without trying to be generic. Prone to be obsolete by the time you read it.</p>
+<p>The Beagle Bone Black <a href="https://beagleboard.org/black">BBB</a>, revC (13/2017), described in detail in the System Reference Manual <a href="https://github.com/beagleboard/beaglebone-black/wiki/System-Reference-Manual">SRM</a>, comes with the Sitara AM3358BZCZ100 processor, a SoC (system on chip) that includes not only a 1-Ghz
+Cortex A8 processor but also two independent <a href="http://processors.wiki.ti.com/index.php/PRU-ICSS?DCMP=pru&amp;HQS=PRU">PRU</a>s (Programmable Realtime Unit).
+These are independent cores, specifically designed for real-time
+requirements. In particular, they allow for deterministic digital I/O operations.</p>
 </div>
-<div class="sect2">
-<h3 id="_a_dog_s_best_friend_the_beagle_bone_black_and_his_programmable_realtime_unit">A dog&#8217;s best friend: The Beagle Bone Black and his Programmable Realtime Unit</h3>
 <div class="paragraph">
-<p>A series of tutorials dedicated to real-time programming on the Beagle Bone Black (BBB)
-leveraging the PRU (Programmable Realtime Unit) on the Cortex A8 Sitara processor.
-I am interested in using the BBB as an inexpensive test equipment
-to apply stimulus to other embedded systems and to obtain time correlated measurements.
-These tutorials have been written and tested with Linux Mint 18.2 on the development host PC.</p>
+<p>This tutorial shows how to set up the required hard- and software tools to program and debug these PRUs.
+There are two fundamentally different ways to do this:</p>
 </div>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p><a href="https://pvittali.bitbucket.io/bbb1">BBB1: Getting started</a>,
-<a href="https://bitbucket.org/pvittali/pvittali.gst.bbb1/src/master">git repo</a>.</p>
+<p>via Linux installed on the BBB (not covered),</p>
 </li>
-</ul>
+<li>
+<p>via JTAG (focus of this tutorial).</p>
+</li>
+</ol>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_iot_internet_of_things">IoT (Internet of Things)</h3>
 <div class="paragraph">
-<p>Embedded resource restraint devices like microcontrollers without operating system
-communicate with a central hub running on a publicly accessible
-cloud platform.</p>
+<p>The first option doesn&#8217;t require any additional hardware, other than the USB cable that comes with the BBB.
+This option is <strong>not</strong> covered in this tutorial.
+The second option resembles traditional embedded system programming. Code Composer Studio 8 (CCS)
+is used to program and debug the PRUs on the Sitara processor via a JTAG connection.
+This option is more demanding in terms of hardware, but it has the advantage that you can debug
+the code on the PRU just like any other embedded system.</p>
+</div>
+<div class="paragraph">
+<p>While several tutorials are available on this topic, I was unable get a working tool chain without trial and error.
+PRU development has advanced very rapidly in recent years: there is now a full featured C/C++ compiler and the software installation part
+is really very simple, once you have figured out the requirements.</p>
+</div>
+<div class="paragraph">
+<p>In order to program and debug a PRU you need the following hardware:</p>
+</div>
+<div class="ulist">
+<div class="title">BOM -required items for JTAG operation</div>
+<ul>
+<li>
+<p>The BBB itself, you can find a distributor here <a href="https://beagleboard.org/black">BBB</a>.</p>
+</li>
+<li>
+<p>The BBB comes without a <a href="https://www.digikey.de/product-detail/de/samtec-inc/FTR-110-03-G-D-06/SAM8790-ND/2651173">JTAG header</a>. It must be purchased separately and soldered on the bottom side of the BBB.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Before heating up your solder iron, see the soldering tips below.
+</td>
+</tr>
+</table>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://pvittali.bitbucket.io/rb1">RB1: Run Node-RED on the IBM bluemix cloud and receive sensor data from your things</a>,
-<a href="https://bitbucket.org/pvittali/pvittali.gst.rb1/src/master">git repo</a>.</p>
+<p>A compatible debug probe. I use the <a href="http://www.ti.com/tool/TMDSEMU110-U">XDS110 JTAG Debug Probe</a> in this tutorial which is currently one of the most economic
+solutions to program and debug a bare metal BBB.
+It comes with the required cables, you do need to purchase additional adapters.</p>
 </li>
 </ul>
 </div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+depending on your budget, you might also want to look at a more
+powerful alternative <a href="http://www.ti.com/tool/tmdsemu200-u?keyMatch=debug%20probe%20xds200&amp;tisearch=Search-EN-Everything">XSD200</a>.
+</td>
+</tr>
+</table>
 </div>
-<div class="sect2">
-<h3 id="_sensor_tags_by_texas_instruments_ti">Sensor Tags by Texas Instruments (TI)</h3>
+<div class="paragraph">
+<p>In addition, I recommend the following optional items:</p>
+</div>
+<div class="ulist">
+<div class="title">BOM - optional items</div>
+<ul>
+<li>
+<p>The <a href="http://www.ti.com/tool/PRUCAPE">PRU Cape</a> is an inexpensive extension board and a great help to get you started. The demo later in this tutorial will make use of it.</p>
+</li>
+<li>
+<p>The <a href="https://www.digikey.de/product-detail/de/ftdi-future-technology-devices-international-ltd/TTL-232R-3V3/768-1015-ND/1836393">USB to Serial cable</a> mentioned in the <a href="https://github.com/beagleboard/beaglebone-black/wiki/System-Reference-Manual">SRM</a>, Fig. 54, can be used to establish a serial communication with the host.
+It is not suitable for simultaneous usage with the PRU Cape, because the Cape will render the header on the BBB inaccessible.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+make sure you get a 3.3 V version to match the voltage on the BBB.
+</td>
+</tr>
+</table>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://pvittali.bitbucket.io/st1">ST1: Getting started with the TI CC2650 Sensor Tag</a>,
-<a href="https://bitbucket.org/pvittali/pvittali.gst.st1/src/master">git repo</a>.</p>
-</li>
-<li>
-<p><a href="https://pvittali.bitbucket.io/st2">ST2: Getting started with the TI CC1350 Sensor Tag</a>,
-<a href="https://bitbucket.org/pvittali/pvittali.gst.st2/src/master">git repo</a>.</p>
+<p>a standard RS232 serial monitor cable. This can be connected to the UART of the PRU cape (rather than the hidden serial header on the BBB) and
+allows for serial communications with the host PC.</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>The total cost is approximately 200 USD, about half as much if you already own a compatible debug probe.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_abbreviations">Abbreviations</h2>
+<h2 id="_preparing_the_hardware">Preparing the hardware</h2>
 <div class="sectionbody">
-<div class="dlist">
-<dl>
-<dt class="hdlist1">gst</dt>
-<dd>
-<p>getting started tutorial</p>
-</dd>
-<dt class="hdlist1">st,ST</dt>
-<dd>
-<p>sensor tag</p>
-</dd>
-<dt class="hdlist1">iot</dt>
-<dd>
-<p>internet of things</p>
-</dd>
-<dt class="hdlist1">TI</dt>
-<dd>
-<p>Texas Instruments</p>
-</dd>
-<dt class="hdlist1">RB</dt>
-<dd>
-<p>Node-Red on Bluemix</p>
-</dd>
-<dt class="hdlist1">BBB</dt>
-<dd>
-<p>Beagle Bone Black</p>
-</dd>
-<dt class="hdlist1">BLE</dt>
-<dd>
-<p>Bluetooth Low Energy</p>
-</dd>
-<dt class="hdlist1">MCU</dt>
-<dd>
-<p>microcontroller</p>
-</dd>
-</dl>
+<div class="paragraph">
+<p>Before soldering the fine pitch <a href="https://www.digikey.de/product-detail/de/samtec-inc/FTR-110-03-G-D-06/SAM8790-ND/2651173">JTAG header</a>, you might want to refresh your soldering skills.
+As an inspiration, I recommend the video tutorials by <a href="https://www.youtube.com/watch?v=5uiroWBkdFY">John Gammel</a>.
+Here are some highlights from these videos that I found helpful:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>don&#8217;t worry about shorts until finished,</p>
+</li>
+<li>
+<p>to remove shorts, don&#8217;t use solder wig, use flux.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Be aware that if you test your work with an ohmmeter, you will apply a small voltage to the pins of the Sitara processor.
+Strictly speaking, this voids your warranty as explained in the <a href="https://github.com/beagleboard/beaglebone-black/wiki/System-Reference-Manual">SRM</a>. I do not know, though, if this kind of voltage can really damage the chip.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Once you are finished, your hardware setup should look like this ( using the XDS110 Debug Probe ):</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/setup.jpg" alt="debug configuration">
+</div>
+<div class="title">Figure 1. Debug configuration</div>
+</div>
+<div class="paragraph">
+<p>And here is a closeup showing the key (missing pin on the JTAG header):</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/closeup.jpg" alt="JTAG connector" width="300" height="200">
+</div>
+<div class="title">Figure 2. The JTAG header with the missing pin (key)</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_preventing_linux_from_booting">Preventing Linux from booting</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The BBB comes with Linux flashed to the onboard eMMC. To prevent Linux from booting -
+remember we don&#8217;t need and want Linux to run when using the JTAG option -
+you must hold the boot switch pressed when applying power.
+This switch is not easily accessible with the PRU Cape mounted.
+The heartbeat indicator LED will start to flash as soon as the boot process has started.</p>
+</div>
+<div class="paragraph">
+<p>The are many tutorials available on how not to boot from the eMMC, none of which worked for me.
+So I settled for the brute force approach and erased the eMMC.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+This will completely erase the device mmcblkx, where x depends on your configuration. With no SDCard inserted
+x is probably 0. Use <code>fdisk -l</code> to discover the available devices.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">Erase the boot device - choose <em>x</em> according to your config</div>
+<div class="content">
+<pre>$ dd if=/dev/zero of=/dev/mmcblkx bs=2M count=2048</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, when you apply power, only the power LED should be permanently on.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_installing_the_software_development_environment">Installing the software development environment</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Code Composer Studio (CCS) still requires some 32 bit libraries:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>$ sudo apt-get install libc6-i386</code></pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Download <a href="http://processors.wiki.ti.com/index.php/Download_CCS">Code Composer Studio 8 for Linux 64bit</a> ( version CCS8.0.0.00016).</p>
+</li>
+<li>
+<p>Extract the archive and run the installer ( not as root ):</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code>$ ./ccs_setup_linux64_8.0.0.00016.bin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In Processor Support select:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Sitara AMx Processors</p>
+</li>
+<li>
+<p>other processors for which you require support</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Start CCS.
+Verify that the version is CCS8.0.0.00016.</p>
+</div>
+<div class="paragraph">
+<p>From the CCS App Center, install the <strong>PRU C compiler</strong> option.</p>
+</div>
+<div class="paragraph">
+<p>Finally, download <a href="https://git.ti.com/pru-software-support-package/pru-software-support-package/trees/v5.1.0">PRU Software Support Package</a> to a location of your choice. This package is optional and contains code examples.</p>
+</div>
+<div class="paragraph">
+<p>That&#8217;s all. You are now ready for your first program on the PRU.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_the_demo_examples_from_the_support_package">Using the demo examples from the support package</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Before you proceed, these were the most useful resources for me:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>a <a href="http://processors.wiki.ti.com/index.php/PRU-ICSS_Debug_on_AM335x">wiki page</a> dedicated to bare bones PRU programming on the Sitara processor.</p>
+</li>
+<li>
+<p>this audio presentation: <a href="http://software-dl.ti.com/public/hpmp/sitara/debug_pru_using_ccs/presentation_html5.html">Debug PRU with CCS</a>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>While the presentation does use a different debug probe and a previous version of CCS, it is still relevant, and in my view, the most useful resource for the task at hand.</p>
+</div>
+<div class="paragraph">
+<p>You are now ready to import a demo from the <a href="https://git.ti.com/pru-software-support-package/pru-software-support-package/trees/v5.1.0">PRU Software Support Package</a>, for example</p>
+</div>
+<div class="paragraph">
+<p><code>pru-software-support-package-pru-software-support-package/pru_cape/pru_fw/PRU_LED0</code></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>import the project into CCS and modify the Debug Configuration as shown in the resources 1. and 2.</p>
+</li>
+<li>
+<p>click on the <code>Debug</code> icon. The debugger will stop at <code>main</code>.</p>
+</li>
+<li>
+<p>click on <code>Resume</code> to see the LEDs blink on the PRU Cape.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you encounter problems, clone the tutorial repo and compare the contents with your work:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ git clone git@bitbucket.org:pvittali/pvittali.bitbucket.io.git
+$ cd bbb1</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Import <code>bb1/PRU_LED0</code> in your workspace. The repo contains a copy of the <a href="https://git.ti.com/pru-software-support-package/pru-software-support-package/trees/v5.1.0">PRU Software Support Package</a> (5.1.0) and is therefore self-contained.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_further_reading">Further Reading</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Here are a few more pointers not mentioned in this tutorial:</p>
+</div>
+<div class="ulist">
+<div class="title">Beagle Bone Black (BBB)</div>
+<ul>
+<li>
+<p><a href="https://elinux.org/Beagleboard:BeagleBoneBlack#BeagleBone_Black_Description">BBB Wiki on elinux.org</a>. A collection of hardware and software resources, tips and tricks.</p>
+</li>
+<li>
+<p><a href="https://www.twosixlabs.com/running-a-baremetal-beaglebone-black-part-1/">Running a Baremetal Beaglebone Black</a>. Includes a detailed description on how to prepare for JTAG debugging.</p>
+</li>
+<li>
+<p><a href="https://blog.parr.us/2014/11/14/beaglebone-black-debugging-via-ti-usb100v2-jtag-emulator/">BeagleBone Black Debugging via TI USB100v2 JTAG Emulator</a>. Another BBB bare bone setup account.</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Sitara Processor</div>
+<ul>
+<li>
+<p><a href="https://training.ti.com/sitara-arm-processors-boot-camp-training-series">Sitara™ ARM® Processors Boot Camp Training Series</a>. A comprehensive list of training material provided by TI.</p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">PRU</div>
+<ul>
+<li>
+<p><a href="http://processors.wiki.ti.com/index.php/PRU_Cape_Getting_Started_Guide">PRU Cape Getting started</a>. A short guide presenting the hardware on the cape.</p>
+</li>
+<li>
+<p><a href="http://processors.wiki.ti.com/index.php/PRU_Training:_Hands-on_Labs">Hands-on Labs</a>. Practical examples on PRU programming.</p>
+</li>
+<li>
+<p><a href="http://catch22.eu/beaglebone/beaglebone-pru-c/">PRU C code</a>. A short and clear introduction to C programming on the PRU.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_appendix">Appendix</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_jtag_debugging">JTAG debugging</h3>
+<div class="paragraph">
+<p>Some launchpads contain debug probes that can be <a href="http://www.ti.com/tool/MSP-EXP432P4111">isolated</a>. Such a launchpad (&lt; 15 USD) could thus
+be used as a super-low cost debug probe for the BBB. But this requires a set of expensive fine
+pitch connectors and ribbon cable (not tested) :
+<a href="https://www.digikey.de/product-detail/de/samtec-inc/FFSD-05-D-02.00-01-N/SAM8217-ND/1106576">1</a>, <a href="https://www.digikey.de/product-detail/de/samtec-inc/FFSD-05-D-06.00-01-N/SAM8218-ND/1106577">2</a>, <a href="https://www.digikey.de/product-detail/de/samtec-inc/FTSH-105-01-L-DV-K/SAM8799-ND/1875039">3</a>,
+<a href="https://www.digikey.de/product-detail/de/samtec-inc/FTSH-110-01-L-DV-K/SAM8803-ND/2642229">4</a>.</p>
+</div>
+<div class="paragraph">
+<p>You would also need to design and order a couple of printed circuit board adapters.</p>
+</div>
+<div class="paragraph">
+<p>If you are interested in this approach, here are a couple of useful links:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http://www.ti.com/tool/tmdsemu200-u?keyMatch=debug%20probe%20xds200&amp;tisearch=Search-EN-Everything">JTAG connectors</a>. A comprehensive comparison of different connectors with pinout. That&#8217;s the beauty of standards: there are so many !</p>
+</li>
+<li>
+<p><a href="http://www2.keil.com/coresight/coresight-connectors">Core Sight Connectors</a>. Yet more JTAG pinouts.</p>
+</li>
+<li>
+<p><a href="http://www2.keil.com/coresight#jtag">CoreSight™ Technology</a>. JTAG signal descriptions.</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
