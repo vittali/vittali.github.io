@@ -417,7 +417,17 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .show-for-print{display:inherit!important}}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-146526990-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-146526990-1');
+</script>
+
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
@@ -557,10 +567,8 @@ cloud platform.</p>
 <h2 id="_contact_impressum">Contact &amp; Impressum</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Peter Vittali<br>
-Weidenweg 1<br>
-CH-4127 Birsfelden, Schweiz<br>
-+41 61 271 89 33</p>
+<p>If you have questions or feedback please use the github issue tracker of the relevant project.
+Alternatively, please send me an email:</p>
 </div>
 <form id="contactform" method="POST">
     <input type="text" name="name" placeholder="Your name">
@@ -574,6 +582,12 @@ CH-4127 Birsfelden, Schweiz<br>
     var contactform =  document.getElementById('contactform');
     contactform.setAttribute('action', '//formspree.io/' + 'vittali' + '@' + 'sunrise' + '.' + 'ch');
 </script>
+<div class="paragraph">
+<p>Peter Vittali<br>
+Weidenweg 1<br>
+CH-4127 Birsfelden, Schweiz<br>
++41 61 271 89 33</p>
+</div>
 </div>
 </div>
 </div>
