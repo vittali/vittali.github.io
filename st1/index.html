@@ -424,19 +424,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_hardware_preparation_and_requirements">1. Hardware Preparation and Requirements</a></li>
-<li><a href="#_setup_the_empty_project">2. Setup the Empty Project</a></li>
-<li><a href="#_setup_logging_optional">3. Setup logging (optional)</a></li>
-<li><a href="#_start_a_debug_session">4. Start a debug session</a></li>
-<li><a href="#_references">5. References</a>
+<li><a href="#_objective">1. Objective</a></li>
+<li><a href="#_problems">2. Problems</a></li>
+<li><a href="#_hardware_preparation_and_requirements">3. Hardware Preparation and Requirements</a>
 <ul class="sectlevel2">
-<li><a href="#_technical_documents">5.1. Technical Documents</a></li>
-<li><a href="#_development_tools">5.2. Development Tools</a></li>
-<li><a href="#_software">5.3. Software</a></li>
-<li><a href="#_ti_e2e_support_forum">5.4. TI E2E support forum</a></li>
-<li><a href="#_sensor_tags_cc1350_cc2650">5.5. Sensor Tags (CC1350 &amp; CC2650)</a></li>
-<li><a href="#_mcu">5.6. MCU</a></li>
-<li><a href="#_ble">5.7. BLE</a></li>
+<li><a href="#_using_the_xds110_debug_probe">3.1. Using the XDS110 debug probe</a></li>
+<li><a href="#_using_the_sensortag_devpack">3.2. Using the SensorTag DevPack</a></li>
+</ul>
+</li>
+<li><a href="#_loading_the_sample_project">4. Loading the sample project</a></li>
+<li><a href="#logging">5. Using the System Analyzer</a></li>
+<li><a href="#_conclusion">6. Conclusion</a></li>
+<li><a href="#_references">7. References</a>
+<ul class="sectlevel2">
+<li><a href="#_technical_documents">7.1. Technical Documents</a></li>
+<li><a href="#_development_tools">7.2. Development Tools</a></li>
+<li><a href="#_software">7.3. Software</a></li>
+<li><a href="#_ti_e2e_support_forum">7.4. TI E2E support forum</a></li>
+<li><a href="#_sensor_tags_cc1350_cc2650">7.5. Sensor Tags (CC1350 &amp; CC2650)</a></li>
+<li><a href="#_mcu">7.6. MCU</a></li>
+<li><a href="#_ble">7.7. BLE</a></li>
 </ul>
 </li>
 </ul>
@@ -445,24 +452,30 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-WORK IN PROGRESS
-</td>
-</tr>
-</table>
+<div class="quoteblock abstract">
+<blockquote>
+<span class="icon"><a class="image" href="https://vittali.ch"><i class="fa fa-home"></i></a></span>
+</blockquote>
 </div>
 <div class="paragraph">
-<p>The <a href="http://www.ti.com/tool/CC2650STK">SimpleLink™ Bluetooth low energy/Multi-standard SensorTag CC2650STK</a> is a tiny board based on the <a href="http://www.ti.com/product/CC2650">CC2650F128RGZ</a> capable of providing BLE connectivity to your electronics design project. The product
-is can be purchased directly from the Texas Instrument web store as well as from various distributors.
-The name <em>CC2650STK</em> is the official part number, but I will use <em>Sensor Tag</em> hereafter to make it clear that this is a piece of
-hardware, the relevant software development kit is part
-of a TI-RTOS variant for the CC2650 and CC1350 family of wireless MCUs <a href="#st-sw1">[st-sw1]</a>.</p>
+<p>The <a href="http://www.ti.com/tool/CC2650STK">SimpleLink™ Bluetooth low energy/Multi-standard SensorTag CC2650STK</a> is a tiny board based on the <a href="http://www.ti.com/product/CC2650">CC2650F128RGZ</a>.
+I think it is interesting for hobby/maker projects,
+prototypes and experimenation for at least two reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>the small footprint (32 x 41 mm) allows for integration in an existing project (for example via UART) thus enabling BLE connectivity without having to deal with RF board design,</p>
+</li>
+<li>
+<p>a variety of sensors that can be wirelessly interacted with via apps.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The name <em>CC2650STK</em> is the official part number for the development kit, I will also use the term <em>SensorTag</em> hereafter.
+A similar product <a href="http://www.ti.com/tool/CC1350STK">Simplelink CC1350 SensorTag Bluetooth and Sub-1GHz Long Range Wireless Development Kit</a> with dual-band capability is also available that I discuss in another <a href="https://vittali.ch/st2">tutorial</a>. I recommend the CC1350STK for new designs
+for reasons discussed hereafter.</p>
 </div>
 <div class="paragraph">
 <p>The project files for this Getting Started Tutorial (gst) can be cloned from this <a href="https://github.com/vittali/vittali.ch-gst.st1">git repo</a>.
@@ -471,10 +484,56 @@ Here is an <a href="https://vittali.ch">overwiew</a> of related projects.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_hardware_preparation_and_requirements">1. Hardware Preparation and Requirements</h2>
+<h2 id="_objective"><a class="anchor" href="#_objective"></a>1. Objective</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This is tutorial requires the following hardware:</p>
+<p>Getting started with the SensorTag wasn&#8217;t as easy as I hoped and this tutorial is basically a write-up of the problems I encountered.
+The goal is to assist new users in familiarizing themselves with some of the idiosyncrasies and shortcomings of the SensorTag.
+Some of the discussion threads on the <a href="https://e2e.ti.com">TI E2E™ support forums</a> might also be useful for existing users during troubleshooting.</p>
+</div>
+<div class="paragraph">
+<p>Of course, by the time you are reading this tutorial (written in Sep. 2019), some or all of the bugs mentioned might already be corrected.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_problems"><a class="anchor" href="#_problems"></a>2. Problems</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The problems encountered and discussed on the <a href="https://e2e.ti.com">TI E2E™ support forums</a> revolve around several topics:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>the SensorTag App <a href="#e2e1">[e2e1]</a>, <a href="#e2e2">[e2e2]</a>, <a href="#e2e6">[e2e6]</a></p>
+</li>
+<li>
+<p>installation problems <a href="#e2e11">[e2e11]</a></p>
+</li>
+<li>
+<p>software availability <a href="#e2e3">[e2e3]</a>, <a href="#e2e9">[e2e9]</a></p>
+</li>
+<li>
+<p>choice of the debug probe <a href="#e2e4">[e2e4]</a>, <a href="#e2e5">[e2e5]</a>, <a href="#e2e8">[e2e8]</a></p>
+</li>
+<li>
+<p>project configuration files <a href="#e2e4">[e2e4]</a>, <a href="#e2e8">[e2e8]</a>, <a href="#e2e12">[e2e12]</a></p>
+</li>
+<li>
+<p>connection problems <a href="#e2e4">[e2e4]</a>, <a href="#e2e10">[e2e10]</a></p>
+</li>
+<li>
+<p>logging <a href="#e2e7">[e2e7]</a></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hardware_preparation_and_requirements"><a class="anchor" href="#_hardware_preparation_and_requirements"></a>3. Hardware Preparation and Requirements</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For this is tutorial, I was using the following hardware:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -482,29 +541,31 @@ Here is an <a href="https://vittali.ch">overwiew</a> of related projects.</p>
 <p>the <a href="http://www.ti.com/tool/CC2650STK">SimpleLink™ Bluetooth low energy/Multi-standard SensorTag CC2650STK</a></p>
 </li>
 <li>
-<p>the XDS110 Debug Probe <a href="#mcu-dt1">[mcu-dt1]</a></p>
+<p>the <a href="http://www.ti.com/tool/TMDSEMU110-U">XDS110 JTAG Debug Probe</a> (not supported, as it turned out) and the <a href="https://www.ti.com/tool/CC-DEVPACK-DEBUG">SimpleLink SensorTag Debugger DevPack</a></p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>and software;</p>
+<p>and the following software;</p>
 </div>
 <div class="ulist">
 <ul>
+<li>
+<p>Linux Mint 18.2</p>
+</li>
 <li>
 <p>Code Composer Studio 9.1 (CCS)</p>
 </li>
 <li>
 <p>TI-RTOS for CC13XX and CC26XX, version 2.21.0.06 <a href="#st-sw1">[st-sw1]</a></p>
 </li>
+<li>
+<p>XDCtools version 3.32.0.06_core</p>
+</li>
 </ul>
 </div>
 <div class="paragraph">
-<p>The Sensor Tag comes with a lithium coin cell which is inadequate for development because the JTAG pull-up/pull-down resistors
-will quickly drain the battery.</p>
-</div>
-<div class="paragraph">
-<p>I decided to strip the coin holder and attach cables suitable for lab power supply:</p>
+<p>The Sensor Tag comes with a lithium coin cell. For development, I prefer a stable lab power supply:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -519,100 +580,128 @@ will quickly drain the battery.</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-You might want to label the board and the buttons <em>1</em> and <em>2</em> because we need to refer to them
-later.
+If you leave the coin battery inserted during debugging (which is not recommended), the battery will be drained in less than a day.
 </td>
 </tr>
 </table>
 </div>
+<div class="sect2">
+<h3 id="_using_the_xds110_debug_probe"><a class="anchor" href="#_using_the_xds110_debug_probe"></a>3.1. Using the XDS110 debug probe</h3>
 <div class="paragraph">
-<p>Next, you need one of the small adapter boards that come with the XDS110 and connect the JTAG header as shown:</p>
+<p>The <a href="http://www.ti.com/tool/TMDSEMU110-U">XDS110 JTAG Debug Probe</a> can be hooked up to the SensorTag via a JTAG cable and a small adapter board.</p>
 </div>
-<div class="imageblock">
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+while the connection between the probe and the SensorTag is electrically correct, I was unable to get the XDS110 to work in with the SensorTag.
+</td>
+</tr>
+</table>
+</div>
+<div id="JTAG" class="imageblock">
 <div class="content">
-<img src="./images/JTAG-connection.jpg" alt="JTAG connection" width="300">
+<img src="./images/XDS110.jpg" alt="JTAG connection" width="300">
 </div>
 <div class="title">Figure 2. JTAG connection between the XSD110 debugger and the CC2650STK ( the small adapter PCB is part of the XDS110 deliverable)</div>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_setup_the_empty_project">2. Setup the Empty Project</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_using_the_sensortag_devpack"><a class="anchor" href="#_using_the_sensortag_devpack"></a>3.2. Using the SensorTag DevPack</h3>
 <div class="paragraph">
-<p>From within CCS, open the <em>Resource Explorer</em> and download and install the <code>empty_min_CC2650STK_TI</code> project.
-You need to modify the target configuration file <code>CC2650F128.ccxml</code>. Go to the <em>Advanced</em> tab, and make sure that the following attributes are correct:</p>
+<p>The <a href="https://www.ti.com/tool/CC-DEVPACK-DEBUG">SimpleLink SensorTag Debugger DevPack</a> is the recommended probe for the SensorTag.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p><em>Power Selection</em>:</p>
-</li>
-<li>
-<p><em>Voltage Level</em>:</p>
-</li>
-<li>
-<p><em>JTAG/SWD/cJTAG Mode</em>:</p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
+<div id="DevPack" class="imageblock">
 <div class="content">
-<img src="./images/target-conf.png" alt="Target configuration">
+<img src="./images/DevPack.jpg" alt="DevPack" width="300">
 </div>
-<div class="title">Figure 3. Required target configuration <code>CC2650F128.ccxml</code></div>
+<div class="title">Figure 3. The DevPack probe mounted onto the CC2650STK</div>
 </div>
-<div class="paragraph">
-<p>Finally, adjust the <em>Debug Settings</em> as follows:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>check <em>Reset Target on a connect</em></p>
-</li>
-<li>
-<p>check <em>Reset the target on a program load or restart</em>.</p>
-</li>
-</ul>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./images/Debug-Settings.png" alt="Debug Settings">
-</div>
-<div class="title">Figure 4. Debug Settings</div>
-</div>
-<div class="admonitionblock note">
+<div class="admonitionblock warning">
 <table>
 <tr>
 <td class="icon">
-<i class="fa icon-note" title="Note"></i>
+<i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-when using the default Debug Settings you encounter errors, see <a href="#e2e1">[e2e1]</a>, <a href="#e2e2">[e2e2]</a>, <a href="#e2e3">[e2e3]</a>,
+Remove the coin battery, it will be quickly drained by the debug connection.
 </td>
 </tr>
 </table>
 </div>
 </div>
 </div>
+</div>
 <div class="sect1">
-<h2 id="_setup_logging_optional">3. Setup logging (optional)</h2>
+<h2 id="_loading_the_sample_project"><a class="anchor" href="#_loading_the_sample_project"></a>4. Loading the sample project</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The <code>README.md</code> of the <code>empty_min_CC2650STK_TI</code> project claims that the System Analyzer Unit is enabled.
-This is not correct and if you try to open xxxx in the Debug Perspective, you get this <a href="#e2e5">[e2e5]</a>:</p>
+<p>I will use the <em>uartecho_CC2650STK</em> project because it not only serves as a basic sanity check for the environment but also as a proof
+that the serial-over-USB host-target connection works as expected.</p>
+</div>
+<div class="paragraph">
+<p>Download and install the project from the Resource Explorer:</p>
+</div>
+<div id="uartecho_CC2650STK" class="imageblock">
+<div class="content">
+<img src="./images/uartecho-project.png" alt="sample project">
+</div>
+<div class="title">Figure 4. Loading the sample project into the IDE</div>
+</div>
+<div class="paragraph">
+<p>Verify that the required products are installed and selected:</p>
+</div>
+<div id="products" class="imageblock">
+<div class="content">
+<img src="./images/installed-products.png" alt="required products">
+</div>
+<div class="title">Figure 5. Required products</div>
+</div>
+<div class="paragraph">
+<p>Verify the target configuration:</p>
+</div>
+<div id="targetconf" class="imageblock">
+<div class="content">
+<img src="./images/target-conf.png" alt="target configuration">
+</div>
+<div class="title">Figure 6. Target configuration</div>
+</div>
+<div class="paragraph">
+<p>And the debug settings:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/debug-settings.png" alt="debug settings">
+</div>
+<div class="title">Figure 7. Debug settings</div>
+</div>
+<div class="paragraph">
+<p>You are now ready to start the first debug session. Before doing so, I show how to activate the System Analyzer. This is an optional step and applies to all
+TI-RTOS based projects, not only to SensorTag projects.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="logging"><a class="anchor" href="#logging"></a>5. Using the System Analyzer</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>README.md</code> file of the sample project claims that the System Analyzer Unit is enabled.
+This is not correct and if you open the System Analyzer (Tools &#8594; System Analyzer &#8594; Duration in the Debug Perspective), you get this:</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="./images/DAC.png" alt="Analysis Configuration">
 </div>
-<div class="title">Figure 5. System Analyzer</div>
+<div class="title">Figure 8. System Analyzer</div>
 </div>
 <div class="paragraph">
-<p>We first need to enable System Analyzer by modifying the TI-RTOS config file <code>empty_min.cfg</code> <a href="#e2e5">[e2e5]</a>:</p>
+<p>We first need to enable the System Analyzer by modifying the TI-RTOS config file <code>uartecho.cfg</code> <a href="#e2e7">[e2e7]</a>:</p>
 </div>
 <div class="listingblock">
-<div class="title">empty_min.cfg</div>
+<div class="title">uartecho.cfg</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-javascript" data-lang="javascript">BIOS.logsEnabled = true; // 1. Enable BIOS logging:
 // 2. Disable the ROM build by commenting out these lines:
@@ -634,30 +723,92 @@ else if (Program.cpu.deviceName.match(/CC13/)) {
 //    ROM.romName = ROM.CC1350;
 }
 
-var LoggingSetup = xdc.useModule('ti.uia.sysbios.LoggingSetup'); // 3. Add LoggingSetup</code></pre>
+var LoggingSetup = xdc.useModule('ti.uia.sysbios.LoggingSetup'); // 3. Add LoggingSetup
+var UIABenchmark = xdc.useModule('ti.uia.events.UIABenchmark');
+LoggingSetup.benchmarkLogging = true;
+LoggingSetup.mainLoggerSize = 512;</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>That should be enough to get you CPU load and Execution graph.
-You should see the CPU load and Task state messages in the Live Session window.
-If you want to do context aware profiling, it is a bit tricky, see <a href="#e2e5">[e2e5]</a>.</p>
+<p>Instrument the source code:</p>
+</div>
+<div class="listingblock">
+<div class="title">uartecho.c</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-c" data-lang="c">#include &lt;ti/uia/runtime/LogUC.h&gt;
+#include &lt;ti/uia/events/UIABenchmark.h&gt;
+
+// ....
+
+Log_write1(UIABenchmark_start, (IArg) "prompt"); <i class="conum" data-value="1"></i><b>(1)</b>
+UART_write(uart, echoPrompt, sizeof(echoPrompt));
+Log_write1(UIABenchmark_stop, (IArg) "prompt"); <i class="conum" data-value="2"></i><b>(2)</b>
+
+// ....
+
+while (1) {
+   UART_read(uart, &amp;input, 1);
+   Log_write1(UIABenchmark_start, (IArg) "write"); <i class="conum" data-value="3"></i><b>(3)</b>
+   UART_write(uart, &amp;input, 1);
+   Log_write1(UIABenchmark_stop, (IArg) "write"); <i class="conum" data-value="4"></i><b>(4)</b>
+ }</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>open the first duration measurement named <em>prompt</em></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>close the first duration measurement named <em>prompt</em></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>open the second duration measurement named <em>write</em></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>close the second duration measurement named <em>write</em></td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Start a debug session and after the target has stopped at <code>main</code>, start the duration analysis
+(Tools &#8594; System Analyzer &#8594; Duration) and then resume the debug session. In a serial terminal, enter a couple of caracters and then pause the target.</p>
+</div>
+<div class="paragraph">
+<p>The <em>Duration</em> tab will show the elapsed time for each log:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/duration.png" alt="Duration">
+</div>
+<div class="title">Figure 9. Measured durations</div>
+</div>
+<div class="paragraph">
+<p>You are now ready to program and debug the SensorTag.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_start_a_debug_session">4. Start a debug session</h2>
+<h2 id="_conclusion"><a class="anchor" href="#_conclusion"></a>6. Conclusion</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Click on the <em>Debug</em> icon to flash the program and start a debug session.
-Click on <em>Tools &#8594; xxxx</em> to open the System Analyzer.</p>
+<p>The SensorTag is not a full blown development kit and there is a reason why the product page <a href="http://www.ti.com/tool/CC2650STK">SimpleLink™ Bluetooth low energy/Multi-standard SensorTag CC2650STK</a> recommends to use a suitable LaunchPad rather than the SensorTag for development.
+However, the corresponing LaunchPad has a much larger footprint and no sensors, therefore the SensorTag can provide value for small projects and prototypes where BLE connectivity and additional sensors are desirable.
+If possible, use the <a href="http://www.ti.com/tool/CC1350STK">Simplelink CC1350 SensorTag Bluetooth and Sub-1GHz Long Range Wireless Development Kit</a> for new applications. This kit has the same footprint, similar sensors and is part of the SimpleLink product family.
+It therefore enjoys better documentation, tool support and Linux support for the BLE stack.
+I introduce the CC1350 SensorTag in a companion <a href="https://vittali.ch/st2">tutorial</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_references">5. References</h2>
+<h2 id="_references"><a class="anchor" href="#_references"></a>7. References</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_technical_documents">5.1. Technical Documents</h3>
+<h3 id="_technical_documents"><a class="anchor" href="#_technical_documents"></a>7.1. Technical Documents</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -666,7 +817,7 @@ Click on <em>Tools &#8594; xxxx</em> to open the System Analyzer.</p>
 </ul>
 </div>
 <div class="sect3">
-<h4 id="_more_literature">5.1.1. More literature</h4>
+<h4 id="_more_literature"><a class="anchor" href="#_more_literature"></a>7.1.1. More literature</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -677,7 +828,7 @@ Click on <em>Tools &#8594; xxxx</em> to open the System Analyzer.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_development_tools">5.2. Development Tools</h3>
+<h3 id="_development_tools"><a class="anchor" href="#_development_tools"></a>7.2. Development Tools</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -687,7 +838,7 @@ Click on <em>Tools &#8594; xxxx</em> to open the System Analyzer.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_software">5.3. Software</h3>
+<h3 id="_software"><a class="anchor" href="#_software"></a>7.3. Software</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -697,31 +848,202 @@ Click on <em>Tools &#8594; xxxx</em> to open the System Analyzer.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ti_e2e_support_forum">5.4. TI E2E support forum</h3>
+<h3 id="_ti_e2e_support_forum"><a class="anchor" href="#_ti_e2e_support_forum"></a>7.4. TI E2E support forum</h3>
+<div class="sect3">
+<h4 id="_dicussions_started_by_the_author"><a class="anchor" href="#_dicussions_started_by_the_author"></a>7.4.1. dicussions started by the author</h4>
 <div class="ulist">
 <ul>
 <li>
-<p><a id="e2e1"></a>[e2e1] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/766831?CCS-CC2640R2F-INFO-Cortex-M3-0-File-Loader-Memory-write-failed-Timed-out-waiting-for-target-flashloader-to-execute-command-">CCS/CC2640R2F: INFO&#8201;&#8212;&#8201;Cortex_M3_0: File Loader: Memory write failed: Timed out waiting for target flashloader to execute command.</a></p>
+<p><a id="e2e1"></a>[e2e1] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/822386">CC2650STK: SensorTag doesn&#8217;t show up in device list of TI SensorTag App</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>choosing the right app: the flyer in the box mentions an app that is not available anymore, the <em>SimpleLink SensorTag</em> on Google Play is the correct one, although the CC2650STK is not part of the SimpleLink family</p>
 </li>
 <li>
-<p><a id="e2e2"></a>[e2e2]  <a href="https://e2e.ti.com/support/tools/ccs/f/81/t/578693">CCS/CC2650: Memory write failed: Timed out waiting for target to halt</a></p>
+<p>granting permissions: for some reason you must grant access to your phone&#8217;s location. This is not only annoying because this is supposed to be demo software,
+but also the app doesn&#8217;t work without warning if you don&#8217;t grant access.</p>
 </li>
 <li>
-<p><a id="e2e3"></a>[e2e3]  <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/803609?CCS-CC2640-The-program-works-perfectly-on-first-launch-but-has-Memory-write-failed-error-on-the-next-launch-">CCS/CC2640: The program works perfectly on first launch, but has "Memory write failed" error on the next launch.</a></p>
+<p>also applies to the CC1350STK.</p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p><a id="e2e4"></a>[e2e4] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/744902?CCS-CC2652R-Cant-run-ble5-simple-central-cc2640r2lp-app">CCS/CC2652R: Cant run ble5_simple_central_cc2640r2lp_app</a></p>
+<p><a id="e2e2"></a>[e2e2] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/828436">CC2650STK: Cloud Settings for the IBM IOT platform for BlueMix Free</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>currently the IBM Watson IoT platform access (as opposed to the IBM Quickstart access)
+is not available with the <em>SimpleLink SensorTag</em> app due to a bug.</p>
 </li>
 <li>
-<p><a id="e2e5"></a>[e2e5] <a href="https://e2e.ti.com/support/tools/ccs/f/81/p/831543/3077956">CCS/CC2650STK: Can&#8217;t start the System Analyzer despite the README.md saying so</a></p>
+<p>also applies to the CC1350STK.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a id="e2e3"></a>[e2e3] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/831544">CC2650STK: Is there a linux compatible BLE stack for the CC2650STK</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>no, this is one of the idiosyncrasies of the CC2650STK, refer to the <a href="http://www.ti.com/tool/CC1350STK">Simplelink CC1350 SensorTag Bluetooth and Sub-1GHz Long Range Wireless Development Kit</a> for a Linux compatible BLE development environment.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a id="e2e4"></a>[e2e4] <a href="https://e2e.ti.com/support/tools/ccs/f/81/t/828577">CCS/CC2650STK: Failed to launch debug session for CC2650STK</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>contrary to what the discussion suggests, the target configuration of the <em>uartecho_CC2650STK</em> project is correct, no modification is required.</p>
+</li>
+<li>
+<p>contrary to what the discussion suggests, the <a href="http://www.ti.com/tool/TMDSEMU110-U">XDS110 JTAG Debug Probe</a> is currently not supported for the Sensor Tags, use the <a href="https://www.ti.com/tool/CC-DEVPACK-DEBUG">SimpleLink SensorTag Debugger DevPack</a>.</p>
+</li>
+<li>
+<p>contrary to what the discussion suggests, the coin battery must not be inserted during debugging, the target is powered by the <a href="https://www.ti.com/tool/CC-DEVPACK-DEBUG">SimpleLink SensorTag Debugger DevPack</a>.</p>
+</li>
+<li>
+<p>also applies to the CC1350STK.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a id="e2e5"></a>[e2e5] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/827756">CCS/CC2650STK: Can I use CCS and the XDS110 debug probe to program and debug the CC2650STK SensorTag</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>while it is possible to connect the <a href="http://www.ti.com/tool/TMDSEMU110-U">XDS110 JTAG Debug Probe</a>, see Figure <a href="#JTAG">XDS110 connection</a>, this debug probe is currently not supported for the Sensor Tag.</p>
+</li>
+<li>
+<p>also applies to the CC1350STK.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a id="e2e6"></a>[e2e6] <a href="https://e2e.ti.com/support/wireless-connectivity/sub-1-ghz/f/156/t/832998">CC1350STK: Downloading new firmware images to the device via the Over-the-Air-Download (OAD) service not as described in doc</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>this is currently an open question for the <em>SimpleLink SensorTag</em> app team.</p>
+</li>
+<li>
+<p>also applies to the CC2650STK.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a id="e2e7"></a>[e2e7] <a href="https://e2e.ti.com/support/tools/ccs/f/81/p/831543/3077956">CCS/CC2650STK: Can&#8217;t start the System Analyzer despite the README.md saying so</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>see chapter <a href="#logging">Using the System Analyzer</a></p>
+</li>
+<li>
+<p>applies to all TI-RTOS based projects.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a id="e2e8"></a>[e2e8] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/831951">CC2650STK: Can&#8217;t use UART on CC2650 STK</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>this was due to the usage of the <a href="http://www.ti.com/tool/TMDSEMU110-U">XDS110 JTAG Debug Probe</a> debug probe in conjunction with the suggested modification of the target configuration file in <a href="#e2e5">[e2e5]</a>.</p>
+</li>
+<li>
+<p>also applies to the CC1350STK.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a id="e2e9"></a>[e2e9] <a href="https://e2e.ti.com/support/wireless-connectivity/sub-1-ghz/f/156/t/837456"> CC1350STK: Where is the out-of-box demo source code for the CC1350 and CC2650 Sensor Tags ?</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>the out-of-box demo source code is not available. Why ?</p>
+</li>
+<li>
+<p>also applies to the CC2650STK.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a id="e2e10"></a>[e2e10] <a href="https://e2e.ti.com/support/wireless-connectivity/sub-1-ghz/f/156/t/832999">CCS/CC1350STK: Empty project debug session not as expected</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>I am unable to reproduce the errors mentioned.
+I suppose that they were related to the usage of the <a href="http://www.ti.com/tool/TMDSEMU110-U">XDS110 JTAG Debug Probe</a> rathern than the <a href="https://www.ti.com/tool/CC-DEVPACK-DEBUG">SimpleLink SensorTag Debugger DevPack</a>.</p>
+</li>
+<li>
+<p>also applies to the CC2650STK.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a id="e2e11"></a>[e2e11] <a href="https://e2e.ti.com/support/tools/ccs/f/81/t/832755">CCS/CODECOMPOSER: Code Composer Studio 9 Installer hangs on Windows 7 SP1</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>installing the CC13x and CC26xx device support on Windows 7 Pro fails, this is a bug related to the TI emulator driver installation.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a id="e2e12"></a>[e2e12] <a href="https://e2e.ti.com/support/wireless-connectivity/sub-1-ghz/f/156/t/833000">CCS/CC1350STK: Setting for Power Selection for CC1350STK and for CC2650STK</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>the power selection in the target configuration files of the example projects are correct, when using <a href="https://www.ti.com/tool/CC-DEVPACK-DEBUG">SimpleLink SensorTag Debugger DevPack</a>.
+The battery/power supply must be removed during debugging.</p>
+</li>
+<li>
+<p>also applies to the CC2650STK.</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_sensor_tags_cc1350_cc2650">5.5. Sensor Tags (CC1350 &amp; CC2650)</h3>
 <div class="sect3">
-<h4 id="_technical_documents_2">5.5.1. Technical Documents</h4>
+<h4 id="_related_discussions_started_by_other_users"><a class="anchor" href="#_related_discussions_started_by_other_users"></a>7.4.2. related discussions started by other users</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="e2e20"></a>[e2e20] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/766831?CCS-CC2640R2F-INFO-Cortex-M3-0-File-Loader-Memory-write-failed-Timed-out-waiting-for-target-flashloader-to-execute-command-">CCS/CC2640R2F: INFO&#8201;&#8212;&#8201;Cortex_M3_0: File Loader: Memory write failed: Timed out waiting for target flashloader to execute command.</a>
+Tags: Connection &#8230;&#8203;.</p>
+</li>
+<li>
+<p><a id="e2e21"></a>[e2e21]  <a href="https://e2e.ti.com/support/tools/ccs/f/81/t/578693">CCS/CC2650: Memory write failed: Timed out waiting for target to halt</a></p>
+</li>
+<li>
+<p><a id="e2e22"></a>[e2e22]  <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/803609?CCS-CC2640-The-program-works-perfectly-on-first-launch-but-has-Memory-write-failed-error-on-the-next-launch-">CCS/CC2640: The program works perfectly on first launch, but has "Memory write failed" error on the next launch.</a></p>
+</li>
+<li>
+<p><a id="e2e23"></a>[e2e23] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/744902?CCS-CC2652R-Cant-run-ble5-simple-central-cc2640r2lp-app">CCS/CC2652R: Cant run ble5_simple_central_cc2640r2lp_app</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sensor_tags_cc1350_cc2650"><a class="anchor" href="#_sensor_tags_cc1350_cc2650"></a>7.5. Sensor Tags (CC1350 &amp; CC2650)</h3>
+<div class="sect3">
+<h4 id="_technical_documents_2"><a class="anchor" href="#_technical_documents_2"></a>7.5.1. Technical Documents</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -731,7 +1053,7 @@ Click on <em>Tools &#8594; xxxx</em> to open the System Analyzer.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_more_literature_2">5.5.2. More literature</h4>
+<h4 id="_more_literature_2"><a class="anchor" href="#_more_literature_2"></a>7.5.2. More literature</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -750,7 +1072,7 @@ Click on <em>Tools &#8594; xxxx</em> to open the System Analyzer.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_software_2">5.5.3. Software</h4>
+<h4 id="_software_2"><a class="anchor" href="#_software_2"></a>7.5.3. Software</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -759,14 +1081,17 @@ Click on <em>Tools &#8594; xxxx</em> to open the System Analyzer.</p>
 <li>
 <p><a id="st-sw2"></a>[st-sw2] <a href="http://www.ti.com/lit/ml/swru439j/swru439j.pdf">CC26xx,CC13xx Sensor Controller Studio Version2.5</a></p>
 </li>
+<li>
+<p><a id="st-sw3"></a>[st-sw3] <a href="http://www.ti.com/tool/SIMPLELINK-CC13X0-SDK">SimpleLink™ Sub-1 GHz CC13x0 Software Development Kit</a></p>
+</li>
 </ul>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_mcu">5.6. MCU</h3>
+<h3 id="_mcu"><a class="anchor" href="#_mcu"></a>7.6. MCU</h3>
 <div class="sect3">
-<h4 id="_development_tools_2">5.6.1. Development Tools</h4>
+<h4 id="_development_tools_2"><a class="anchor" href="#_development_tools_2"></a>7.6.1. Development Tools</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -783,9 +1108,9 @@ Click on <em>Tools &#8594; xxxx</em> to open the System Analyzer.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ble">5.7. BLE</h3>
+<h3 id="_ble"><a class="anchor" href="#_ble"></a>7.7. BLE</h3>
 <div class="sect3">
-<h4 id="_technical_documents_3">5.7.1. Technical Documents</h4>
+<h4 id="_technical_documents_3"><a class="anchor" href="#_technical_documents_3"></a>7.7.1. Technical Documents</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -798,7 +1123,7 @@ Click on <em>Tools &#8594; xxxx</em> to open the System Analyzer.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_ti_e2e_support_forum_2">5.7.2. TI E2E support forum</h4>
+<h4 id="_ti_e2e_support_forum_2"><a class="anchor" href="#_ti_e2e_support_forum_2"></a>7.7.2. TI E2E support forum</h4>
 <div class="ulist">
 <ul>
 <li>
@@ -811,7 +1136,7 @@ Click on <em>Tools &#8594; xxxx</em> to open the System Analyzer.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_software_3">5.7.3. Software</h4>
+<h4 id="_software_3"><a class="anchor" href="#_software_3"></a>7.7.3. Software</h4>
 <div class="ulist">
 <ul>
 <li>
