@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<title>RB2: TIDEP0084</title>
+<title>RB3: TIDC-01002</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -420,33 +420,32 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>RB2: TIDEP0084</h1>
+<h1>RB3: TIDC-01002</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_embedded_linux_on_the_bbb">1. Embedded Linux on the BBB</a></li>
-<li><a href="#_errrata">2. Errrata</a>
+<li><a href="#_getting_started">1. Getting started</a></li>
+<li><a href="#_sensor_and_collector_ti_15_4_stack_project_zero">2. Sensor and Collector - TI 15.4-Stack Project Zero</a>
 <ul class="sectlevel2">
-<li><a href="#_errata_type_technical_page_38">2.1. Errata Type: Technical | Page: 38</a></li>
-<li><a href="#_errata_type_code_chapter_1_page_98">2.2. Errata Type: Code | Chapter 1 | Page 98</a></li>
-<li><a href="#_errata_type_code_chapter_12_page_326">2.3. Errata Type: Code | Chapter 12 | Page 326</a></li>
-<li><a href="#_errata_type_code_chapter_1_page_18">2.4. Errata Type: Code | Chapter 1 | Page 18</a></li>
-<li><a href="#_errata_type_code_page_no_225">2.5. Errata type: Code Page no: 225</a></li>
-<li><a href="#_chapter_2">2.6. Chapter 2</a></li>
+<li><a href="#_task_0">2.1. Task 0</a></li>
+<li><a href="#_edit_the_target_configuration">2.2. Edit the target configuration</a></li>
+<li><a href="#_task_1">2.3. Task 1</a></li>
+<li><a href="#_task_3">2.4. Task 3</a></li>
 </ul>
 </li>
-<li><a href="#_sd_card">3. SD Card</a>
+<li><a href="#_gateway">3. Gateway</a>
 <ul class="sectlevel2">
-<li><a href="#_boot_ftp">3.1. Boot Ftp</a></li>
-<li><a href="#_usb_serial">3.2. USB Serial</a></li>
-<li><a href="#_chapter_4">3.3. Chapter 4</a></li>
+<li><a href="#_setting_the_serial_number_of_the_gateway_on_board_debug_probe">3.1. Setting the serial number of the gateway on-board debug probe.</a></li>
+<li><a href="#_task_1_2">3.2. Task 1</a></li>
+<li><a href="#_task_3_2">3.3. Task 3</a></li>
+<li><a href="#_task_6">3.4. Task 6</a></li>
 </ul>
 </li>
-<li><a href="#_processor_sdk">4. Processor SDK</a></li>
-<li><a href="#_intro">5. Intro</a></li>
-<li><a href="#_references">6. References</a>
+<li><a href="#_references">4. References</a>
 <ul class="sectlevel2">
-<li><a href="#_training">6.1. Training</a></li>
+<li><a href="#_cc1352p1">4.1. CC1352P1</a></li>
+<li><a href="#_cc3220sf">4.2. CC3220SF</a></li>
+<li><a href="#_ti_e2e_support_forum">4.3. TI E2E support forum</a></li>
 </ul>
 </li>
 </ul>
@@ -460,367 +459,319 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <span class="icon"><a class="image" href="https://vittali.ch"><i class="fa fa-home"></i></a></span>
 </blockquote>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_embedded_linux_on_the_bbb">1. Embedded Linux on the BBB</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>you must run:</p>
-</div>
-<div class="paragraph">
-<p>$ sudo dpkg-reconfigure dash</p>
-</div>
-<div class="paragraph">
-<p>and click NO to make sure that dash is not the system shell. Usually on Mint that is not the case.</p>
-</div>
-<div class="paragraph">
-<p>Based on <em>Mastering Embedded Linux Programming</em> (2nd edition)</p>
-</div>
-<div class="paragraph">
-<p>updates:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>p.166:</p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>$ cd poky
-$ source oe-init-build-env build-nova  // works also under zsh
-$ cd ..   // the script puts you in the build-nova dir
-$ bitbake-layers create-layer meta-nova // if you don't source before, it won't find the path to exe
-$ cd build-nova
-$ bitbake-layers add-layer ../meta-nova
-$ bitbake-layers show-layers</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>uncomment MACHINE ?= "beaglebone-yocto"</p>
-</div>
-<div class="paragraph">
-<p>$ bitbake core-image-minimal</p>
-</div>
-<div class="paragraph">
-<p>in zsh you need <a href="https://unix.stackexchange.com/questions/19530/expanding-variables-in-zsh">this</a>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>$ ${=CC} helloworld.c -o helloworld</code></pre>
-</div>
+<p>I want to connect wireless sensor nodes to the IBM IoT Watson cloud infrastructure based on the TI Design <a href="http://www.ti.com/tool/TIDC-01002?jktype=design">SimpleLink™ Sub-1 GHz Sensor to Cloud Gateway Reference Design for TI-RTOS Systems</a>.
+The project files can be cloned from this <a href="https://github.com/vittali/vittali.ch-gst.rb3">git repo</a>.
+I use Linux Mint 19.2 Tina and Code Composer Studio 9.2.0 (CCS).</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_errrata">2. Errrata</h2>
+<h2 id="_getting_started">1. Getting started</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_errata_type_technical_page_38">2.1. Errata Type: Technical | Page: 38</h3>
-<div class="literalblock">
+
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sensor_and_collector_ti_15_4_stack_project_zero">2. Sensor and Collector - TI 15.4-Stack Project Zero</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To familiarize myself with the sensor and collector hardware,
+I follow the lab exercise <a href="http://dev.ti.com/tirex/explore/node?devtools=LAUNCHXL-CC1352P1&amp;node=AFU6dryAU8NukjdRPy4T4Q__pTTHBmu__LATEST">Sensor and Collector - TI 15.4-Stack Project Zero</a>. I use <em>GTKTerm</em> from the Mint/Ubuntu distribution.</p>
+</div>
+<div class="paragraph">
+<p>I use two <a href="http://www.ti.com/tool/LAUNCHXL-CC1352R1">SimpleLink™ Multi-Band CC1352R Wireless MCU LaunchPad™ Development Kit</a> LaunchPads:</p>
+</div>
+<div id="hardware" class="imageblock">
 <div class="content">
-<pre>$ arm-cortex_a8-linux-gnueabihf-gcc helloworld.c -ltest \</pre>
+<img src="./images/sensor-collector-hardware.png" alt="CC1352P1">
 </div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>-L../libs -I../libs -o helloworld</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>should be</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>$ arm-cortex_a8-linux-gnueabihf-gcc helloworld.c -ltest \</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>-L../libs -I../include -o helloworld</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>Link for Color Images: https://www.packtpub.com/sites/default/files/downloads/MasteringEmbeddedLinuxProgrammingSecondEdition_ColorImages.pdf</pre>
-</div>
-</div>
+<div class="title">Figure 1. Two CC1352P1 launch pads programmed as Sub-1 Ghz sensor and collector</div>
 </div>
 <div class="sect2">
-<h3 id="_errata_type_code_chapter_1_page_98">2.2. Errata Type: Code | Chapter 1 | Page 98</h3>
-<div class="literalblock">
-<div class="content">
-<pre>This:
-$ cd linux-stable
-$ make ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- mrproper
-$ make -j4 ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- zImage
-$ make -j4 ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- modules
-$ make ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- dtbs</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>Should be:
-$ cd linux-stable
-$ make ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- mrproper
-$ make ARCH=arm versatile_defconfig
-$ make -j4 ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- modules
-$ make ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- dtbs</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_errata_type_code_chapter_12_page_326">2.3. Errata Type: Code | Chapter 12 | Page 326</h3>
-<div class="literalblock">
-<div class="content">
-<pre>This:
-arm-cortex_a8-linux-gnueabihf-gcc shared-mem-demo.c -lrt -pthread \
--o arm-cortex_a8-linux-gnueabihf-gcc</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>Should be:
-arm-cortex_a8-linux-gnueabihf-gcc shared-mem-demo.c -lrt -pthread \
--o shared-mem-demo</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_errata_type_code_chapter_1_page_18">2.4. Errata Type: Code | Chapter 1 | Page 18</h3>
-<div class="literalblock">
-<div class="content">
-<pre>This:
--net nic -net use</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>Should Be:
--net nic -net user</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_errata_type_code_page_no_225">2.5. Errata type: Code Page no: 225</h3>
-<div class="literalblock">
-<div class="content">
-<pre>When running the script "mender-qemu" (i.e. when typing "../meta-mender/meta-mender-qemu/scripts/mender-qemu" as documented on page NNN(*), if you see an error message that includes "Block protocol 'file' doesn't support the option 'locking'", then edit ../meta-mender/meta-mender-qemu/scripts/mender-qemu as follows:</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>Delete ",file.locking=off" from line 60 so that it reads</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>QEMU_ARGS="$QEMU_ARGS -drive file=$VEXPRESS_IMG,if=sd,format=raw "</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>This problem only occurs with versions of qemu-system-arm before 2.10</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_chapter_2">2.6. Chapter 2</h3>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>don&#8217;t forget to set the PATH env var to the gcc binary</p>
-</li>
-<li>
-<p>p.62, use the v2019.07 branch of u-boot, <code>am335x_boneblack_defconfig</code> has been removed, use <code>am335x_evm_defconfig</code> instead.</p>
-</li>
-</ol>
+<h3 id="_task_0">2.1. Task 0</h3>
+<div class="paragraph">
+<p>Since I want to connect the two LaunchPads simultaneously, I need to give each
+LaunchPad.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</sup>
+a unique serial number.</p>
 </div>
 <div class="sect3">
-<h4 id="_building_u_boot">2.6.1. Building U-Boot</h4>
+<h4 id="_setting_the_serial_number_of_the_collector_board">2.1.1. Setting the serial number of the collector board</h4>
 <div class="paragraph">
-<p>to build the example with v2017 U-Boot you must change the Target Architecture &#8594; Use specific FPU to <code>neon-vfpv3</code></p>
-</div>
-<div class="paragraph">
-<p>see also
-<a href="https://stackoverflow.com/questions/50284222/u-boot-for-beaglebone-black-wont-build-target-cpu-does-not-support-thumb-inst" class="bare">https://stackoverflow.com/questions/50284222/u-boot-for-beaglebone-black-wont-build-target-cpu-does-not-support-thumb-inst</a></p>
-</div>
-<div class="paragraph">
-<p>otherwise you get :
-CC      arch/arm/cpu/armv7/cache_v7.o
-cc1: warning: target CPU does not support THUMB instructions
-{standard input}: Assembler messages:
-{standard input}:42: Error: selected processor does not support `dsb sy' in ARM mode
-{standard input}:46: Error: selected processor does not support `isb sy' in ARM mode
-{standard input}:240: Error: selected processor does not support `dsb sy' in ARM mode
-{standard input}:244: Error: selected processor does not support `isb sy' in ARM mode
-{standard input}:368: Error: selected processor does not support `dsb sy' in ARM mode
-{standard input}:460: Error: selected processor does not support `dsb sy' in ARM mode
-{standard input}:464: Error: selected processor does not support `isb sy' in ARM mode
-{standard input}:594: Error: selected processor does not support `dsb sy' in ARM mode
-scripts/Makefile.build:280: recipe for target 'arch/arm/cpu/armv7/cache_v7.o' failed
-make[1]: <strong>*</strong> [arch/arm/cpu/armv7/cache_v7.o] Error 1
-Makefile:1217: recipe for target 'arch/arm/cpu/armv7' failed</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_sd_card">3. SD Card</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>$ lsblk
-use the script from the book</p>
-</div>
-<div class="sect2">
-<h3 id="_boot_ftp">3.1. Boot Ftp</h3>
-<div class="paragraph">
-<p>$ sudo apt-get install tftpd-hpa // not the <em>d</em></p>
-</div>
-<div class="paragraph">
-<p>no need to mess with nobody and nogroup and what not. Works out of the box.
-Files go into <code>/var/lib/tftpboot</code>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_usb_serial">3.2. USB Serial</h3>
-<div class="paragraph">
-<p>$ ll /sys/class/tty/ttyUSB*</p>
-</div>
-<div class="paragraph">
-<p>$ gtkterm -p /dev/ttyUSB0 -s 115200</p>
+<p>I label the collector board (see <a href="#hardware">hardware setup</a>) , verify that it is the only board connected to the host
+ and set the serial number to <code>1</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>$ ./create-sdcard.sh</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">cd $CCS_INSTALLDIR/ccs910/ccs/ccs_base/common/uscif/xds110
+$ ./xdsdfu -m  <i class="conum" data-value="1"></i><b>(1)</b>
+$ ./xdsdfu -s 1 -r <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>set the device into DFU mode (required)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>set the serial number to <em>1</em> and reset the device</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_setting_the_serial_number_of_the_sensor_board">2.1.2. Setting the serial number of the sensor board</h4>
 <div class="paragraph">
-<p>when you exit the script, you must manually unmount the two parts.</p>
+<p>I label the sensor board (see <a href="#hardware">hardware setup</a>) , verify that it is the only board connected to the host
+ and set the serial number to <code>2</code>:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code>$ cat /proc/mounts</code></pre>
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">cd $CCS_INSTALLDIR/ccs910/ccs/ccs_base/common/uscif/xds110
+$ ./xdsdfu -m  <i class="conum" data-value="1"></i><b>(1)</b>
+$ ./xdsdfu -s 2 -r <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>for example:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>$ sudo umount /dev/sde1</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>then remount both parts so that they appear under /media/p:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>$ sudo cp MLO-beaglebone-yocto-2019.01-r0 /media/p/boot/MLO
-$ sudo cp u-boot-beaglebone-yocto-2019.01-r0.img /media/p/boot/u-boot.img
-$ tar -C /media/p/rootfs -jxf nova-image-beaglebone-yocto-20190915162549.rootfs.tar.bz2</code></pre>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>set the device into DFU mode (required)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>set the serial number to <em>2</em> and reset the device</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_chapter_4">3.3. Chapter 4</h3>
+<h3 id="_edit_the_target_configuration">2.2. Edit the target configuration</h3>
 <div class="paragraph">
-<p>p94. omitte4d setenv bootargs console &#8230;&#8203;.</p>
+<p>Each CCS project needs to be configured such that the programs for collector and sensor are loaded to the correct LaunchPad:</p>
+</div>
+<div id="targetconf" class="imageblock">
+<div class="content">
+<img src="./images/target-conf.png" alt="target configuration">
+</div>
+<div class="title">Figure 2. Both target configurations are populated with the choosen serial numbers (shown is the collector project).</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_task_1">2.3. Task 1</h3>
+<div class="paragraph">
+<p>I can&#8217;t set the Sub-1 Ghz Frequency to 868 Mhz as I expected,
+the only choice for the european band seems to be 863 Mhz. This might be related
+to the channel selection, see <a href="#e2e1">[e2e1]</a>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/sensor-syscfg.png" alt="sensor.syscfg">
+</div>
+<div class="title">Figure 3. Configure the TI 15.4 Stack Sub 1-Ghz Frequency</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_task_3">2.4. Task 3</h3>
+<div class="paragraph">
+<p>On my host box, I select <code>/dev/ttyACM0</code> for the collector and <code>dev/ttyACM2</code> for the
+sensor virtual UART connection.</p>
+</div>
+<div class="paragraph">
+<p>As mentioned in step 6, I press and hold <code>Button 2</code> and then the <code>Reset</code> button (while Button 2 is held down), see <a href="#hardware">hardware setup</a>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/terminals.png" alt="terminal output after reset">
+</div>
+<div class="title">Figure 4. Collector (top) and sensor (bottom) terminal output after factory reset.</div>
+</div>
+<div class="paragraph">
+<p>Some of the steps 7 to 9 are also different for me:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="7">
+<li>
+<p>The collector starts immediately (without waiting for <code>Button 1</code>). The output is:</p>
+<div class="literalblock">
+<div class="content">
+<pre>TI Collector
+Started
+Channel: 0</pre>
+</div>
+</div>
+</li>
+<li>
+<p>as described</p>
+</li>
+<li>
+<p>the terminal output of the sensor is:</p>
+</li>
+</ol>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/sensor-has-joined.png" alt="sensor has joined">
+</div>
+<div class="title">Figure 5. Collector (top) and sensor (bottom) terminal output after the sensor joined the network.</div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_processor_sdk">4. Processor SDK</h2>
+<h2 id="_gateway">3. Gateway</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>in source environment-setup</p>
+<p>To familiarize myself with the gateway hardware,
+I follow the lab exercise <a href="http://dev.ti.com/tirex/explore/node?devtools=LAUNCHXL-CC1352P1&amp;node=AFU6dryAU8NukjdRPy4T4Q__pTTHBmu__LATEST">Meet the CC3235x LaunchPad Development Kit</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_setting_the_serial_number_of_the_gateway_on_board_debug_probe">3.1. Setting the serial number of the gateway on-board debug probe.</h3>
+<div class="paragraph">
+<p>This is the same procedure as in the previous chapter. I choose to the the serial number to <strong>3</strong>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_task_1_2">3.2. Task 1</h3>
+<div class="paragraph">
+<p>I could not complete this task with the LaunchPad as shipped.</p>
 </div>
 <div class="paragraph">
-<p>change prompt
-remove export PS1</p>
+<p>I first followed <a href="http://www.ti.com/lit/ug/swru461b/swru461b.pdf">CC3220 SimpleLink™ Wi-Fi® and Internet of Things Solution,a Single-Chip Wireless MCU Getting Started Guide</a> to flash the latest service pack and the MCU binary <code>network_terminal_CC3220SF_LAUNCHXL_tirtos_ccs</code>.</p>
+</div>
+<div id="network-terminal" class="imageblock">
+<div class="content">
+<img src="./images/gateway-network-terminal-demo.png" alt="network terminal demo">
+</div>
+<div class="title">Figure 6. Terminal output for the network terminal demo.</div>
 </div>
 <div class="paragraph">
-<p>PROMPT="%(?.%F{green}[linux-devkit].%F{red})❯%f "</p>
+<p>I then flashed the <code>out_of_box_CC3220SF_LAUNCHXL_tirtos_ccs</code> demo project as described.</p>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_intro">5. Intro</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_task_3_2">3.3. Task 3</h3>
 <div class="paragraph">
-<p>This tutorial is based on <a href="http://www.ti.com/tool/TIDEP0084?jktype=design">Sub-1 GHz Sensor to Cloud Industrial IoT Gateway Reference Design for Linux Systems</a>.
-The project files can be cloned <span class="icon"><a class="image" href="https://github.com/vittali/vittali.ch-gst.rb2"><i class="fa fa-github"></i></a></span>.</p>
-</div>
-<div class="paragraph">
-<p>Make sure to configure networking correctly, for example wireless and wired to the BBB, it must be on another network and routes must be configured.
-<a href="https://askubuntu.com/questions/10741/how-to-set-up-dual-wired-and-wireless-connections/11084" class="bare">https://askubuntu.com/questions/10741/how-to-set-up-dual-wired-and-wireless-connections/11084</a></p>
-</div>
-<div class="paragraph">
-<p>Debian uses connman to manage the network, the settings in /etc/network/interfaces are ignored.</p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">NOTE</dt>
-<dd>
-<p>this is not relevant, the debian thing is what is preinstalled on the eemc.</p>
-</dd>
-</dl>
+<p>In order to find out the port of the USB serial connection, I run:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>debian@beaglebone:~$ sudo cat /var/lib/connman/ethernet_c4f3129bed5b_cable/settings
-{blank}[ethernet_c4f3129bed5b_cable]
-Name=Wired
-AutoConnect=true
-Modified=2016-01-24T22:42:30.393712Z
-IPv4.method=manual
-IPv4.netmask_prefixlen=24
-IPv4.local_address=192.168.2.2
-IPv4.gateway=192.168.1.1
-IPv6.method=auto
-IPv6.privacy=disabled</pre>
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ ls -l /dev/serial/by-id
+total 0
+lrwxrwxrwx 1 root root 13 Nov  7 18:34 usb-Texas_Instruments_XDS110__03.00.00.05__Embed_with_CMSIS-DAP_1-if00 -&gt; ../../ttyACM0
+lrwxrwxrwx 1 root root 13 Nov  7 18:34 usb-Texas_Instruments_XDS110__03.00.00.05__Embed_with_CMSIS-DAP_1-if03 -&gt; ../../ttyACM1</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>I used the non-docker image (2)
-Do not use a USB hub to connect the BBB to the host.</p>
+<p>The correct port is either <code>ttyACM0</code> or <code>ttyACM1</code>, in my case it was the former one.</p>
 </div>
 <div class="paragraph">
-<p>To be sure to auto boot from the SD card</p>
+<p>When I try to run the first debug session for the <code>network_terminal_CC3220SF_LAUNCHXL_tirtos_ccs</code> project from CCS , I got this:</p>
 </div>
-<div class="listingblock">
+<div id="error1" class="imageblock">
 <div class="content">
-<pre>sudo dd if=/dev/zero of=/dev/mmcblk1 bs=1024 count=1024</pre>
+<img src="./images/CC3220SF-debug-error.png" alt="error message">
+</div>
+<div class="title">Figure 7. Error message when opening a debug session to the CC3220SF LaunchPad.</div>
+</div>
+<div class="paragraph">
+<p>I am not sure what finally allowed me to connect, but I suppose I needed to unpluck/repluck the micro USB connector.
+Presumably, the Uniflash application that I used to flash the binaries still kept a connection to the board.
+I did not need to change jumper positions on the board.</p>
+</div>
+<div class="paragraph">
+<p>Finally, the default target configuration is fine (with the modification for the serial number):</p>
+</div>
+<div id="target-conf" class="imageblock">
+<div class="content">
+<img src="./images/CC3220SF-target-conf-default.png" alt="target conf">
+</div>
+<div class="title">Figure 8. Default target with the custom serial number</div>
+</div>
+<div class="paragraph">
+<p>While I was able to also start a debug session for the <code>out_of_box_CC3220SF_LAUNCHXL_tirtos_ccs</code> project,
+the loaded program was not persisted to flash, rather the previsiouly flashed network terminal demo would run upon reset.
+Also, I did not get any terminal output, so there seems to be a difference between
+the binaries I flashed in Task 1 and the one I created with CCS.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_task_6">3.4. Task 6</h3>
+<div class="paragraph">
+<p>I was unable to provision the LaunchPad with the android app: the scan for deivces to configure alsways times out.
+Rather I created a profile from the website running on the LaunchPad.</p>
+</div>
+<div class="paragraph">
+<p>Upon reset, the board connects automatically to the AP <code>APSchuppen</code>:</p>
+</div>
+<div id="auto-connect-ap" class="imageblock">
+<div class="content">
+<img src="./images/sta-connect-to-AP.png" alt="STA connects to AP">
+</div>
+<div class="title">Figure 9. Provisioning via internal webserver seems to be succesfull.</div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_references">6. References</h2>
+<h2 id="_references">4. References</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_cc1352p1">4.1. CC1352P1</h3>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="http://software-dl.ti.com/processor-sdk-linux/esd/docs/latest/linux/Overview_Getting_Started_Guide.html">Processor SDK Linux</a></p>
-</li>
-<li>
-<p><a href="http://software-dl.ti.com/processor-sdk-linux/esd/docs/latest/linux/index.html">Processor SDK Linux Software Developer’s Guide</a></p>
+<p><a id="r1"></a>[r1]: <a href="http://www.ti.com/lit/an/swra048/swra048.pdf">ISM-Band and Short Range Device Regulatory Compliance Overview</a></p>
 </li>
 </ul>
 </div>
+</div>
 <div class="sect2">
-<h3 id="_training">6.1. Training</h3>
-<div class="paragraph">
-<p><a href="https://training.ti.com/customizing-yocto-for-production-introduction?cu=1135806">Customizing a Yocto-Based Linux Distribution for Production: Training Series</a></p>
+<h3 id="_cc3220sf">4.2. CC3220SF</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="r11"></a>[r11]: <a href="http://www.ti.com/lit/wp/swry011a/swry011a.pdf">A primer to Wi-Fi  ®provisioning for IoT applications</a></p>
+</li>
+<li>
+<p><a id="r12"></a>[r12]: <a href="http://software-dl.ti.com/ecs/SIMPLELINK_CC32XX_SDK/3_30_01_02/exports/docs/Documentation_Overview.html">Documentation Overview for SimpleLink™ CC32xx SDK</a></p>
+</li>
+<li>
+<p><a id="r13"></a>[r13]: <a href="http://software-dl.ti.com/targetcontent/watsoniot/1_20_00_04/exports/watson_cc32xx_1_20_00_04/docs/Documentation_Overview.html">Documentation Overview for CC32XX Watson IoT Plugin</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ti_e2e_support_forum">4.3. TI E2E support forum</h3>
+<div class="sect3">
+<h4 id="_dicussions_started_by_me">4.3.1. dicussions started by me</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="e2e1"></a>[e2e1]: <a href="https://e2e.ti.com/support/wireless-connectivity/sub-1-ghz/f/156/t/848811">Frequency and channel selection</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>The exact frequency depends on the channel selection, see <a href="#r1">[r1]</a>.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
 </div>
 </div>
 </div>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnote_1">
+<a href="#_footnoteref_1">1</a>. more preciously, the debug probe included on the LaunchPad
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">

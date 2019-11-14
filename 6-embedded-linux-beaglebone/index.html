@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<title>RB2: TIDEP0084</title>
+<title>RB3: TIDC-01002</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -420,35 +420,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>RB2: TIDEP0084</h1>
+<h1>RB3: TIDC-01002</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_embedded_linux_on_the_bbb">1. Embedded Linux on the BBB</a></li>
-<li><a href="#_errrata">2. Errrata</a>
-<ul class="sectlevel2">
-<li><a href="#_errata_type_technical_page_38">2.1. Errata Type: Technical | Page: 38</a></li>
-<li><a href="#_errata_type_code_chapter_1_page_98">2.2. Errata Type: Code | Chapter 1 | Page 98</a></li>
-<li><a href="#_errata_type_code_chapter_12_page_326">2.3. Errata Type: Code | Chapter 12 | Page 326</a></li>
-<li><a href="#_errata_type_code_chapter_1_page_18">2.4. Errata Type: Code | Chapter 1 | Page 18</a></li>
-<li><a href="#_errata_type_code_page_no_225">2.5. Errata type: Code Page no: 225</a></li>
-<li><a href="#_chapter_2">2.6. Chapter 2</a></li>
-</ul>
-</li>
-<li><a href="#_sd_card">3. SD Card</a>
-<ul class="sectlevel2">
-<li><a href="#_boot_ftp">3.1. Boot Ftp</a></li>
-<li><a href="#_usb_serial">3.2. USB Serial</a></li>
-<li><a href="#_chapter_4">3.3. Chapter 4</a></li>
-</ul>
-</li>
-<li><a href="#_processor_sdk">4. Processor SDK</a></li>
-<li><a href="#_intro">5. Intro</a></li>
-<li><a href="#_references">6. References</a>
-<ul class="sectlevel2">
-<li><a href="#_training">6.1. Training</a></li>
-</ul>
-</li>
+<li><a href="#_install_virtualbox_and_guest_system">1. Install VirtualBox and Guest system</a></li>
 </ul>
 </div>
 </div>
@@ -460,365 +436,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <span class="icon"><a class="image" href="https://vittali.ch"><i class="fa fa-home"></i></a></span>
 </blockquote>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_embedded_linux_on_the_bbb">1. Embedded Linux on the BBB</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>you must run:</p>
-</div>
-<div class="paragraph">
-<p>$ sudo dpkg-reconfigure dash</p>
-</div>
-<div class="paragraph">
-<p>and click NO to make sure that dash is not the system shell. Usually on Mint that is not the case.</p>
-</div>
-<div class="paragraph">
-<p>Based on <em>Mastering Embedded Linux Programming</em> (2nd edition)</p>
-</div>
-<div class="paragraph">
-<p>updates:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>p.166:</p>
-</li>
-</ol>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>$ cd poky
-$ source oe-init-build-env build-nova  // works also under zsh
-$ cd ..   // the script puts you in the build-nova dir
-$ bitbake-layers create-layer meta-nova // if you don't source before, it won't find the path to exe
-$ cd build-nova
-$ bitbake-layers add-layer ../meta-nova
-$ bitbake-layers show-layers</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>uncomment MACHINE ?= "beaglebone-yocto"</p>
-</div>
-<div class="paragraph">
-<p>$ bitbake core-image-minimal</p>
-</div>
-<div class="paragraph">
-<p>in zsh you need <a href="https://unix.stackexchange.com/questions/19530/expanding-variables-in-zsh">this</a>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>$ ${=CC} helloworld.c -o helloworld</code></pre>
-</div>
+<p>I want to set up a cross compilation toolchain for the Beaglebone Black.
+Texas Instruments (TI) is proposing the SDK based on Arago and the Yocto project.
+A general purpose setup script is provided but I want to understand some of the details.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_errrata">2. Errrata</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_errata_type_technical_page_38">2.1. Errata Type: Technical | Page: 38</h3>
-<div class="literalblock">
-<div class="content">
-<pre>$ arm-cortex_a8-linux-gnueabihf-gcc helloworld.c -ltest \</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>-L../libs -I../libs -o helloworld</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>should be</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>$ arm-cortex_a8-linux-gnueabihf-gcc helloworld.c -ltest \</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>-L../libs -I../include -o helloworld</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>Link for Color Images: https://www.packtpub.com/sites/default/files/downloads/MasteringEmbeddedLinuxProgrammingSecondEdition_ColorImages.pdf</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_errata_type_code_chapter_1_page_98">2.2. Errata Type: Code | Chapter 1 | Page 98</h3>
-<div class="literalblock">
-<div class="content">
-<pre>This:
-$ cd linux-stable
-$ make ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- mrproper
-$ make -j4 ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- zImage
-$ make -j4 ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- modules
-$ make ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- dtbs</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>Should be:
-$ cd linux-stable
-$ make ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- mrproper
-$ make ARCH=arm versatile_defconfig
-$ make -j4 ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- modules
-$ make ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- dtbs</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_errata_type_code_chapter_12_page_326">2.3. Errata Type: Code | Chapter 12 | Page 326</h3>
-<div class="literalblock">
-<div class="content">
-<pre>This:
-arm-cortex_a8-linux-gnueabihf-gcc shared-mem-demo.c -lrt -pthread \
--o arm-cortex_a8-linux-gnueabihf-gcc</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>Should be:
-arm-cortex_a8-linux-gnueabihf-gcc shared-mem-demo.c -lrt -pthread \
--o shared-mem-demo</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_errata_type_code_chapter_1_page_18">2.4. Errata Type: Code | Chapter 1 | Page 18</h3>
-<div class="literalblock">
-<div class="content">
-<pre>This:
--net nic -net use</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>Should Be:
--net nic -net user</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_errata_type_code_page_no_225">2.5. Errata type: Code Page no: 225</h3>
-<div class="literalblock">
-<div class="content">
-<pre>When running the script "mender-qemu" (i.e. when typing "../meta-mender/meta-mender-qemu/scripts/mender-qemu" as documented on page NNN(*), if you see an error message that includes "Block protocol 'file' doesn't support the option 'locking'", then edit ../meta-mender/meta-mender-qemu/scripts/mender-qemu as follows:</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>Delete ",file.locking=off" from line 60 so that it reads</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>QEMU_ARGS="$QEMU_ARGS -drive file=$VEXPRESS_IMG,if=sd,format=raw "</pre>
-</div>
-</div>
-<div class="literalblock">
-<div class="content">
-<pre>This problem only occurs with versions of qemu-system-arm before 2.10</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_chapter_2">2.6. Chapter 2</h3>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>don&#8217;t forget to set the PATH env var to the gcc binary</p>
-</li>
-<li>
-<p>p.62, use the v2019.07 branch of u-boot, <code>am335x_boneblack_defconfig</code> has been removed, use <code>am335x_evm_defconfig</code> instead.</p>
-</li>
-</ol>
-</div>
-<div class="sect3">
-<h4 id="_building_u_boot">2.6.1. Building U-Boot</h4>
-<div class="paragraph">
-<p>to build the example with v2017 U-Boot you must change the Target Architecture &#8594; Use specific FPU to <code>neon-vfpv3</code></p>
-</div>
-<div class="paragraph">
-<p>see also
-<a href="https://stackoverflow.com/questions/50284222/u-boot-for-beaglebone-black-wont-build-target-cpu-does-not-support-thumb-inst" class="bare">https://stackoverflow.com/questions/50284222/u-boot-for-beaglebone-black-wont-build-target-cpu-does-not-support-thumb-inst</a></p>
-</div>
-<div class="paragraph">
-<p>otherwise you get :
-CC      arch/arm/cpu/armv7/cache_v7.o
-cc1: warning: target CPU does not support THUMB instructions
-{standard input}: Assembler messages:
-{standard input}:42: Error: selected processor does not support `dsb sy' in ARM mode
-{standard input}:46: Error: selected processor does not support `isb sy' in ARM mode
-{standard input}:240: Error: selected processor does not support `dsb sy' in ARM mode
-{standard input}:244: Error: selected processor does not support `isb sy' in ARM mode
-{standard input}:368: Error: selected processor does not support `dsb sy' in ARM mode
-{standard input}:460: Error: selected processor does not support `dsb sy' in ARM mode
-{standard input}:464: Error: selected processor does not support `isb sy' in ARM mode
-{standard input}:594: Error: selected processor does not support `dsb sy' in ARM mode
-scripts/Makefile.build:280: recipe for target 'arch/arm/cpu/armv7/cache_v7.o' failed
-make[1]: <strong>*</strong> [arch/arm/cpu/armv7/cache_v7.o] Error 1
-Makefile:1217: recipe for target 'arch/arm/cpu/armv7' failed</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_sd_card">3. SD Card</h2>
+<h2 id="_install_virtualbox_and_guest_system">1. Install VirtualBox and Guest system</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>$ lsblk
-use the script from the book</p>
-</div>
-<div class="sect2">
-<h3 id="_boot_ftp">3.1. Boot Ftp</h3>
-<div class="paragraph">
-<p>$ sudo apt-get install tftpd-hpa // not the <em>d</em></p>
+<p>I choose to install VirtualBox 6.0.14 on a Linux Mint 19.2 Tina (based on Ubuntu 18.04 LTS-based) host with a Linux Mint 19.2 Tina guest system.</p>
 </div>
 <div class="paragraph">
-<p>no need to mess with nobody and nogroup and what not. Works out of the box.
-Files go into <code>/var/lib/tftpboot</code>.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_usb_serial">3.2. USB Serial</h3>
-<div class="paragraph">
-<p>$ ll /sys/class/tty/ttyUSB*</p>
-</div>
-<div class="paragraph">
-<p>$ gtkterm -p /dev/ttyUSB0 -s 115200</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>$ ./create-sdcard.sh</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>when you exit the script, you must manually unmount the two parts.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>$ cat /proc/mounts</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>for example:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>$ sudo umount /dev/sde1</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>then remount both parts so that they appear under /media/p:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code>$ sudo cp MLO-beaglebone-yocto-2019.01-r0 /media/p/boot/MLO
-$ sudo cp u-boot-beaglebone-yocto-2019.01-r0.img /media/p/boot/u-boot.img
-$ tar -C /media/p/rootfs -jxf nova-image-beaglebone-yocto-20190915162549.rootfs.tar.bz2</code></pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_chapter_4">3.3. Chapter 4</h3>
-<div class="paragraph">
-<p>p94. omitte4d setenv bootargs console &#8230;&#8203;.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_processor_sdk">4. Processor SDK</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>in source environment-setup</p>
-</div>
-<div class="paragraph">
-<p>change prompt
-remove export PS1</p>
-</div>
-<div class="paragraph">
-<p>PROMPT="%(?.%F{green}[linux-devkit].%F{red})❯%f "</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_intro">5. Intro</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>This tutorial is based on <a href="http://www.ti.com/tool/TIDEP0084?jktype=design">Sub-1 GHz Sensor to Cloud Industrial IoT Gateway Reference Design for Linux Systems</a>.
-The project files can be cloned <span class="icon"><a class="image" href="https://github.com/vittali/vittali.ch-gst.rb2"><i class="fa fa-github"></i></a></span>.</p>
-</div>
-<div class="paragraph">
-<p>Make sure to configure networking correctly, for example wireless and wired to the BBB, it must be on another network and routes must be configured.
-<a href="https://askubuntu.com/questions/10741/how-to-set-up-dual-wired-and-wireless-connections/11084" class="bare">https://askubuntu.com/questions/10741/how-to-set-up-dual-wired-and-wireless-connections/11084</a></p>
-</div>
-<div class="paragraph">
-<p>Debian uses connman to manage the network, the settings in /etc/network/interfaces are ignored.</p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">NOTE</dt>
-<dd>
-<p>this is not relevant, the debian thing is what is preinstalled on the eemc.</p>
-</dd>
-</dl>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>debian@beaglebone:~$ sudo cat /var/lib/connman/ethernet_c4f3129bed5b_cable/settings
-{blank}[ethernet_c4f3129bed5b_cable]
-Name=Wired
-AutoConnect=true
-Modified=2016-01-24T22:42:30.393712Z
-IPv4.method=manual
-IPv4.netmask_prefixlen=24
-IPv4.local_address=192.168.2.2
-IPv4.gateway=192.168.1.1
-IPv6.method=auto
-IPv6.privacy=disabled</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>I used the non-docker image (2)
-Do not use a USB hub to connect the BBB to the host.</p>
-</div>
-<div class="paragraph">
-<p>To be sure to auto boot from the SD card</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>sudo dd if=/dev/zero of=/dev/mmcblk1 bs=1024 count=1024</pre>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_references">6. References</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="http://software-dl.ti.com/processor-sdk-linux/esd/docs/latest/linux/Overview_Getting_Started_Guide.html">Processor SDK Linux</a></p>
-</li>
-<li>
-<p><a href="http://software-dl.ti.com/processor-sdk-linux/esd/docs/latest/linux/index.html">Processor SDK Linux Software Developer’s Guide</a></p>
-</li>
-</ul>
-</div>
-<div class="sect2">
-<h3 id="_training">6.1. Training</h3>
-<div class="paragraph">
-<p><a href="https://training.ti.com/customizing-yocto-for-production-introduction?cu=1135806">Customizing a Yocto-Based Linux Distribution for Production: Training Series</a></p>
-</div>
+<p>After installing the guest, I set up networking:</p>
 </div>
 </div>
 </div>

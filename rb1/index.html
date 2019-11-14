@@ -1113,11 +1113,34 @@ This tutorial has been tested on Linux Mint 18.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>$ curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 $ sudo apt-get install -y nodejs
-$ sudo npm install -g node-red
-$ npm install -g mqtt</pre>
+$ sudo npm install -g node-red <i class="conum" data-value="1"></i><b>(1)</b>
+$ sudo npm install -g mqtt <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>This might result in:
+ <br>
+<code>gyp ERR! stack Error: EACCES: permission denied, mkdir '/usr/lib/node_modules/node-red/node_modules/bcrypt/.node-gyp'</code>
+ <br>
+I used the <code>--unsafe-perm</code> option to fix the <a href="https://github.com/nodejs/node-gyp/issues/1619">problem</a>:
+ <br>
+<code>$ sudo npm install -g --unsafe-perm node-red</code>
+ <br></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>since the test client uses the <code>require</code> mechanism and you installed the <code>mqtt</code> module globally,
+your <code>NODE_PATH</code> must include the global <code>node_modules</code> directory tree, for example:
+ <br>
+<code>export NODE_PATH=/usr/lib/node_modules</code>
+ <br></td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>The later node module is required for the mqtt test client.</p>
