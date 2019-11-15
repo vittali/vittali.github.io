@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<title>Red and Blue: Run Node-RED on the IBM bluemix cloud and receive sensor data from your things</title>
+<title>Getting started with Node-RED and the IBM bluemix cloud</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -420,54 +420,55 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Red and Blue: Run Node-RED on the IBM bluemix cloud and receive sensor data from your things</h1>
+<h1>Getting started with Node-RED and the IBM bluemix cloud</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_terminology">1. Terminology</a>
+<li><a href="#_introduction">1. Introduction</a></li>
+<li><a href="#_terminology">2. Terminology</a>
 <ul class="sectlevel2">
-<li><a href="#_dashboards">1.1. Dashboards</a></li>
-<li><a href="#_credential_hell">1.2. Credential hell</a></li>
+<li><a href="#_dashboards">2.1. Dashboards</a></li>
+<li><a href="#_credential_hell">2.2. Credential hell</a></li>
 </ul>
 </li>
-<li><a href="#_create_the_em_my_node_red_app_em_and_the_associated_infrastructure">2. Create the <em>My-Node-RED-App</em> and the associated infrastructure</a>
+<li><a href="#_create_the_em_my_node_red_app_em_and_the_associated_infrastructure">3. Create the <em>My-Node-RED-App</em> and the associated infrastructure</a>
 <ul class="sectlevel2">
-<li><a href="#_create_the_application_and_the_database">2.1. Create the application and the database</a></li>
-<li><a href="#_create_the_continuous_delivery_toolchain">2.2. Create the continuous delivery toolchain</a></li>
+<li><a href="#_create_the_application_and_the_database">3.1. Create the application and the database</a></li>
+<li><a href="#_create_the_continuous_delivery_toolchain">3.2. Create the continuous delivery toolchain</a></li>
 </ul>
 </li>
-<li><a href="#_create_the_my_iot_platform_service">3. Create the My-IoT-Platform service</a>
+<li><a href="#_create_the_my_iot_platform_service">4. Create the My-IoT-Platform service</a>
 <ul class="sectlevel2">
-<li><a href="#_generate_the_iot_platform_access_code">3.1. Generate the IOT Platform access code:</a></li>
-<li><a href="#_configure_connection_security">3.2. Configure connection security</a></li>
-<li><a href="#_configure_devices">3.3. Configure Devices</a></li>
+<li><a href="#_generate_the_iot_platform_access_code">4.1. Generate the IOT Platform access code:</a></li>
+<li><a href="#_configure_connection_security">4.2. Configure connection security</a></li>
+<li><a href="#_configure_devices">4.3. Configure Devices</a></li>
 </ul>
 </li>
-<li><a href="#_install_local_software">4. Install local software</a>
+<li><a href="#_install_local_software">5. Install local software</a>
 <ul class="sectlevel2">
-<li><a href="#_node_red">4.1. Node-RED</a></li>
-<li><a href="#_bluemix_cli">4.2. Bluemix CLI</a></li>
+<li><a href="#_node_red">5.1. Node-RED</a></li>
+<li><a href="#_bluemix_cli">5.2. Bluemix CLI</a></li>
 </ul>
 </li>
-<li><a href="#_instantiate_template_files">5. Instantiate template files</a>
+<li><a href="#_instantiate_template_files">6. Instantiate template files</a>
 <ul class="sectlevel2">
-<li><a href="#_project_agnostic_files">5.1. Project agnostic files</a></li>
-<li><a href="#pop">5.2. Project specific files</a></li>
+<li><a href="#_project_agnostic_files">6.1. Project agnostic files</a></li>
+<li><a href="#pop">6.2. Project specific files</a></li>
 </ul>
 </li>
-<li><a href="#_initialize_the_work_flow">6. Initialize the work flow</a>
+<li><a href="#_initialize_the_work_flow">7. Initialize the work flow</a>
 <ul class="sectlevel2">
-<li><a href="#_initialize_the_app">6.1. Initialize the app</a></li>
+<li><a href="#_initialize_the_app">7.1. Initialize the app</a></li>
 </ul>
 </li>
-<li><a href="#_develop_locally_deploy_remotely">7. Develop locally, Deploy remotely</a></li>
-<li><a href="#_references">8. References</a>
+<li><a href="#_develop_locally_deploy_remotely">8. Develop locally, Deploy remotely</a></li>
+<li><a href="#_references">9. References</a>
 <ul class="sectlevel2">
-<li><a href="#_iot_tutorials">8.1. IoT tutorials</a></li>
-<li><a href="#_iot_development_with_java">8.2. IoT development with Java</a></li>
-<li><a href="#_iot_with_rest_api">8.3. IoT with REST API</a></li>
-<li><a href="#_cloudant">8.4. Cloudant</a></li>
-<li><a href="#_node_red_node_js">8.5. Node-RED &amp; Node.js</a></li>
+<li><a href="#_iot_tutorials">9.1. IoT tutorials</a></li>
+<li><a href="#_iot_development_with_java">9.2. IoT development with Java</a></li>
+<li><a href="#_iot_with_rest_api">9.3. IoT with REST API</a></li>
+<li><a href="#_cloudant">9.4. Cloudant</a></li>
+<li><a href="#_node_red_node_js">9.5. Node-RED &amp; Node.js</a></li>
 </ul>
 </li>
 </ul>
@@ -476,44 +477,55 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
+<div class="quoteblock abstract">
+<blockquote>
+<span class="icon"><a class="image" href="https://vittali.ch"><i class="fa fa-home"></i></a></span>
+</blockquote>
+</div>
 <div class="paragraph">
-<p>You have an embedded device like a microcontroller and you want to upload sensor data
-to the internet. You also want to take actions depending on the data. You want to run from a cheap device powered by a
-small lithium coin, in other words your device is severly resource restraint.
-Of course, you also want a database to store sensor readings and a nice gui so that others can use your work.
-You also know that setting up your own server and maintaining it is not worth the effort. So you want
+<p>I have a microcontroller and I want to upload sensor data
+to the internet. I also want a database to store sensor readings and a nice gui so that others can use it.
+Setting up my own server and maintaining it is not worth the effort. So I want
 a cloud service, more precisely a <em>free</em> cloud service.</p>
 </div>
 <div class="paragraph">
-<p>In this tutorial we will create the required infrastructure and develop a small application with a
-gui and a database backend accessible on the internet.
-The project files can be cloned from this <a href="https://github.com/vittali/vittali.ch-gst.rb1">git repo</a>.</p>
+<p>This memo is a write-up of one way to set up the required software infrastructure.
+I will describe hardware components like sensors in another memo.</p>
 </div>
 <div class="paragraph">
-<p>The <a href="https://www.ibm.com/support/knowledgecenter/SSQP8H/iot/platform/reference/mqtt/index.html">MQTT messaging</a> protocol is a good fit for these requirements as it is lightweight and allows
-for the required two-way communication. Devices can publish messages and subscribe to commands emitted by application.
-<a href="https://cloud.ibm.com">IBM Bluemix</a> offers all the services we need based on the Lite Plan also known as the Free Plan.
-I am not sure if I understand the difference between <em>IBM Cloud</em> and <em>IBM Bluemix</em>,
-hereafter I will always refer to <em>Bluemix</em>. Bluemix provides <em>Cloud Foundry</em>, a Platform-as-a-Service infrastructure
+<p>The project files can be cloned from the <a href="https://github.com/vittali/vittali.ch-2-nred-bluemix">compagnion repo</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction">1. Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><a href="https://cloud.ibm.com">IBM Bluemix</a> offers a cloud service called <em>IBM Cloud</em> or
+<em>IBM Bluemix</em>.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</sup>
+Several plans are available, I will use the <em>Lite Plan</em> also known as the <em>Free Plan</em>.</p>
+</div>
+<div class="paragraph">
+<p>Bluemix provides <em>Cloud Foundry</em>, a Platform-as-a-Service infrastructure
 that will allow us to run our application and a database without any installation chores. Bluemix also provides
-the IBM Watson IoT Platform, hereafter referred to as <em>IoT Platform</em>. This is the central communication hub for our MQTT-enabled devices.</p>
+the IBM Watson IoT Platform, hereafter referred to as <em>IoT Platform</em>.
+This is the central communication hub for <a href="https://www.ibm.com/support/knowledgecenter/SSQP8H/iot/platform/reference/mqtt/index.html">MQTT messaging</a>.
+Devices can publish messages and subscribe to commands emitted by application.</p>
 </div>
 <div class="paragraph">
-<p><a href="https://nodered.org">Node-RED</a> is a programming environment specifically designed for IoT requirements. It is based
-on javascript but for a simple application almost no coding required. It is very easy to set up
-a fully functional gui and it is has excellent support for Bluemix.</p>
+<p><a href="https://nodered.org">Node-RED</a> is a programming environment specifically designed for IoT requirements.</p>
 </div>
 <div class="paragraph">
-<p>Presuming you have now created an account on IBM Bluemix (the Lite/Free Plan is sufficient), this tutorial
-will walk you through the following steps:</p>
+<p>I first created an account on IBM Bluemix (with the Lite/Free Plan) and subsequently went
+ through the following steps:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>get to know required terminology</p>
+<p>understand the required terminology</p>
 </li>
 <li>
-<p>get to know the credentials hell</p>
+<p>survive credentials hell</p>
 </li>
 <li>
 <p>set up a git repo where your code will reside</p>
@@ -525,13 +537,13 @@ will walk you through the following steps:</p>
 <p>deploy the application to bluemix</p>
 </li>
 <li>
-<p>test your work from your desktop.</p>
+<p>test my work on the desktop (rather than in the cloud).</p>
 </li>
 </ol>
 </div>
 <div class="paragraph">
 <p>The application, also known as the <em>app</em> hereafter, is based on this <a href="https://developer.ibm.com/tutorials/iot-edge3">IBM developer tutorial</a> albeit in a simplified form.
-The motivation for adopting the work flow discussed in this tutorial is derived from two post by Nick O&#8217;Leary:</p>
+The motivation for adopting the work flow discussed in this tutorial is derived from two posts by Nick O&#8217;Leary:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -544,16 +556,16 @@ The motivation for adopting the work flow discussed in this tutorial is derived 
 </ul>
 </div>
 <div class="paragraph">
-<p>The main difference with respect to the first link is that Bluemix now provides an integrated Continuous Delivery Toolchain, which simplifies the setup.</p>
+<p>The main difference with respect to the first link is that Bluemix now provides an
+integrated Continuous Delivery Toolchain, which I use in my setup.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_terminology">1. Terminology</h2>
+<h2 id="_terminology">2. Terminology</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>As far as this tutorial is concerned,
-Bluemix offers <em>Cloud Foundry Services</em>, <em>Services</em> and allows us to develop
+<p>As far as this memo is concerned, Bluemix offers <em>Cloud Foundry Services</em>, <em>Services</em> and allows to develop
 <em>Cloud Foundry Apps</em>.</p>
 </div>
 <div class="paragraph">
@@ -566,7 +578,7 @@ Bluemix offers <em>Cloud Foundry Services</em>, <em>Services</em> and allows us 
 <div class="title">Figure 1. The Bluemix Dashboard</div>
 </div>
 <div class="paragraph">
-<p>More important for our work is the <em>Resource list</em> that you can open from the hamburger menu:</p>
+<p>More important for this memo is the <em>Resource list</em> (in the <span class="icon"><i class="fa fa-bars"></i></span> menu):</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -575,28 +587,29 @@ Bluemix offers <em>Cloud Foundry Services</em>, <em>Services</em> and allows us 
 <div class="title">Figure 2. The Bluemix Resource list</div>
 </div>
 <div class="paragraph">
-<p>Here you can see the items we are going to create in this tutorial:</p>
+<p>These are the items to create:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p><em>Cloud Foundry Apps</em>: we will develop the <em>My-Node-Red-App</em>, a <a href="https://nodered.org">Node-RED</a> <em>flow</em>-based javascript application without writing a single line of code.</p>
+<p><em>Cloud Foundry Apps</em>: develop the <em>My-Node-Red-App</em>, a <a href="https://nodered.org">Node-RED</a> <em>flow</em>-based javascript application
+without writing a single line of code.</p>
 </li>
 <li>
-<p>Cloud Foundry Services: we create the <em>My-IoT-Platform</em> service that acts as a MQTT broker, amongst other tasks.
-In particular, here we configure MQTT communications between our devices and the database.</p>
+<p>Cloud Foundry Services: create the <em>My-IoT-Platform</em> service that acts as a MQTT broker, amongst other tasks.
+In particular, configure MQTT communications between my devices and the database.</p>
 </li>
 <li>
-<p>Cloud Foundry Services: we create the <em>My-Node-RED-App-cloudantNoSQLDB</em> database,
+<p>Cloud Foundry Services: create the <em>My-Node-RED-App-cloudantNoSQLDB</em> database,
 more precisely an alias to the underlying database service. This alias is created automatically.</p>
 </li>
 <li>
-<p>Services: Bluemix creates <em>Cloudant-ay</em> as the underlying database service where we store sensor readings.
+<p>Services: Bluemix creates <em>Cloudant-ay</em> as the underlying database service where I store sensor readings.
 The name is choosen by Bluemix during setup. Your name will be different.</p>
 </li>
 <li>
-<p>Services: Continuous Delivery: the toolchain service that we have enabled for the app.
-It includes a git repo and a delivery pipeline that deploys our app each time we push to the repo.</p>
+<p>Services: Continuous Delivery: the toolchain service enabled for the app.
+It includes a git repo and a delivery pipeline that deploys the app when pushed to the repo.</p>
 </li>
 <li>
 <p>Developer Tools: <em>My-Node-RED-App</em> represents the actual toolchain associated with the app.</p>
@@ -604,9 +617,9 @@ It includes a git repo and a delivery pipeline that deploys our app each time we
 </ul>
 </div>
 <div class="sect2">
-<h3 id="_dashboards">1.1. Dashboards</h3>
+<h3 id="_dashboards">2.1. Dashboards</h3>
 <div class="paragraph">
-<p>In addition to the initial Bluemix Dashboard ( which I found not useful for this tutorial), there is the IoT Platform dashboard and
+<p>In addition to the initial Bluemix Dashboard ( which I found not useful for this memo), there is the IoT Platform dashboard and
 the Cloudant database dashboard:</p>
 </div>
 <div class="imageblock">
@@ -625,12 +638,12 @@ the Cloudant database dashboard:</p>
 <div class="title">Figure 4. The Cloudant Dashboard</div>
 </div>
 <div class="paragraph">
-<p>The Cloudant Dashboard will contain our sensor data.
-The nodered database is created by Bluemix during setup.</p>
+<p>The Cloudant Dashboard will contain sensor data.
+The node-red database is created by Bluemix during setup.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_credential_hell">1.2. Credential hell</h3>
+<h3 id="_credential_hell">2.2. Credential hell</h3>
 <div class="paragraph">
 <p>One of the most intimidating aspects when using the cloud for the first time seems to be the avalanche
 of credentials, passwords, access tokens, ids, and other access codes.</p>
@@ -734,8 +747,9 @@ Here is a preview that should help to mitigate that onslaught.</p>
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-When you create an access code on Bluemix, copy and save it immediately. Some codes can&#8217;t be retrieved at a later stage.
-Also, do not put these codes in the project&#8217;s repository.
+After creating an access code on Bluemix, it must be copied and saved immediately.
+Some codes can&#8217;t be retrieved at a later stage.
+Also, these codes don&#8217;t belong in the project&#8217;s repository.
 </td>
 </tr>
 </table>
@@ -747,13 +761,13 @@ Also, do not put these codes in the project&#8217;s repository.
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-In the following we assume orgId = <strong>nhr9i3</strong>, your orgId will be different.
+In the following, I assume orgId = <strong>nhr9i3</strong>, your orgId will be different.
 </td>
 </tr>
 </table>
 </div>
 <div id="Bac" class="paragraph">
-<p>Create the Bluemix access code right now:</p>
+<p>Create the Bluemix access code:</p>
 </div>
 <div class="paragraph">
 <p><code>Dashboard → Manage → Access IAM → IBM Cloud Api Keys &#8594; Create an IBM Cloud API key</code></p>
@@ -762,10 +776,10 @@ In the following we assume orgId = <strong>nhr9i3</strong>, your orgId will be d
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_the_em_my_node_red_app_em_and_the_associated_infrastructure">2. Create the <em>My-Node-RED-App</em> and the associated infrastructure</h2>
+<h2 id="_create_the_em_my_node_red_app_em_and_the_associated_infrastructure">3. Create the <em>My-Node-RED-App</em> and the associated infrastructure</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In this chapter we will create three items:</p>
+<p>Create three items:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -789,33 +803,33 @@ In the following we assume orgId = <strong>nhr9i3</strong>, your orgId will be d
 <td class="content">
 there are several Node-RED-Bluemix tutorials on the internet where the database also stores the Node-Red flow files.
 This is suitable for a work flow where development is done remotely.
-However, in the work flow discussed in this tutorial, all development is done
-locally and the flow files are pushed to repository each time the application is modified.
+However, I prefer a work flow where all development is done
+locally and the flow files are then pushed to repository from where they are deployed automatically.
 </td>
 </tr>
 </table>
 </div>
 <div class="sect2">
-<h3 id="_create_the_application_and_the_database">2.1. Create the application and the database</h3>
+<h3 id="_create_the_application_and_the_database">3.1. Create the application and the database</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>If you have not yet created a <a href="#Bac">Bluemix access code</a> do it now.</p>
+<p>create a <a href="#Bac">Bluemix access code</a> if not already done.</p>
 </li>
 <li>
-<p>From the Bluemix Dashboard page, click on the <em>Catalog</em> menu.</p>
+<p>from the Bluemix Dashboard page, click on the <em>Catalog</em> menu.</p>
 </li>
 <li>
-<p>From the Starter Kits Category, click on <em>Node-Red Starter</em></p>
+<p>from the Starter Kits Category, click on <em>Node-Red Starter</em></p>
 </li>
 <li>
-<p>Enter the App name: <em>My-Node-RED-App</em></p>
+<p>enter the App name: <em>My-Node-RED-App</em></p>
 </li>
 <li>
-<p>Selected Plan: <em>Lite</em></p>
+<p>selected Plan: <em>Lite</em></p>
 </li>
 <li>
-<p>Select the <em>Cloudant</em> service to be connected to the app:</p>
+<p>select the <em>Cloudant</em> service to be connected to the app:</p>
 </li>
 </ol>
 </div>
@@ -826,7 +840,7 @@ locally and the flow files are pushed to repository each time the application is
 <div class="title">Figure 5. The Cloudant Service link</div>
 </div>
 <div class="paragraph">
-<p>This brings us to the <em>Getting started</em> pane of the application&#8217;s dashboard:</p>
+<p>This opens the <em>Getting started</em> pane of the application&#8217;s dashboard:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -835,11 +849,11 @@ locally and the flow files are pushed to repository each time the application is
 <div class="title">Figure 6. The <em>My-Node-RED-App</em> Dashboard</div>
 </div>
 <div class="paragraph">
-<p>We are now ready to activate Toolchain support.</p>
+<p>Ready to activate Toolchain support.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_create_the_continuous_delivery_toolchain">2.2. Create the continuous delivery toolchain</h3>
+<h3 id="_create_the_continuous_delivery_toolchain">3.2. Create the continuous delivery toolchain</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -860,7 +874,7 @@ locally and the flow files are pushed to repository each time the application is
 </ol>
 </div>
 <div class="paragraph">
-<p>You are looking at the dashboard of the Continuous Delivery Toolchain:</p>
+<p>This is the dashboard of the Continuous Delivery Toolchain:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -869,7 +883,7 @@ locally and the flow files are pushed to repository each time the application is
 <div class="title">Figure 7. The Continuous Delivery Toolchain</div>
 </div>
 <div class="paragraph">
-<p>Now, we need to get access to this repository:</p>
+<p>Get access to this repository:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -877,7 +891,7 @@ locally and the flow files are pushed to repository each time the application is
 <p>click on the Git tile.</p>
 </li>
 <li>
-<p>set up your git access code using a public SSH key: <code>top right corner icon &#8594; Settings &#8594; SSH Keys</code></p>
+<p>set up the git access code using a public SSH key: <code>top right corner icon &#8594; Settings &#8594; SSH Keys</code></p>
 </li>
 <li>
 <p>copy the link to the repository and clone it:</p>
@@ -902,27 +916,27 @@ locally and the flow files are pushed to repository each time the application is
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-the directory <em>My-Node-RED-App</em> into which we cloned the repository is called the <strong>project directory</strong>.
+the directory <em>My-Node-RED-App</em> into which I cloned the repository is called the <strong>project directory</strong>.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Now go back to the application&#8217;s dashboard, then click on <code>Runtime &#8594; Environment variables
+<p>Go back to the application&#8217;s dashboard, then click on <code>Runtime &#8594; Environment variables
 &#8594; VCAP_SERVICES &#8594; Export</code> to export this environment variable to
 a file named <code>My-Node-RED-App_vcap.json</code> into the project directory.</p>
 </div>
 <div class="paragraph">
-<p>This file now contains all the Bluemix specific data that we need to run our app locally.</p>
+<p>This file now contains all the Bluemix specific data needed to run the app locally.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_create_the_my_iot_platform_service">3. Create the My-IoT-Platform service</h2>
+<h2 id="_create_the_my_iot_platform_service">4. Create the My-IoT-Platform service</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before you continue, I recommend the following two video tutorials prepared by IBM:</p>
+<p>I like the following video tutorials prepared by IBM:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -954,13 +968,9 @@ a file named <code>My-Node-RED-App_vcap.json</code> into the project directory.<
 </ul>
 </div>
 <div class="paragraph">
-<p>While this seems to be a lot of effort to go through a getting-started tutorial, I found these documents to be
-very clear and informative and I believe it is much easier to follow this tutorial after a least a cursory glance at these links.</p>
-</div>
-<div class="paragraph">
 <p>On the Bluemix Dashboard, click on <code>Catalog &#8594; Internet of Things &#8594; Internet of Things Platform</code>
 to create an instance of the IoT Platform service. Choose <em>My-IoT-Platform</em> as name.
- Once the instance has been created, you will get another dashboard:</p>
+ Once the instance has been created, I get another dashboard:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -969,20 +979,20 @@ to create an instance of the IoT Platform service. Choose <em>My-IoT-Platform</e
 <div class="title">Figure 9. The dashboard of the <em>My-IoT-Platform</em> service instance</div>
 </div>
 <div class="sect2">
-<h3 id="_generate_the_iot_platform_access_code">3.1. Generate the IOT Platform access code:</h3>
+<h3 id="_generate_the_iot_platform_access_code">4.1. Generate the IOT Platform access code:</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Click on the <em>Launch</em> button.</p>
+<p>click on the <em>Launch</em> button.</p>
 </li>
 <li>
-<p>On the IoT Platform Dashboard click on <em>Apps</em>, and on the top right corner click on <em>Generate Api Key</em>.</p>
+<p>on the IoT Platform Dashboard click on <em>Apps</em>, and on the top right corner click on <em>Generate Api Key</em>.</p>
 </li>
 <li>
-<p>Leave the defaults and click <em>Generate Key</em>.</p>
+<p>leave the defaults and click <em>Generate Key</em>.</p>
 </li>
 <li>
-<p>Copy the API Key and the Authentification Token right now because you won&#8217;t be able to see the again.</p>
+<p>copy the API Key and the Authentification Token right now because you won&#8217;t be able to see the again.</p>
 </li>
 </ol>
 </div>
@@ -995,17 +1005,17 @@ to create an instance of the IoT Platform service. Choose <em>My-IoT-Platform</e
 <td class="content">
 Remember: I refer to this pair of strings (API Key,Authentification Token)
 as the <em>IoT Platform</em> access code, see <a href="#table1">Access codes</a>.
-We will need it later when we modify the Node-RED flow application template file.
-This allows us to access the remote Cloudant database when developing the app locally.
+I need it later to modify the Node-RED flow application template file.
+This allows me to access the remote Cloudant database when developing the app locally.
 </td>
 </tr>
 </table>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configure_connection_security">3.2. Configure connection security</h3>
+<h3 id="_configure_connection_security">4.2. Configure connection security</h3>
 <div class="paragraph">
-<p>To simplify testing we change the default setting for connection security:</p>
+<p>To simplify testing, I change the default setting for connection security:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1019,18 +1029,18 @@ This allows us to access the remote Cloudant database when developing the app lo
 </div>
 <div class="paragraph">
 <p>Note that this is not recommended for a production environment.
-The reason for this change is that the <code>mqtt</code> node.js module we use as test mqtt client doesn&#8217;t seem to use ssl out of the box
-and I wanted to keep things as simple as possible.</p>
+The reason for this change is that the <code>mqtt</code> node.js module I use as test mqtt client
+doesn&#8217;t seem to use ssl out of the box and I wanted to keep things as simple as possible.</p>
 </div>
 <div class="paragraph">
 <p>See also <a href="https://www.ibm.com/support/knowledgecenter/SSQP8H/iot/platform/reference/guardian/security_policies.html#set_up_policies.html">Configuring security policies</a>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configure_devices">3.3. Configure Devices</h3>
+<h3 id="_configure_devices">4.3. Configure Devices</h3>
 <div class="paragraph">
 <p>Device type creation and device creation is explained in the tutorial material mentioned at the beginning of this chapter
-and I assume you know how to perform the following tasks:</p>
+and therefore the following tasks are simple:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -1052,7 +1062,7 @@ and I assume you know how to perform the following tasks:</p>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-I refer to this token as <em>DAT</em> access code, see <a href="#table1">Access codes</a>. We will need it later when we
+I refer to this token as <em>DAT</em> access code, see <a href="#table1">Access codes</a>. I need it later to
 instantiate the mqtt client test program template.
 </td>
 </tr>
@@ -1065,13 +1075,13 @@ instantiate the mqtt client test program template.
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-as usual, write down the access code, you can&#8217;t retrieve it from the dashboard once the page is closed.
+write down the access code, it can&#8217;t be retrieved once the page is closed.
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>Your dashboard should now look like this:</p>
+<p>The dashboard should now look like this:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1080,33 +1090,19 @@ as usual, write down the access code, you can&#8217;t retrieve it from the dashb
 <div class="title">Figure 10. The IoT Platform Dashboard after device creation</div>
 </div>
 <div class="paragraph">
-<p>You are now ready to add and modify the application project files. But before we do this, we will
-install the required software to run Node-RED locally.</p>
+<p>Ready to add and modify the application project files.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_install_local_software">4. Install local software</h2>
+<h2 id="_install_local_software">5. Install local software</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before we start to develop our app, we need to install the Node-RED stack as well as the
-IBM Cloud (CLI).</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-This tutorial has been tested on Linux Mint 18.
-</td>
-</tr>
-</table>
+<p>Install the Node-RED stack and the IBM Cloud (CLI) on Linux Mint 18.</p>
 </div>
 <div class="sect2">
-<h3 id="_node_red">4.1. Node-RED</h3>
+<h3 id="_node_red">5.1. Node-RED</h3>
 <div class="paragraph">
 <p>There are many ways to install Node-RED. I choose the
 <a href="https://github.com/nodesource/distributions/blob/master/README.md">following</a>:</p>
@@ -1134,8 +1130,8 @@ I used the <code>--unsafe-perm</code> option to fix the <a href="https://github.
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>since the test client uses the <code>require</code> mechanism and you installed the <code>mqtt</code> module globally,
-your <code>NODE_PATH</code> must include the global <code>node_modules</code> directory tree, for example:
+<td>since the test client uses the <code>require</code> mechanism and I installed the <code>mqtt</code> module globally,
+<code>NODE_PATH</code> must include the global <code>node_modules</code> directory tree, for example:
  <br>
 <code>export NODE_PATH=/usr/lib/node_modules</code>
  <br></td>
@@ -1146,7 +1142,7 @@ your <code>NODE_PATH</code> must include the global <code>node_modules</code> di
 <p>The later node module is required for the mqtt test client.</p>
 </div>
 <div class="paragraph">
-<p>We also need <code>node-red-admin</code> to generate a password hash:</p>
+<p>I also need <code>node-red-admin</code> to generate a password hash:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1155,21 +1151,20 @@ your <code>NODE_PATH</code> must include the global <code>node_modules</code> di
 </div>
 </div>
 <div class="sect2">
-<h3 id="_bluemix_cli">4.2. Bluemix CLI</h3>
+<h3 id="_bluemix_cli">5.2. Bluemix CLI</h3>
 <div class="paragraph">
-<p>The IBM Cloud Command Line Interface (CLI) is a tool that lets you monitor all aspects of
-the remote infrastructure from your local terminal.
-The most important function for this tutorial is the visualization of log files.</p>
+<p>The IBM Cloud Command Line Interface (CLI) is a tool to monitor all aspects of
+the remote infrastructure from the local terminal.
+The most important function for this memo is the visualization of log files.</p>
 </div>
 <div class="paragraph">
-<p>To install IBM Cloud CLI
-<a href="https://cloud.ibm.com/docs/cli?topic=cloud-cli-getting-started">start here</a>.</p>
+<p>Install the IBM Cloud CLI [<a href="https://github.com/IBM-Cloud/ibm-cloud-cli-release/releases" class="bare">https://github.com/IBM-Cloud/ibm-cloud-cli-release/releases</a>].</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_instantiate_template_files">5. Instantiate template files</h2>
+<h2 id="_instantiate_template_files">6. Instantiate template files</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The <em>My-Node-RED-App</em> consists of two sets of files:</p>
@@ -1177,7 +1172,7 @@ The most important function for this tutorial is the visualization of log files.
 <div class="ulist">
 <ul>
 <li>
-<p>files that are project agnostic and can be used without modification</p>
+<p>files that are project agnostic and can be used without modification,</p>
 </li>
 <li>
 <p>templates files that needs to be populated with project specific data, mostly access codes.</p>
@@ -1185,10 +1180,10 @@ The most important function for this tutorial is the visualization of log files.
 </ul>
 </div>
 <div class="paragraph">
-<p>These files are available in the <a href="https://bitbucket.org/pvittali/pvittali.gst.rb1/src/master/">pvittali.gst.rb1 repository</a>.</p>
+<p>These files are available in the <a href="https://github.com/vittali/vittali.ch-2-nred-bluemix">compagnion repo</a>.</p>
 </div>
 <div class="sect2">
-<h3 id="_project_agnostic_files">5.1. Project agnostic files</h3>
+<h3 id="_project_agnostic_files">6.1. Project agnostic files</h3>
 <div class="paragraph">
 <p>These include:</p>
 </div>
@@ -1210,9 +1205,9 @@ The most important function for this tutorial is the visualization of log files.
 </div>
 </div>
 <div class="sect2">
-<h3 id="pop">5.2. Project specific files</h3>
+<h3 id="pop">6.2. Project specific files</h3>
 <div class="paragraph">
-<p>These files are provided as templates and require customisation:</p>
+<p>These files are templates and require customisation:</p>
 </div>
 <table id="table2" class="tableblock frame-all grid-all spread">
 <caption class="title">Table 2. template files</caption>
@@ -1257,7 +1252,7 @@ access code <code>My-Node-RED-App_vcap.json</code> is required only locally, and
 should be a hash rather than a plain text string.</p>
 </div>
 <div class="paragraph">
-<p>To generate the hash, do the following.</p>
+<p>Generate the hash:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1267,8 +1262,8 @@ $2a$08$ufCvyA.kLcV4LRdCTLFsruX.ejTq1UkxiI4FLt3oLpXvs/J1dlGA.</pre>
 </div>
 </div>
 <div class="paragraph">
-<p><a id="NRp"></a>The result is the hash of your
-NR-editor password that goes into <code>settings.js</code> as we will see in a minute.</p>
+<p><a id="NRp"></a>The result is the hash of the
+NR-editor password that goes into <code>settings.js</code>.</p>
 </div>
 <div class="paragraph">
 <p>Here are some hightlights of the required changes in the <code>My-Node-RED-App</code> project directory:</p>
@@ -1325,12 +1320,12 @@ adminAuth: {
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The NR-flow accesscode. We choose <em>My-Node-RED-AppCredential</em>.
+<td>The NR-flow accesscode. I choose <em>My-Node-RED-AppCredential</em>.
 For production code replace this with an environment variable.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>The NR-editor username access code. We choose <em>admin</em>.</td>
+<td>The NR-editor username access code. I choose <em>admin</em>.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
@@ -1345,7 +1340,7 @@ For production code replace this with an environment variable.</td>
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-If you change the NR-flow access-code after the first time you run the app, there is - to my knowledge
+If the NR-flow access-code is changed after the first app execution, there is - to my knowledge
 - no other way to apply the change than deleting the ./node_module director inside the
 project directory.
 </td>
@@ -1369,11 +1364,11 @@ var client = mqtt.connect('mqtt://nhr9i3.messaging.internetofthings.ibmcloud.com
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>assuming orgId is <strong>nhr9i3</strong>, yours will be different !</td>
+<td>assuming orgId is <strong>nhr9i3</strong>, yours will be different</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>the <a href="#dat">DAT access code</a>.</td>
+<td>the <a href="#dat">DAT access code</a></td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
@@ -1382,16 +1377,16 @@ var client = mqtt.connect('mqtt://nhr9i3.messaging.internetofthings.ibmcloud.com
 </table>
 </div>
 <div class="paragraph">
-<p>With all these files in the project directory we can now finish the local installation and initialize the app.</p>
+<p>Ready to finish the local installation and initialize the app.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_initialize_the_work_flow">6. Initialize the work flow</h2>
+<h2 id="_initialize_the_work_flow">7. Initialize the work flow</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>First, now that <code>package.json</code> is in place, we can finish the installation:</p>
+<p>With <code>package.json</code> in place, finish the installation:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1399,9 +1394,9 @@ var client = mqtt.connect('mqtt://nhr9i3.messaging.internetofthings.ibmcloud.com
 </div>
 </div>
 <div class="sect2">
-<h3 id="_initialize_the_app">6.1. Initialize the app</h3>
+<h3 id="_initialize_the_app">7.1. Initialize the app</h3>
 <div class="paragraph">
-<p>The first time we run the app, Node-RED will generate a credential file for <code>flow.json</code> named
+<p>The first time the app is run, Node-RED will generate a credential file for <code>flow.json</code> named
 <code>flow_cred.json</code>. This file contains sensitive data like the <a href="#akat">IoT Platform access code</a>.
 The NR-flow access code is used by Node-RED to decrypt this file.</p>
 </div>
@@ -1413,17 +1408,20 @@ The NR-flow access code is used by Node-RED to decrypt this file.</p>
 <pre>$ ./run-app.sh</pre>
 </div>
 </div>
-<div class="paragraph">
-<p>Enter the username you provided in <code>settings.js</code> and the password
-you supplied to the <code>node-red-admin hash-pw</code> command,
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>enter the username provided in <code>settings.js</code> and the password supplied to the <code>node-red-admin hash-pw</code> command,
 see <a href="#NRp">NR-editor password access code</a>.</p>
-</div>
-<div class="paragraph">
-<p>Open the IBM IoT node and enter the <a href="#akat">IoT Platform access code</a>. Click on <em>Deploy</em>.
+</li>
+<li>
+<p>open the IBM IoT node and enter the <a href="#akat">IoT Platform access code</a>. Click on <em>Deploy</em>.
 This will generate the credential file <code>flow_cred.json</code>.</p>
-</div>
-<div class="paragraph">
-<p>Populate the repo, commit and push to Bluemix:</p>
+</li>
+<li>
+<p>populate the repo, commit and push to Bluemix:</p>
+</li>
+</ol>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1447,9 +1445,18 @@ $ git push -u origin master</pre>
 <div class="content">
 <pre>$ ibmcloud login
 API endpoint: https://cloud.ibm.com
-Region: eu-gb
+Region: eu-gb <i class="conum" data-value="1"></i><b>(1)</b>
 Email&gt; &lt;enter the email address you used to register with Bluemix&gt;</pre>
 </div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>it is very important to set the correct region. Check the domain you selected
+when creating the cloud foundry app.</td>
+</tr>
+</table>
 </div>
 <div class="paragraph">
 <p>and set the endpoint:</p>
@@ -1468,12 +1475,12 @@ Email&gt; &lt;enter the email address you used to register with Bluemix&gt;</pre
 </div>
 </div>
 <div class="paragraph">
-<p>I advise you to check the log carefully the first time you run the app.
-Note that the logs might not be available immediately after the build has finished,
+<p>Check the log carefully the first time the app is run.
+The logs might not be available immediately after the build has finished,
 this can take up to a minute.</p>
 </div>
 <div class="paragraph">
-<p>Finally, lets check the connection between the app and the database:</p>
+<p>Check the connection between the app and the database:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1485,17 +1492,16 @@ My-Node-RED-App-cloudantNoSQLDB   cloudantNoSQLDB   Lite                My-Node-
 </div>
 <div class="paragraph">
 <p>Remember that
-<em>My-Node-RED-App-cloudantNoSQLDB</em> is the service name that we provided to <code>manifest.yml</code>.</p>
+<em>My-Node-RED-App-cloudantNoSQLDB</em> is the service name provided to <code>manifest.yml</code>.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_develop_locally_deploy_remotely">7. Develop locally, Deploy remotely</h2>
+<h2 id="_develop_locally_deploy_remotely">8. Develop locally, Deploy remotely</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Develop your application with the Node-RED editor simply
-by selecting nodes and wiring them toegether.</p>
+<p>Develop the application with the Node-RED editor by selecting nodes and wiring them toegether.</p>
 </div>
 <div class="paragraph">
 <p>Run the mqtt-client:</p>
@@ -1518,7 +1524,7 @@ by selecting nodes and wiring them toegether.</p>
 <p>Finally, commit and push to start the build-deploy process in the Delivery Pipeline.</p>
 </div>
 <div class="paragraph">
-<p>When you open the app&#8217;s url, you will be directed to the gui straight away:</p>
+<p>Open the app&#8217;s url:</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1529,10 +1535,10 @@ by selecting nodes and wiring them toegether.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_references">8. References</h2>
+<h2 id="_references">9. References</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_iot_tutorials">8.1. IoT tutorials</h3>
+<h3 id="_iot_tutorials">9.1. IoT tutorials</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1542,7 +1548,7 @@ by selecting nodes and wiring them toegether.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_iot_development_with_java">8.2. IoT development with Java</h3>
+<h3 id="_iot_development_with_java">9.2. IoT development with Java</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1573,7 +1579,7 @@ by selecting nodes and wiring them toegether.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_iot_with_rest_api">8.3. IoT with REST API</h3>
+<h3 id="_iot_with_rest_api">9.3. IoT with REST API</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1583,7 +1589,7 @@ by selecting nodes and wiring them toegether.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_cloudant">8.4. Cloudant</h3>
+<h3 id="_cloudant">9.4. Cloudant</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1599,7 +1605,7 @@ by selecting nodes and wiring them toegether.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_node_red_node_js">8.5. Node-RED &amp; Node.js</h3>
+<h3 id="_node_red_node_js">9.5. Node-RED &amp; Node.js</h3>
 <div class="ulist">
 <ul>
 <li>
@@ -1621,6 +1627,12 @@ by selecting nodes and wiring them toegether.</p>
 </div>
 </div>
 </div>
+</div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnote_1">
+<a href="#_footnoteref_1">1</a>. I am not sure what exactly the difference is.
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">

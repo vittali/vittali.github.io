@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<title>BBB1: Getting started with the Beagle Bone Black and the PRU via JTAG</title>
+<title>TI Reference Design TIDC-01002: Sub-1GHz Embedded Sensor to Cloud Industrial Internet of Things(IoT) Gateway Reference Design</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -418,21 +418,34 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
-<h1>BBB1: Getting started with the Beagle Bone Black and the PRU via JTAG</h1>
-<div id="toc" class="toc">
+<h1>TI Reference Design TIDC-01002: Sub-1GHz Embedded Sensor to Cloud Industrial Internet of Things(IoT) Gateway Reference Design</h1>
+<div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_introduction">Introduction</a></li>
-<li><a href="#_preparing_the_hardware">Preparing the hardware</a></li>
-<li><a href="#_preventing_linux_from_booting">Preventing Linux from booting</a></li>
-<li><a href="#_installing_the_software_development_environment">Installing the software development environment</a></li>
-<li><a href="#_using_the_demo_examples_from_the_support_package">Using the demo examples from the support package</a></li>
-<li><a href="#_further_reading">Further Reading</a></li>
-<li><a href="#_appendix">Appendix</a>
+<li><a href="#_introduction">1. Introduction</a></li>
+<li><a href="#_sensor_and_collector_ti_15_4_stack_project_zero">2. Sensor and Collector - TI 15.4-Stack Project Zero</a>
 <ul class="sectlevel2">
-<li><a href="#_jtag_debugging">JTAG debugging</a></li>
+<li><a href="#_task_0">2.1. Task 0</a></li>
+<li><a href="#_edit_the_target_configuration">2.2. Edit the target configuration</a></li>
+<li><a href="#_task_1">2.3. Task 1</a></li>
+<li><a href="#_task_3">2.4. Task 3</a></li>
+</ul>
+</li>
+<li><a href="#_gateway">3. Gateway</a>
+<ul class="sectlevel2">
+<li><a href="#_setting_the_serial_number_of_the_gateway_on_board_debug_probe">3.1. Setting the serial number of the gateway on-board debug probe.</a></li>
+<li><a href="#_task_1_2">3.2. Task 1</a></li>
+<li><a href="#_task_3_2">3.3. Task 3</a></li>
+<li><a href="#_task_6">3.4. Task 6</a></li>
+</ul>
+</li>
+<li><a href="#_references">4. References</a>
+<ul class="sectlevel2">
+<li><a href="#_cc1352p1">4.1. CC1352P1</a></li>
+<li><a href="#_cc3220sf">4.2. CC3220SF</a></li>
+<li><a href="#_ti_e2e_support_forum">4.3. TI E2E support forum</a></li>
 </ul>
 </li>
 </ul>
@@ -441,408 +454,326 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph">
-<p>This Getting Started Tutorial is one of several small <a href="https://vittali.ch">projects</a> dedicated to real-time programming on the Beagle Bone Black (BBB). I am interested
-in using the BBB as an inexpensive test equipment to apply stimulus to other embedded
-systems and to obtain time correlated measurements.
-This tutorial has been tested with Linux Mint 18.2 on the development host PC.</p>
+<div class="quoteblock abstract">
+<blockquote>
+<span class="icon"><a class="image" href="https://vittali.ch"><i class="fa fa-home"></i></a></span>
+</blockquote>
 </div>
 <div class="paragraph">
-<p>The project files can be cloned from this <a href="https://github.com/vittali/vittali.ch-gst.bbb1">git repo</a>.</p>
+<p>I want to connect wireless sensor nodes to the IBM IoT Watson cloud infrastructure <a href="https://cloud.ibm.com">IBM Bluemix</a> based on the TI Design <a href="http://www.ti.com/tool/TIDC-01002?jktype=design">SimpleLink™ Sub-1 GHz Sensor to Cloud Gateway Reference Design for TI-RTOS Systems</a>, <a href="http://www.ti.com/lit/ug/tidud09a/tidud09a.pdf">TI Designs:TIDC-01002 Sub-1GHz Embedded Sensor to Cloud Industrial Internet of Things(IoT) Gateway Reference Design</a>.</p>
+</div>
+<div class="paragraph">
+<p>Related source code can be cloned from the <a href="https://github.com/vittali/vittali.ch-5-TIR-1002">compagnion repo</a>.
+I use Linux Mint 19.2 Tina and Code Composer Studio 9.2.0 (CCS).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+Work in progress
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_introduction">Introduction</h2>
+<h2 id="_introduction">1. Introduction</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>The Beagle Bone Black <a href="https://beagleboard.org/black">BBB</a>, revC (13/2017), described in detail in the System Reference Manual <a href="https://github.com/beagleboard/beaglebone-black/wiki/System-Reference-Manual">SRM</a>, comes with the Sitara AM3358BZCZ100 processor, a SoC (system on chip) that includes not only a 1-Ghz
-Cortex A8 processor but also two independent <a href="http://processors.wiki.ti.com/index.php/PRU-ICSS?DCMP=pru&amp;HQS=PRU">PRU</a>s (Programmable Realtime Unit).
-These are independent cores, specifically designed for real-time
-requirements. In particular, they allow for deterministic digital I/O operations.</p>
-</div>
-<div class="paragraph">
-<p>This tutorial shows how to set up the required hard- and software tools to program and debug these PRUs.
-There are two fundamentally different ways to do this:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>via Linux installed on the BBB (not covered),</p>
-</li>
-<li>
-<p>via JTAG (focus of this tutorial).</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>The first option doesn&#8217;t require any additional hardware, other than the USB cable that comes with the BBB.
-This option is <strong>not</strong> covered in this tutorial.
-The second option resembles traditional embedded system programming. Code Composer Studio 8 (CCS)
-is used to program and debug the PRUs on the Sitara processor via a JTAG connection.
-This option is more demanding in terms of hardware, but it has the advantage that you can debug
-the code on the PRU just like any other embedded system.</p>
-</div>
-<div class="paragraph">
-<p>While several tutorials are available on this topic, I was unable get a working tool chain without trial and error.
-PRU development has advanced very rapidly in recent years: there is now a full featured C/C++ compiler and the software installation part
-is really very simple, once you have figured out the requirements.</p>
-</div>
-<div class="paragraph">
-<p>In order to program and debug a PRU you need the following hardware:</p>
-</div>
-<div class="ulist">
-<div class="title">BOM -required items for JTAG operation</div>
-<ul>
-<li>
-<p>The BBB itself, you can find a distributor here <a href="https://beagleboard.org/black">BBB</a>.</p>
-</li>
-<li>
-<p>The BBB comes without a <a href="https://www.digikey.de/product-detail/de/samtec-inc/FTR-110-03-G-D-06/SAM8790-ND/2651173">JTAG header</a>. It must be purchased separately and soldered on the bottom side of the BBB.</p>
-</li>
-</ul>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-Before heating up your solder iron, see the soldering tips below.
-</td>
-</tr>
-</table>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>A compatible debug probe. I use the <a href="http://www.ti.com/tool/TMDSEMU110-U">XDS110 JTAG Debug Probe</a> in this tutorial which is currently one of the most economic
-solutions to program and debug a bare metal BBB.
-It comes with the required cables, you do need to purchase additional adapters.</p>
-</li>
-</ul>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-depending on your budget, you might also want to look at a more
-powerful alternative <a href="http://www.ti.com/tool/tmdsemu200-u?keyMatch=debug%20probe%20xds200&amp;tisearch=Search-EN-Everything">XSD200</a>.
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>In addition, I recommend the following optional items:</p>
-</div>
-<div class="ulist">
-<div class="title">BOM - optional items</div>
-<ul>
-<li>
-<p>The <a href="http://www.ti.com/tool/PRUCAPE">PRU Cape</a> is an inexpensive extension board and a great help to get you started. The demo later in this tutorial will make use of it.</p>
-</li>
-<li>
-<p>The <a href="https://www.digikey.de/product-detail/de/ftdi-future-technology-devices-international-ltd/TTL-232R-3V3/768-1015-ND/1836393">USB to Serial cable</a> mentioned in the <a href="https://github.com/beagleboard/beaglebone-black/wiki/System-Reference-Manual">SRM</a>, Fig. 54, can be used to establish a serial communication with the host.
-It is not suitable for simultaneous usage with the PRU Cape, because the Cape will render the header on the BBB inaccessible.</p>
-</li>
-</ul>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-make sure you get a 3.3 V version to match the voltage on the BBB.
-</td>
-</tr>
-</table>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>a standard RS232 serial monitor cable. This can be connected to the UART of the PRU cape (rather than the hidden serial header on the BBB) and
-allows for serial communications with the host PC.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The total cost is approximately 200 USD, about half as much if you already own a compatible debug probe.</p>
-</div>
+
 </div>
 </div>
 <div class="sect1">
-<h2 id="_preparing_the_hardware">Preparing the hardware</h2>
+<h2 id="_sensor_and_collector_ti_15_4_stack_project_zero">2. Sensor and Collector - TI 15.4-Stack Project Zero</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Before soldering the fine pitch <a href="https://www.digikey.de/product-detail/de/samtec-inc/FTR-110-03-G-D-06/SAM8790-ND/2651173">JTAG header</a>, you might want to refresh your soldering skills.
-As an inspiration, I recommend the video tutorials by <a href="https://www.youtube.com/watch?v=5uiroWBkdFY">John Gammel</a>.
-Here are some highlights from these videos that I found helpful:</p>
+<p>To familiarize myself with the sensor and collector hardware,
+I follow the lab exercise <a href="http://dev.ti.com/tirex/explore/node?devtools=LAUNCHXL-CC1352P1&amp;node=AFU6dryAU8NukjdRPy4T4Q__pTTHBmu__LATEST">Sensor and Collector - TI 15.4-Stack Project Zero</a>. I use <em>GTKTerm</em> from the Mint/Ubuntu distribution.</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>don&#8217;t worry about shorts until finished,</p>
-</li>
-<li>
-<p>to remove shorts, don&#8217;t use solder wig, use flux.</p>
-</li>
-</ol>
+<div class="paragraph">
+<p>I use two <a href="http://www.ti.com/tool/LAUNCHXL-CC1352R1">SimpleLink™ Multi-Band CC1352R Wireless MCU LaunchPad™ Development Kit</a> LaunchPads:</p>
 </div>
-<div class="admonitionblock warning">
+<div id="hardware" class="imageblock">
+<div class="content">
+<img src="./images/sensor-collector-hardware.png" alt="CC1352P1">
+</div>
+<div class="title">Figure 1. Two CC1352P1 launch pads programmed as Sub-1 Ghz sensor and collector</div>
+</div>
+<div class="sect2">
+<h3 id="_task_0">2.1. Task 0</h3>
+<div class="paragraph">
+<p>Since I want to connect the two LaunchPads simultaneously, I need to give each
+LaunchPad.<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnote_1" title="View footnote.">1</a>]</sup>
+a unique serial number.</p>
+</div>
+<div class="sect3">
+<h4 id="_setting_the_serial_number_of_the_collector_board">2.1.1. Setting the serial number of the collector board</h4>
+<div class="paragraph">
+<p>I label the collector board (see <a href="#hardware">hardware setup</a>) , verify that it is the only board connected to the host
+ and set the serial number to <code>1</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">cd $CCS_INSTALLDIR/ccs910/ccs/ccs_base/common/uscif/xds110
+$ ./xdsdfu -m  <i class="conum" data-value="1"></i><b>(1)</b>
+$ ./xdsdfu -s 1 -r <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
 <table>
 <tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Be aware that if you test your work with an ohmmeter, you will apply a small voltage to the pins of the Sitara processor.
-Strictly speaking, this voids your warranty as explained in the <a href="https://github.com/beagleboard/beaglebone-black/wiki/System-Reference-Manual">SRM</a>. I do not know, though, if this kind of voltage can really damage the chip.
-</td>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>set the device into DFU mode (required)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>set the serial number to <em>1</em> and reset the device</td>
 </tr>
 </table>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_setting_the_serial_number_of_the_sensor_board">2.1.2. Setting the serial number of the sensor board</h4>
 <div class="paragraph">
-<p>Once you are finished, your hardware setup should look like this ( using the XDS110 Debug Probe ):</p>
+<p>I label the sensor board (see <a href="#hardware">hardware setup</a>) , verify that it is the only board connected to the host
+ and set the serial number to <code>2</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">cd $CCS_INSTALLDIR/ccs910/ccs/ccs_base/common/uscif/xds110
+$ ./xdsdfu -m  <i class="conum" data-value="1"></i><b>(1)</b>
+$ ./xdsdfu -s 2 -r <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>set the device into DFU mode (required)</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>set the serial number to <em>2</em> and reset the device</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_edit_the_target_configuration">2.2. Edit the target configuration</h3>
+<div class="paragraph">
+<p>Each CCS project needs to be configured such that the programs for collector and sensor are loaded to the correct LaunchPad:</p>
+</div>
+<div id="targetconf" class="imageblock">
+<div class="content">
+<img src="./images/target-conf.png" alt="target configuration">
+</div>
+<div class="title">Figure 2. Both target configurations are populated with the choosen serial numbers (shown is the collector project).</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_task_1">2.3. Task 1</h3>
+<div class="paragraph">
+<p>I can&#8217;t set the Sub-1 Ghz Frequency to 868 Mhz as I expected,
+the only choice for the european band seems to be 863 Mhz. This might be related
+to the channel selection, see <a href="#e2e1">[e2e1]</a>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/setup.jpg" alt="debug configuration">
+<img src="./images/sensor-syscfg.png" alt="sensor.syscfg">
 </div>
-<div class="title">Figure 1. Debug configuration</div>
+<div class="title">Figure 3. Configure the TI 15.4 Stack Sub 1-Ghz Frequency</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_task_3">2.4. Task 3</h3>
+<div class="paragraph">
+<p>On my host box, I select <code>/dev/ttyACM0</code> for the collector and <code>dev/ttyACM2</code> for the
+sensor virtual UART connection.</p>
 </div>
 <div class="paragraph">
-<p>And here is a closeup showing the key (missing pin on the JTAG header):</p>
+<p>As mentioned in step 6, I press and hold <code>Button 2</code> and then the <code>Reset</code> button (while Button 2 is held down), see <a href="#hardware">hardware setup</a>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/closeup.jpg" alt="JTAG connector" width="300" height="200">
+<img src="./images/terminals.png" alt="terminal output after reset">
 </div>
-<div class="title">Figure 2. The JTAG header with the missing pin (key)</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_preventing_linux_from_booting">Preventing Linux from booting</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The BBB comes with Linux flashed to the onboard eMMC. To prevent Linux from booting -
-remember we don&#8217;t need and want Linux to run when using the JTAG option -
-you must hold the boot switch pressed when applying power.
-This switch is not easily accessible with the PRU Cape mounted.
-The heartbeat indicator LED will start to flash as soon as the boot process has started.</p>
+<div class="title">Figure 4. Collector (top) and sensor (bottom) terminal output after factory reset.</div>
 </div>
 <div class="paragraph">
-<p>The are many tutorials available on how not to boot from the eMMC, none of which worked for me.
-So I settled for the brute force approach and erased the eMMC.</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-This will completely erase the device mmcblkx, where x depends on your configuration. With no SDCard inserted
-x is probably 0. Use <code>fdisk -l</code> to discover the available devices.
-</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="title">Erase the boot device - choose <em>x</em> according to your config</div>
-<div class="content">
-<pre>$ dd if=/dev/zero of=/dev/mmcblkx bs=2M count=2048</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Now, when you apply power, only the power LED should be permanently on.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_installing_the_software_development_environment">Installing the software development environment</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Code Composer Studio (CCS) still requires some 32 bit libraries:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>$ sudo apt-get install libc6-i386</code></pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Download <a href="http://processors.wiki.ti.com/index.php/Download_CCS">Code Composer Studio 8 for Linux 64bit</a> ( version CCS8.0.0.00016).</p>
-</li>
-<li>
-<p>Extract the archive and run the installer ( not as root ):</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>$ ./ccs_setup_linux64_8.0.0.00016.bin</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>In Processor Support select:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Sitara AMx Processors</p>
-</li>
-<li>
-<p>other processors for which you require support</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Start CCS.
-Verify that the version is CCS8.0.0.00016.</p>
-</div>
-<div class="paragraph">
-<p>From the CCS App Center, install the <strong>PRU C compiler</strong> option.</p>
-</div>
-<div class="paragraph">
-<p>Finally, download <a href="https://git.ti.com/pru-software-support-package/pru-software-support-package/trees/v5.1.0">PRU Software Support Package</a> to a location of your choice. This package is optional and contains code examples.</p>
-</div>
-<div class="paragraph">
-<p>That&#8217;s all. You are now ready for your first program on the PRU.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_using_the_demo_examples_from_the_support_package">Using the demo examples from the support package</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Before you proceed, these were the most useful resources for me:</p>
+<p>Some of the steps 7 to 9 are also different for me:</p>
 </div>
 <div class="olist arabic">
-<ol class="arabic">
+<ol class="arabic" start="7">
 <li>
-<p>a <a href="http://processors.wiki.ti.com/index.php/PRU-ICSS_Debug_on_AM335x">wiki page</a> dedicated to bare bones PRU programming on the Sitara processor.</p>
+<p>The collector starts immediately (without waiting for <code>Button 1</code>). The output is:</p>
+<div class="literalblock">
+<div class="content">
+<pre>TI Collector
+Started
+Channel: 0</pre>
+</div>
+</div>
 </li>
 <li>
-<p>this audio presentation: <a href="http://software-dl.ti.com/public/hpmp/sitara/debug_pru_using_ccs/presentation_html5.html">Debug PRU with CCS</a>.</p>
+<p>as described</p>
+</li>
+<li>
+<p>the terminal output of the sensor is:</p>
 </li>
 </ol>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/sensor-has-joined.png" alt="sensor has joined">
+</div>
+<div class="title">Figure 5. Collector (top) and sensor (bottom) terminal output after the sensor joined the network.</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_gateway">3. Gateway</h2>
+<div class="sectionbody">
 <div class="paragraph">
-<p>While the presentation does use a different debug probe and a previous version of CCS, it is still relevant, and in my view, the most useful resource for the task at hand.</p>
+<p>To familiarize myself with the gateway hardware,
+I follow the lab exercise <a href="http://dev.ti.com/tirex/explore/node?devtools=LAUNCHXL-CC1352P1&amp;node=AFU6dryAU8NukjdRPy4T4Q__pTTHBmu__LATEST">Meet the CC3235x LaunchPad Development Kit</a>.</p>
+</div>
+<div class="sect2">
+<h3 id="_setting_the_serial_number_of_the_gateway_on_board_debug_probe">3.1. Setting the serial number of the gateway on-board debug probe.</h3>
+<div class="paragraph">
+<p>This is the same procedure as in the previous chapter. I choose to the the serial number to <strong>3</strong>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_task_1_2">3.2. Task 1</h3>
+<div class="paragraph">
+<p>I could not complete this task with the LaunchPad as shipped.</p>
 </div>
 <div class="paragraph">
-<p>You are now ready to import a demo from the <a href="https://git.ti.com/pru-software-support-package/pru-software-support-package/trees/v5.1.0">PRU Software Support Package</a>, for example</p>
+<p>I first followed <a href="http://www.ti.com/lit/ug/swru461b/swru461b.pdf">CC3220 SimpleLink™ Wi-Fi® and Internet of Things Solution,a Single-Chip Wireless MCU Getting Started Guide</a> to flash the latest service pack and the MCU binary <code>network_terminal_CC3220SF_LAUNCHXL_tirtos_ccs</code>.</p>
+</div>
+<div id="network-terminal" class="imageblock">
+<div class="content">
+<img src="./images/gateway-network-terminal-demo.png" alt="network terminal demo">
+</div>
+<div class="title">Figure 6. Terminal output for the network terminal demo.</div>
 </div>
 <div class="paragraph">
-<p><code>pru-software-support-package-pru-software-support-package/pru_cape/pru_fw/PRU_LED0</code></p>
+<p>I then flashed the <code>out_of_box_CC3220SF_LAUNCHXL_tirtos_ccs</code> demo project as described.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>import the project into CCS and modify the Debug Configuration as shown in the resources 1. and 2.</p>
-</li>
-<li>
-<p>click on the <code>Debug</code> icon. The debugger will stop at <code>main</code>.</p>
-</li>
-<li>
-<p>click on <code>Resume</code> to see the LEDs blink on the PRU Cape.</p>
-</li>
-</ul>
 </div>
+<div class="sect2">
+<h3 id="_task_3_2">3.3. Task 3</h3>
 <div class="paragraph">
-<p>If you encounter problems, clone the tutorial repo and compare the contents with your work:</p>
+<p>In order to find out the port of the USB serial connection, I run:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>$ git clone git@bitbucket.org:pvittali/pvittali.bitbucket.io.git
-$ cd bbb1</pre>
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ ls -l /dev/serial/by-id
+total 0
+lrwxrwxrwx 1 root root 13 Nov  7 18:34 usb-Texas_Instruments_XDS110__03.00.00.05__Embed_with_CMSIS-DAP_1-if00 -&gt; ../../ttyACM0
+lrwxrwxrwx 1 root root 13 Nov  7 18:34 usb-Texas_Instruments_XDS110__03.00.00.05__Embed_with_CMSIS-DAP_1-if03 -&gt; ../../ttyACM1</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Import <code>bb1/PRU_LED0</code> in your workspace. The repo contains a copy of the <a href="https://git.ti.com/pru-software-support-package/pru-software-support-package/trees/v5.1.0">PRU Software Support Package</a> (5.1.0) and is therefore self-contained.</p>
+<p>The correct port is either <code>ttyACM0</code> or <code>ttyACM1</code>, in my case it was the former one.</p>
+</div>
+<div class="paragraph">
+<p>When I try to run the first debug session for the <code>network_terminal_CC3220SF_LAUNCHXL_tirtos_ccs</code> project from CCS , I got this:</p>
+</div>
+<div id="error1" class="imageblock">
+<div class="content">
+<img src="./images/CC3220SF-debug-error.png" alt="error message">
+</div>
+<div class="title">Figure 7. Error message when opening a debug session to the CC3220SF LaunchPad.</div>
+</div>
+<div class="paragraph">
+<p>I am not sure what finally allowed me to connect, but I suppose I needed to unpluck/repluck the micro USB connector.
+Presumably, the Uniflash application that I used to flash the binaries still kept a connection to the board.
+I did not need to change jumper positions on the board.</p>
+</div>
+<div class="paragraph">
+<p>Finally, the default target configuration is fine (with the modification for the serial number):</p>
+</div>
+<div id="target-conf" class="imageblock">
+<div class="content">
+<img src="./images/CC3220SF-target-conf-default.png" alt="target conf">
+</div>
+<div class="title">Figure 8. Default target with the custom serial number</div>
+</div>
+<div class="paragraph">
+<p>While I was able to also start a debug session for the <code>out_of_box_CC3220SF_LAUNCHXL_tirtos_ccs</code> project,
+the loaded program was not persisted to flash, rather the previsiouly flashed network terminal demo would run upon reset.
+Also, I did not get any terminal output, so there seems to be a difference between
+the binaries I flashed in Task 1 and the one I created with CCS.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_task_6">3.4. Task 6</h3>
+<div class="paragraph">
+<p>I was unable to provision the LaunchPad with the android app: the scan for deivces to configure always times out.
+Rather I created a profile from the website running on the LaunchPad.</p>
+</div>
+<div class="paragraph">
+<p>Upon reset, the board connects automatically to the AP <code>APSchuppen</code>:</p>
+</div>
+<div id="auto-connect-ap" class="imageblock">
+<div class="content">
+<img src="./images/sta-connect-to-AP.png" alt="STA connects to AP">
+</div>
+<div class="title">Figure 9. Provisioning via internal webserver seems to be succesfull.</div>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_further_reading">Further Reading</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Here are a few more pointers not mentioned in this tutorial:</p>
-</div>
-<div class="ulist">
-<div class="title">Beagle Bone Black (BBB)</div>
-<ul>
-<li>
-<p><a href="https://elinux.org/Beagleboard:BeagleBoneBlack#BeagleBone_Black_Description">BBB Wiki on elinux.org</a>. A collection of hardware and software resources, tips and tricks.</p>
-</li>
-<li>
-<p><a href="https://www.twosixlabs.com/running-a-baremetal-beaglebone-black-part-1/">Running a Baremetal Beaglebone Black</a>. Includes a detailed description on how to prepare for JTAG debugging.</p>
-</li>
-<li>
-<p><a href="https://blog.parr.us/2014/11/14/beaglebone-black-debugging-via-ti-usb100v2-jtag-emulator/">BeagleBone Black Debugging via TI USB100v2 JTAG Emulator</a>. Another BBB bare bone setup account.</p>
-</li>
-</ul>
-</div>
-<div class="ulist">
-<div class="title">Sitara Processor</div>
-<ul>
-<li>
-<p><a href="https://training.ti.com/sitara-arm-processors-boot-camp-training-series">Sitara™ ARM® Processors Boot Camp Training Series</a>. A comprehensive list of training material provided by TI.</p>
-</li>
-</ul>
-</div>
-<div class="ulist">
-<div class="title">PRU</div>
-<ul>
-<li>
-<p><a href="http://processors.wiki.ti.com/index.php/PRU_Cape_Getting_Started_Guide">PRU Cape Getting started</a>. A short guide presenting the hardware on the cape.</p>
-</li>
-<li>
-<p><a href="http://processors.wiki.ti.com/index.php/PRU_Training:_Hands-on_Labs">Hands-on Labs</a>. Practical examples on PRU programming.</p>
-</li>
-<li>
-<p><a href="http://catch22.eu/beaglebone/beaglebone-pru-c/">PRU C code</a>. A short and clear introduction to C programming on the PRU.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_appendix">Appendix</h2>
+<h2 id="_references">4. References</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_jtag_debugging">JTAG debugging</h3>
-<div class="paragraph">
-<p>Some launchpads contain debug probes that can be <a href="http://www.ti.com/tool/MSP-EXP432P4111">isolated</a>. Such a launchpad (&lt; 15 USD) could thus
-be used as a super-low cost debug probe for the BBB. But this requires a set of expensive fine
-pitch connectors and ribbon cable (not tested) :
-<a href="https://www.digikey.de/product-detail/de/samtec-inc/FFSD-05-D-02.00-01-N/SAM8217-ND/1106576">1</a>, <a href="https://www.digikey.de/product-detail/de/samtec-inc/FFSD-05-D-06.00-01-N/SAM8218-ND/1106577">2</a>, <a href="https://www.digikey.de/product-detail/de/samtec-inc/FTSH-105-01-L-DV-K/SAM8799-ND/1875039">3</a>,
-<a href="https://www.digikey.de/product-detail/de/samtec-inc/FTSH-110-01-L-DV-K/SAM8803-ND/2642229">4</a>.</p>
-</div>
-<div class="paragraph">
-<p>You would also need to design and order a couple of printed circuit board adapters.</p>
-</div>
-<div class="paragraph">
-<p>If you are interested in this approach, here are a couple of useful links:</p>
-</div>
+<h3 id="_cc1352p1">4.1. CC1352P1</h3>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="http://www.ti.com/tool/tmdsemu200-u?keyMatch=debug%20probe%20xds200&amp;tisearch=Search-EN-Everything">JTAG connectors</a>. A comprehensive comparison of different connectors with pinout. That&#8217;s the beauty of standards: there are so many !</p>
+<p><a id="r1"></a>[r1]: <a href="http://www.ti.com/lit/an/swra048/swra048.pdf">ISM-Band and Short Range Device Regulatory Compliance Overview</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cc3220sf">4.2. CC3220SF</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="r11"></a>[r11]: <a href="http://www.ti.com/lit/wp/swry011a/swry011a.pdf">A primer to Wi-Fi  ®provisioning for IoT applications</a></p>
 </li>
 <li>
-<p><a href="http://www2.keil.com/coresight/coresight-connectors">Core Sight Connectors</a>. Yet more JTAG pinouts.</p>
+<p><a id="r12"></a>[r12]: <a href="http://software-dl.ti.com/ecs/SIMPLELINK_CC32XX_SDK/3_30_01_02/exports/docs/Documentation_Overview.html">Documentation Overview for SimpleLink™ CC32xx SDK</a></p>
 </li>
 <li>
-<p><a href="http://www2.keil.com/coresight#jtag">CoreSight™ Technology</a>. JTAG signal descriptions.</p>
+<p><a id="r13"></a>[r13]: <a href="http://software-dl.ti.com/targetcontent/watsoniot/1_20_00_04/exports/watson_cc32xx_1_20_00_04/docs/Documentation_Overview.html">Documentation Overview for CC32XX Watson IoT Plugin</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ti_e2e_support_forum">4.3. TI E2E support forum</h3>
+<div class="sect3">
+<h4 id="_dicussions_started_by_me">4.3.1. dicussions started by me</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="e2e1"></a>[e2e1]: <a href="https://e2e.ti.com/support/wireless-connectivity/sub-1-ghz/f/156/t/848811">Frequency and channel selection</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>The exact frequency depends on the channel selection, see <a href="#r1">[r1]</a>.</p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -850,5 +781,15 @@ pitch connectors and ribbon cable (not tested) :
 </div>
 </div>
 </div>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnote_1">
+<a href="#_footnoteref_1">1</a>. more precisely, the debug probe included on the LaunchPad
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/highlight.min.js"></script>
+<script>hljs.initHighlighting()</script>
 </body>
 </html>
