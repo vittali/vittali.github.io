@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<title>Getting started with the BeagleBone Black and the PRU via JTAG</title>
+<title>RB3: TIDC-01002</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -417,44 +417,37 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 .show-for-print{display:inherit!important}}
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-<!-- Global site tag (gtag.js) - Google Analytics
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-146526990-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-146526990-1');
-</script>
--->
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="https://www.vittali.ch/custom.css">
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Getting started with the BeagleBone Black and the PRU via JTAG</h1>
+<h1>RB3: TIDC-01002</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_introduction">1. Introduction</a></li>
-<li><a href="#_preparing_the_hardware">2. Preparing the hardware</a>
+<li><a href="#_install_virtualbox_and_guest_system">1. Install VirtualBox and Guest system</a></li>
+<li><a href="#_embedded_linux_on_the_bbb">2. Embedded Linux on the BBB</a></li>
+<li><a href="#_errrata">3. Errrata</a>
 <ul class="sectlevel2">
-<li><a href="#_preventing_linux_from_booting">2.1. Preventing Linux from booting</a></li>
+<li><a href="#_errata_type_technical_page_38">3.1. Errata Type: Technical | Page: 38</a></li>
+<li><a href="#_errata_type_code_chapter_1_page_98">3.2. Errata Type: Code | Chapter 1 | Page 98</a></li>
+<li><a href="#_errata_type_code_chapter_12_page_326">3.3. Errata Type: Code | Chapter 12 | Page 326</a></li>
+<li><a href="#_errata_type_code_chapter_1_page_18">3.4. Errata Type: Code | Chapter 1 | Page 18</a></li>
+<li><a href="#_errata_type_code_page_no_225">3.5. Errata type: Code Page no: 225</a></li>
+<li><a href="#_chapter_2">3.6. Chapter 2</a></li>
 </ul>
 </li>
-<li><a href="#_installing_the_software_development_environment">3. Installing the software development environment</a>
+<li><a href="#_sd_card">4. SD Card</a>
 <ul class="sectlevel2">
-<li><a href="#_getting_started_with_the_hand_on_labs">3.1. Getting started with the Hand-on Labs</a></li>
+<li><a href="#_boot_ftp">4.1. Boot Ftp</a></li>
+<li><a href="#_usb_serial">4.2. USB Serial</a></li>
+<li><a href="#_chapter_4">4.3. Chapter 4</a></li>
 </ul>
 </li>
-<li><a href="#_test">4. Test</a></li>
-<li><a href="#_references">5. References</a>
+<li><a href="#_processor_sdk">5. Processor SDK</a></li>
+<li><a href="#_intro">6. Intro</a></li>
+<li><a href="#_references">7. References</a>
 <ul class="sectlevel2">
-<li><a href="#_beagle_bone_black_bbb">5.1. Beagle Bone Black (BBB)</a></li>
-<li><a href="#_sitara_processor">5.2. Sitara Processor</a></li>
-<li><a href="#_pru_programmable_realtime_unit">5.3. PRU (Programmable Realtime Unit)</a></li>
-<li><a href="#_debug_hardware">5.4. Debug hardware</a></li>
-<li><a href="#_jtag_debugging">5.5. JTAG debugging</a></li>
+<li><a href="#_training">7.1. Training</a></li>
 </ul>
 </li>
 </ul>
@@ -469,401 +462,379 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </blockquote>
 </div>
 <div class="paragraph">
-<p>I want to program the Programmable Real-Time Unit (PRU) <a href="#r22">[r22]</a>
-available on the Texas Instruments <a href="http://www.ti.com/processors/sitara-arm/am335x-cortex-a8/overview.html">Sitara™ AM335x processors</a> via a JTAG debug connection.
-I use a "bare metal" <a href="https://beagleboard.org/black">BeagleBone Black (BBB)</a> without a bootloader and therefore without running Linux.
-The goal is to use the BBB in unit testing
-embedded software on microcontrollers (MCU) where the BBB and the MCU under test are both controlled
-via Code Composer Studio in a common debug session. The PRU allows for deterministic and fast stimulus since it does
-not use caching or interrupts that could affect the timing behavior. In the following notes, I cover the steps required
-to start a debug session on the PRU, the unit testing strategy will be discussed in a separate document.</p>
-</div>
-<div class="paragraph">
-<p>The project files can be cloned from the <a href="https://github.com/vittali/vittali.ch-1-bbb-jtag">compagnion repo</a>.</p>
+<p>I want to set up a cross compilation toolchain for the Beaglebone Black.
+Texas Instruments (TI) is proposing the SDK based on Arago and the Yocto project.
+A general purpose setup script is provided but I want to understand some of the details.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_introduction">1. Introduction</h2>
+<h2 id="_install_virtualbox_and_guest_system">1. Install VirtualBox and Guest system</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The Beagle Bone Black, revC (13/2017), described in detail in the System Reference Manual <a href="https://github.com/beagleboard/beaglebone-black/wiki/System-Reference-Manual">SRM</a>,
-comes with the Sitara AM3358BZCZ100 processor, a SoC (system on chip) that includes a 1-Ghz
-Cortex A8 processor and two independent <a href="http://processors.wiki.ti.com/index.php/PRU-ICSS?DCMP=pru&amp;HQS=PRU">PRU</a>s (Programmable Realtime Unit).
-These are independent cores, specifically designed for real-time
-requirements. In particular, they allow for deterministic digital I/O operations.</p>
+<p>I choose to install VirtualBox 6.0.14 on a Linux Mint 19.2 Tina (based on Ubuntu 18.04 LTS-based) host with a Linux Mint 19.2 Tina guest system.</p>
 </div>
 <div class="paragraph">
-<p>The BBB can provisioned in two different ways:</p>
+<p>After installing the guest, I set up networking:</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_embedded_linux_on_the_bbb">2. Embedded Linux on the BBB</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>you must run:</p>
+</div>
+<div class="paragraph">
+<p>$ sudo dpkg-reconfigure dash</p>
+</div>
+<div class="paragraph">
+<p>and click NO to make sure that dash is not the system shell. Usually on Mint that is not the case.</p>
+</div>
+<div class="paragraph">
+<p>Based on <em>Mastering Embedded Linux Programming</em> (2nd edition)</p>
+</div>
+<div class="paragraph">
+<p>updates:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>installing a bootloader to boot and run a suitable Linux distribution, like TI&#8217;s Proessor SDK for AM335x processors,</p>
-</li>
-<li>
-<p>opening a JTAG debug connection for example (but not restricted to) with TI&#8217;s Code Composer Studio (CCS) IDE.</p>
+<p>p.166:</p>
 </li>
 </ol>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>$ cd poky
+$ source oe-init-build-env build-nova  // works also under zsh
+$ cd ..   // the script puts you in the build-nova dir
+$ bitbake-layers create-layer meta-nova // if you don't source before, it won't find the path to exe
+$ cd build-nova
+$ bitbake-layers add-layer ../meta-nova
+$ bitbake-layers show-layers</code></pre>
+</div>
+</div>
 <div class="paragraph">
-<p>The latter is the focus of this document.</p>
+<p>uncomment MACHINE ?= "beaglebone-yocto"</p>
+</div>
+<div class="paragraph">
+<p>$ bitbake core-image-minimal</p>
+</div>
+<div class="paragraph">
+<p>in zsh you need <a href="https://unix.stackexchange.com/questions/19530/expanding-variables-in-zsh">this</a>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>$ ${=CC} helloworld.c -o helloworld</code></pre>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_preparing_the_hardware">2. Preparing the hardware</h2>
+<h2 id="_errrata">3. Errrata</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>In order to program and debug a PRU, I need:</p>
+<div class="sect2">
+<h3 id="_errata_type_technical_page_38">3.1. Errata Type: Technical | Page: 38</h3>
+<div class="literalblock">
+<div class="content">
+<pre>$ arm-cortex_a8-linux-gnueabihf-gcc helloworld.c -ltest \</pre>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>The BBB itself, from one of the distributors here <a href="#r5">[r5]</a> or from <a href="https://www.reichelt.de">reichelt</a>.</p>
-</li>
-<li>
-<p>The BBB comes without a <a href="https://www.digikey.de/product-detail/de/samtec-inc/FTR-110-03-G-D-06/SAM8790-ND/2651173">JTAG header</a> connector. It must be purchased separately (see also <a href="#r2">[r2]</a>, <a href="#r3">[r3]</a>) and soldered on the bottom side of the BBB.</p>
-</li>
-<li>
-<p>A compatible debug probe like the <a href="http://www.ti.com/tool/TMDSEMU110-U">XDS110 JTAG Debug Probe</a> which comes with the required cables.</p>
-</li>
-</ul>
 </div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-tip" title="Tip"></i>
-</td>
-<td class="content">
-a more powerful alternative is the <a href="http://www.ti.com/tool/tmdsemu200-u?keyMatch=debug%20probe%20xds200&amp;tisearch=Search-EN-Everything">XSD200</a>.
-</td>
-</tr>
-</table>
+<div class="literalblock">
+<div class="content">
+<pre>-L../libs -I../libs -o helloworld</pre>
 </div>
-<div class="paragraph">
-<p>In addition, I purchased the following optional items:</p>
 </div>
-<div class="ulist">
-<div class="title">BOM - optional items</div>
-<ul>
-<li>
-<p>The <a href="http://www.ti.com/tool/PRUCAPE">PRU Cape</a> is an extension board to get started with PRU programming.</p>
-</li>
-<li>
-<p>The <a href="https://www.digikey.de/product-detail/de/ftdi-future-technology-devices-international-ltd/TTL-232R-3V3/768-1015-ND/1836393">USB to Serial cable</a> mentioned in the <a href="#r1">[r1]</a>, Fig. 54, can be used to establish a serial communication with the host.
-It is not suitable for simultaneous usage with the PRU Cape, because the Cape will render the header on the BBB inaccessible.</p>
-</li>
-</ul>
+<div class="literalblock">
+<div class="content">
+<pre>should be</pre>
 </div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-I made sure to get a 3.3 V version of the FTDI connector to match the voltage on the BBB.
-</td>
-</tr>
-</table>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>a standard RS232 serial monitor cable. This can be connected to the UART of the PRU cape (rather than the hidden serial header on the BBB) and
-allows for serial communications with the host PC.</p>
-</li>
-</ul>
+<div class="literalblock">
+<div class="content">
+<pre>$ arm-cortex_a8-linux-gnueabihf-gcc helloworld.c -ltest \</pre>
 </div>
-<div class="paragraph">
-<p>Before soldering the fine pitch <a href="https://www.digikey.de/product-detail/de/samtec-inc/FTR-110-03-G-D-06/SAM8790-ND/2651173">JTAG header</a>, I wanted to refresh my soldering skills.
-I found the video tutorials by <a href="https://www.youtube.com/watch?v=5uiroWBkdFY">John Gammel</a> most helpful:</p>
 </div>
+<div class="literalblock">
+<div class="content">
+<pre>-L../libs -I../include -o helloworld</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Link for Color Images: https://www.packtpub.com/sites/default/files/downloads/MasteringEmbeddedLinuxProgrammingSecondEdition_ColorImages.pdf</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_errata_type_code_chapter_1_page_98">3.2. Errata Type: Code | Chapter 1 | Page 98</h3>
+<div class="literalblock">
+<div class="content">
+<pre>This:
+$ cd linux-stable
+$ make ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- mrproper
+$ make -j4 ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- zImage
+$ make -j4 ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- modules
+$ make ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- dtbs</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Should be:
+$ cd linux-stable
+$ make ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- mrproper
+$ make ARCH=arm versatile_defconfig
+$ make -j4 ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- modules
+$ make ARCH=arm CROSS_COMPILE=arm-unknown-linux-gnueabi- dtbs</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_errata_type_code_chapter_12_page_326">3.3. Errata Type: Code | Chapter 12 | Page 326</h3>
+<div class="literalblock">
+<div class="content">
+<pre>This:
+arm-cortex_a8-linux-gnueabihf-gcc shared-mem-demo.c -lrt -pthread \
+-o arm-cortex_a8-linux-gnueabihf-gcc</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Should be:
+arm-cortex_a8-linux-gnueabihf-gcc shared-mem-demo.c -lrt -pthread \
+-o shared-mem-demo</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_errata_type_code_chapter_1_page_18">3.4. Errata Type: Code | Chapter 1 | Page 18</h3>
+<div class="literalblock">
+<div class="content">
+<pre>This:
+-net nic -net use</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Should Be:
+-net nic -net user</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_errata_type_code_page_no_225">3.5. Errata type: Code Page no: 225</h3>
+<div class="literalblock">
+<div class="content">
+<pre>When running the script "mender-qemu" (i.e. when typing "../meta-mender/meta-mender-qemu/scripts/mender-qemu" as documented on page NNN(*), if you see an error message that includes "Block protocol 'file' doesn't support the option 'locking'", then edit ../meta-mender/meta-mender-qemu/scripts/mender-qemu as follows:</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Delete ",file.locking=off" from line 60 so that it reads</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>QEMU_ARGS="$QEMU_ARGS -drive file=$VEXPRESS_IMG,if=sd,format=raw "</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>This problem only occurs with versions of qemu-system-arm before 2.10</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_chapter_2">3.6. Chapter 2</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>don&#8217;t worry about shorts until finished,</p>
+<p>don&#8217;t forget to set the PATH env var to the gcc binary</p>
 </li>
 <li>
-<p>to remove shorts, don&#8217;t use solder wig, use flux.</p>
+<p>p.62, use the v2019.07 branch of u-boot, <code>am335x_boneblack_defconfig</code> has been removed, use <code>am335x_evm_defconfig</code> instead.</p>
 </li>
 </ol>
 </div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-testing for shorts with an ohmmeter will apply a small voltage to the pins of the Sitara processor.
-Strictly speaking, this voids the warranty as explained in the <a href="#r1">[r1]</a>.
-</td>
-</tr>
-</table>
+<div class="sect3">
+<h4 id="_building_u_boot">3.6.1. Building U-Boot</h4>
+<div class="paragraph">
+<p>to build the example with v2017 U-Boot you must change the Target Architecture &#8594; Use specific FPU to <code>neon-vfpv3</code></p>
 </div>
 <div class="paragraph">
-<p>The complete hardware setup:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./images/setup.jpg" alt="debug configuration">
-</div>
-<div class="title">Figure 1. Debug configuration</div>
+<p>see also
+<a href="https://stackoverflow.com/questions/50284222/u-boot-for-beaglebone-black-wont-build-target-cpu-does-not-support-thumb-inst" class="bare">https://stackoverflow.com/questions/50284222/u-boot-for-beaglebone-black-wont-build-target-cpu-does-not-support-thumb-inst</a></p>
 </div>
 <div class="paragraph">
-<p>A closeup showing the key (missing pin on the JTAG header):</p>
+<p>otherwise you get :
+CC      arch/arm/cpu/armv7/cache_v7.o
+cc1: warning: target CPU does not support THUMB instructions
+{standard input}: Assembler messages:
+{standard input}:42: Error: selected processor does not support `dsb sy' in ARM mode
+{standard input}:46: Error: selected processor does not support `isb sy' in ARM mode
+{standard input}:240: Error: selected processor does not support `dsb sy' in ARM mode
+{standard input}:244: Error: selected processor does not support `isb sy' in ARM mode
+{standard input}:368: Error: selected processor does not support `dsb sy' in ARM mode
+{standard input}:460: Error: selected processor does not support `dsb sy' in ARM mode
+{standard input}:464: Error: selected processor does not support `isb sy' in ARM mode
+{standard input}:594: Error: selected processor does not support `dsb sy' in ARM mode
+scripts/Makefile.build:280: recipe for target 'arch/arm/cpu/armv7/cache_v7.o' failed
+make[1]: <strong>*</strong> [arch/arm/cpu/armv7/cache_v7.o] Error 1
+Makefile:1217: recipe for target 'arch/arm/cpu/armv7' failed</p>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="./images/closeup.jpg" alt="JTAG connector" width="300" height="200">
-</div>
-<div class="title">Figure 2. The JTAG header with the missing pin (key)</div>
-</div>
-<div class="sect2">
-<h3 id="_preventing_linux_from_booting">2.1. Preventing Linux from booting</h3>
-<div class="paragraph">
-<p>The BBB comes with Linux flashed to the onboard eMMC. To prevent Linux from booting
-I hold the boot switch pressed when applying power.
-This switch is not easily accessible with the PRU Cape mounted.
-I check that the heartbeat indicator LED does not flash as this would mean that the board is still booting.</p>
-</div>
-<div class="paragraph">
-<p>The are many tutorials available on how not to boot from the eMMC, none of which worked for me.
-So I settled for the brute force approach and erased the eMMC.</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-This will completely erase the device mmcblkx, where x depends on the configuration. With no SDCard inserted
-x is probably 0. I use <code>fdisk -l</code> to discover the available devices.
-</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="title">Erase the boot device - <em>x</em> is configuration dependent</div>
-<div class="content">
-<pre>$ dd if=/dev/zero of=/dev/mmcblkx bs=2M count=2048</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Now, when I apply power, only the power LED is permanently on.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-it seems as if this is still not enough. When I connect the BBB to the host, the Network Manager App periodically
-shows "Connection failed" notifications.
-Apparently, the BBB tries to open a Ethernet-over-USB connection, which means that at least the bootloader is still present. TODO.
-</td>
-</tr>
-</table>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_installing_the_software_development_environment">3. Installing the software development environment</h2>
+<h2 id="_sd_card">4. SD Card</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>I installed CCS 9.2 from <a href="http://software-dl.ti.com/ccs/esd/documents/ccs_downloads.html">Code Composer Studio Downloads</a> on Linux Mint 19.2.</p>
+<p>$ lsblk
+use the script from the book</p>
+</div>
+<div class="sect2">
+<h3 id="_boot_ftp">4.1. Boot Ftp</h3>
+<div class="paragraph">
+<p>$ sudo apt-get install tftpd-hpa // not the <em>d</em></p>
 </div>
 <div class="paragraph">
-<p>From the CCS App Center, I installed the <strong>PRU C compiler</strong> option.</p>
-</div>
-<div class="paragraph">
-<p>I cloned the <a href="https://git.ti.com/cgit/pru-software-support-package/pru-software-support-package">PRU Software Support Package</a> as a git submodule into the compagnion repo.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>$ cd &lt;compagnion repo dir&gt;
-$ git submodule add https://git.ti.com/cgit/pru-software-support-package/pru-software-support-package</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Therefore, if I clone the companion repo, I need to say;</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>$ git clone --recurse-submodules https://github.com/vittali/vittali.ch-bbb-jtag</pre>
+<p>no need to mess with nobody and nogroup and what not. Works out of the box.
+Files go into <code>/var/lib/tftpboot</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_getting_started_with_the_hand_on_labs">3.1. Getting started with the Hand-on Labs</h3>
+<h3 id="_usb_serial">4.2. USB Serial</h3>
 <div class="paragraph">
-<p>Based on <em>Lab1</em> from <a href="http://processors.wiki.ti.com/index.php/PRU_Training:_Hands-on_Labs">PRU Training: Hands-on Labs</a>:</p>
+<p>$ ll /sys/class/tty/ttyUSB*</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>When importing the project, I unchecked <code>Copy project into workspace</code>. If the project gets copied in the workspace
-the <em>include</em> definitions will be wrong and the project won&#8217;t compile without modifiation.</p>
-</li>
-<li>
-<p>I did create a target configuration <code>BBB.ccxml</code>.</p>
-</li>
-<li>
-<p>I did <strong>not</strong> change the initialization script as explained in (8).</p>
-</li>
-<li>
-<p>I created a default Debug Configuration by starting a first debug session. This session fails because the initialization script is missing.</p>
-</li>
-<li>
-<p>I open the newly created Debug Configuration and select the initialization script <em>bbb_pru_startup.js</em> provided in the compagnion repo:</p>
-</li>
-</ol>
+<div class="paragraph">
+<p>$ gtkterm -p /dev/ttyUSB0 -s 115200</p>
 </div>
-<div class="imageblock">
+<div class="listingblock">
 <div class="content">
-<img src="./images/init-script.png" alt="init script">
+<pre class="highlightjs highlight"><code>$ ./create-sdcard.sh</code></pre>
 </div>
-<div class="title">Figure 3. Selecting the initialization script</div>
 </div>
 <div class="paragraph">
-<p>I can now debug and test the <em>Lab1</em> demo,</p>
+<p>when you exit the script, you must manually unmount the two parts.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>$ cat /proc/mounts</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>$ sudo umount /dev/sde1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>then remount both parts so that they appear under /media/p:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code>$ sudo cp MLO-beaglebone-yocto-2019.01-r0 /media/p/boot/MLO
+$ sudo cp u-boot-beaglebone-yocto-2019.01-r0.img /media/p/boot/u-boot.img
+$ tar -C /media/p/rootfs -jxf nova-image-beaglebone-yocto-20190915162549.rootfs.tar.bz2</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_chapter_4">4.3. Chapter 4</h3>
+<div class="paragraph">
+<p>p94. omitte4d setenv bootargs console &#8230;&#8203;.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_test">4. Test</h2>
+<h2 id="_processor_sdk">5. Processor SDK</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>I start a second debug session, this time with the correct initialization script.
-After downloading the project to the BBB, the debugger will stop at main. Running the project
-will make the LEDs on the PRU Cape blink.</p>
+<p>in source environment-setup</p>
 </div>
 <div class="paragraph">
-<p>Since I did not copy the project files into the workspace ( to maintain the include paths), I created
-files directly in the submodule directories. Since I can&#8217;t push to the submodule repo, I could now add a
-new git remote to which I can push my changes.</p>
+<p>change prompt
+remove export PS1</p>
 </div>
 <div class="paragraph">
-<p>A complete and ready to debug project <code>PRU_LED0</code> is available in the compagnion repo.</p>
+<p>PROMPT="%(?.%F{green}[linux-devkit].%F{red})❯%f "</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_references">5. References</h2>
+<h2 id="_intro">6. Intro</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_beagle_bone_black_bbb">5.1. Beagle Bone Black (BBB)</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a id="r1"></a>[r1] <a href="https://github.com/beagleboard/beaglebone-black/wiki/System-Reference-Manual">System Reference Manual, rev C, Oktober 13, 2017</a>. Excellent, very detailed manual,</p>
-</li>
-<li>
-<p><a id="r2"></a>[r2] <a href="https://elinux.org/Beagleboard:BeagleBoneBlack#BeagleBone_Black_Description">BBB Wiki on elinux.org</a>. A collection of hardware and software resources, tips and tricks.</p>
-</li>
-<li>
-<p><a id="r3"></a>[r3] <a href="https://www.twosixlabs.com/running-a-baremetal-beaglebone-black-part-1/">Running a Baremetal Beaglebone Black</a>. Includes a detail description on how to prepare for JTAG debugging.</p>
-</li>
-<li>
-<p><a id="r4"></a>[r4] <a href="https://blog.parr.us/2014/11/14/beaglebone-black-debugging-via-ti-usb100v2-jtag-emulator/">BeagleBone Black Debugging via TI USB100v2 JTAG Emulator</a>. Another BBB bare bone setup account.</p>
-</li>
-<li>
-<p><a id="r5"></a>[r5] <a href="https://beagleboard.org/black">Home of the BBB</a>. You can find a distributor here.</p>
-</li>
-<li>
-<p><a id="r6"></a>[r6] <a href="http://www.ti.com/tool/PRUCAPE">PRU Cape</a>. An extension board (cape) to experiment with the PRUs on the BBB.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_sitara_processor">5.2. Sitara Processor</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a id="r11"></a>[r11] <a href="http://www.ti.com/tool/processor-sdk-am335x">Processor SDK for AM335x Sitara Processors - Linux and TI-RTOS support</a>.</p>
-</li>
-<li>
-<p><a id="r12"></a>[r12] <a href="https://training.ti.com/sitara-arm-processors-boot-camp-training-series">Sitara™ ARM® Processors Boot Camp Training Series</a>. A comprehensive list of training material provided by TI.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_pru_programmable_realtime_unit">5.3. PRU (Programmable Realtime Unit)</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a id="r21"></a>[r21] <a href="http://processors.wiki.ti.com/index.php/PRU_Cape_Getting_Started_Guide">PRU Cape Getting started</a>. A short guide presenting the hardware on the cape.</p>
-</li>
-<li>
-<p><a id="r22"></a>[r22] <a href="http://processors.wiki.ti.com/index.php/PRU-ICSS?DCMP=pru&amp;HQS=PRU">PRU-ICSS</a>. The Programmable Real-Time Unit Subsystem and Industrial Communication SubSystem (PRU-ICSS) wiki. This is
-the main entry point to PRU related resources.</p>
-</li>
-<li>
-<p><a id="r23"></a>[r23] <a href="http://processors.wiki.ti.com/index.php/PRU_Training:_Hands-on_Labs">Hands-on Labs</a>. Practical examples on PRU programming. Not sure if outdated ??</p>
-</li>
-<li>
-<p><a id="r24"></a>[r24] <a href="http://catch22.eu/beaglebone/beaglebone-pru-c/">PRU C code </a>. A very good introduction to C programming on the PRU.</p>
-</li>
-<li>
-<p><a id="r25"></a>[r25] <a href="http://software-dl.ti.com/public/hpmp/sitara/debug_pru_using_ccs/presentation_html5.html">Debug PRU with CCS</a>.</p>
-</li>
-<li>
-<p><a id="r26"></a>[r26] <a href="http://processors.wiki.ti.com/index.php/PRU-ICSS_Debug_on_AM335x">wiki page</a>. Dedicated to bare bones PRU programming on the Sitara processor. Very useful to get started.</p>
-</li>
-<li>
-<p><a id="r27"></a>[r27] <a href="http://software-dl.ti.com/public/hpmp/sitara/debug_pru_using_ccs/presentation_html5.html">Debug PRU with CCS</a>. Audio presentation, very useful to get started.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_debug_hardware">5.4. Debug hardware</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><a id="r31"></a>[r31] <a href="http://www.ti.com/tool/TMDSEMU110-U">TMDSEMU110-U-XDS110 JTAG Debug Probe</a>. A low cost debug probe. An alternative would be <a href="http://www.ti.com/tool/tmdsemu200-u?keyMatch=debug%20probe%20xds200&amp;tisearch=Search-EN-Everything">XSD200</a>.</p>
-</li>
-<li>
-<p><a id="r32"></a>[r32] <a href="https://www.digikey.de/product-detail/de/samtec-inc/FTR-110-03-G-D-06/SAM8790-ND/2651173">JTAG header</a>. JTAG to be soldered on the BBB.</p>
-</li>
-<li>
-<p><a id="r33"></a>[r33] <a href="https://www.digikey.de/product-detail/de/ftdi-future-technology-devices-international-ltd/TTL-232R-3V3/768-1015-ND/1836393">USB to Serial cable</a>.</p>
-</li>
-</ul>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_jtag_debugging">5.5. JTAG debugging</h3>
 <div class="paragraph">
-<p>Some launchpads contain debug probes that can be <a href="http://www.ti.com/tool/MSP-EXP432P4111">isolated</a>. Such a launchpad (&lt; 15 USD) could thus
-be used as a super-low cost debug probe for the BBB. But this requires a set of expensive fine
-pitch connectors and ribbon cable (not tested) :
-<a href="https://www.digikey.de/product-detail/de/samtec-inc/FFSD-05-D-02.00-01-N/SAM8217-ND/1106576">1</a>, <a href="https://www.digikey.de/product-detail/de/samtec-inc/FFSD-05-D-06.00-01-N/SAM8218-ND/1106577">2</a>, <a href="https://www.digikey.de/product-detail/de/samtec-inc/FTSH-105-01-L-DV-K/SAM8799-ND/1875039">3</a>,
-<a href="https://www.digikey.de/product-detail/de/samtec-inc/FTSH-110-01-L-DV-K/SAM8803-ND/2642229">4</a>.</p>
+<p>This tutorial is based on {rTI-1}.
+The project files can be cloned <span class="icon"><a class="image" href="https://github.com/vittali/vittali.ch-gst.rb2"><i class="fa fa-github"></i></a></span>.</p>
 </div>
 <div class="paragraph">
-<p>I would also need to design and order a couple of printed circuit board adapters. Here are a couple of useful links:</p>
+<p>Make sure to configure networking correctly, for example wireless and wired to the BBB, it must be on another network and routes must be configured.
+<a href="https://askubuntu.com/questions/10741/how-to-set-up-dual-wired-and-wireless-connections/11084" class="bare">https://askubuntu.com/questions/10741/how-to-set-up-dual-wired-and-wireless-connections/11084</a></p>
 </div>
+<div class="paragraph">
+<p>Debian uses connman to manage the network, the settings in /etc/network/interfaces are ignored.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">NOTE</dt>
+<dd>
+<p>this is not relevant, the debian thing is what is preinstalled on the eemc.</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>debian@beaglebone:~$ sudo cat /var/lib/connman/ethernet_c4f3129bed5b_cable/settings
+{blank}[ethernet_c4f3129bed5b_cable]
+Name=Wired
+AutoConnect=true
+Modified=2016-01-24T22:42:30.393712Z
+IPv4.method=manual
+IPv4.netmask_prefixlen=24
+IPv4.local_address=192.168.2.2
+IPv4.gateway=192.168.1.1
+IPv6.method=auto
+IPv6.privacy=disabled</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>I used the non-docker image (2)
+Do not use a USB hub to connect the BBB to the host.</p>
+</div>
+<div class="paragraph">
+<p>To be sure to auto boot from the SD card</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>sudo dd if=/dev/zero of=/dev/mmcblk1 bs=1024 count=1024</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_references">7. References</h2>
+<div class="sectionbody">
 <div class="ulist">
 <ul>
 <li>
-<p><a href="http://www.ti.com/tool/tmdsemu200-u?keyMatch=debug%20probe%20xds200&amp;tisearch=Search-EN-Everything">JTAG connectors</a>. A comprehensive comparison of different connectors with pinout. That&#8217;s the beauty of standards: there are so many !</p>
+<p><a href="http://software-dl.ti.com/processor-sdk-linux/esd/docs/latest/linux/Overview_Getting_Started_Guide.html">Processor SDK Linux</a></p>
 </li>
 <li>
-<p><a href="http://www2.keil.com/coresight/coresight-connectors">Core Sight Connectors</a>. Yet more JTAG pinouts.</p>
-</li>
-<li>
-<p><a href="http://www2.keil.com/coresight#jtag">CoreSight™ Technology</a>. JTAG signal descriptions.</p>
+<p><a href="http://software-dl.ti.com/processor-sdk-linux/esd/docs/latest/linux/index.html">Processor SDK Linux Software Developer’s Guide</a></p>
 </li>
 </ul>
+</div>
+<div class="sect2">
+<h3 id="_training">7.1. Training</h3>
+<div class="paragraph">
+<p><a href="https://training.ti.com/customizing-yocto-for-production-introduction?cu=1135806">Customizing a Yocto-Based Linux Distribution for Production: Training Series</a></p>
 </div>
 </div>
 </div>

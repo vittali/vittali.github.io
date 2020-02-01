@@ -428,24 +428,37 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_sensor_and_collector_ti_15_4_stack_project_zero">2. Sensor and Collector - TI 15.4-Stack Project Zero</a>
 <ul class="sectlevel2">
 <li><a href="#_task_0">2.1. Task 0</a></li>
-<li><a href="#_edit_the_target_configuration">2.2. Edit the target configuration</a></li>
-<li><a href="#_task_1">2.3. Task 1</a></li>
-<li><a href="#_task_3">2.4. Task 3</a></li>
+<li><a href="#_copy_the_example_projects">2.2. Copy the example projects</a></li>
+<li><a href="#_edit_the_target_configuration">2.3. Edit the target configuration</a></li>
+<li><a href="#_task_1">2.4. Task 1</a></li>
+<li><a href="#_task_3">2.5. Task 3</a></li>
+<li><a href="#_problems_with_flashing_on_the_launchpad">2.6. Problems with flashing on the LaunchPad</a></li>
 </ul>
 </li>
-<li><a href="#_gateway">3. Gateway</a>
+<li><a href="#_coprocessor">3. Coprocessor</a>
 <ul class="sectlevel2">
-<li><a href="#_setting_the_serial_number_of_the_gateway_on_board_debug_probe">3.1. Setting the serial number of the gateway on-board debug probe.</a></li>
-<li><a href="#_task_1_2">3.2. Task 1</a></li>
-<li><a href="#_task_3_2">3.3. Task 3</a></li>
-<li><a href="#_task_6">3.4. Task 6</a></li>
+<li><a href="#_copy_the_example_project">3.1. Copy the example project</a></li>
+<li><a href="#_uart_configuration">3.2. UART configuration</a></li>
 </ul>
 </li>
-<li><a href="#_references">4. References</a>
+<li><a href="#_gateway">4. Gateway</a>
 <ul class="sectlevel2">
-<li><a href="#_cc1352p1">4.1. CC1352P1</a></li>
-<li><a href="#_cc3220sf">4.2. CC3220SF</a></li>
-<li><a href="#_ti_e2e_support_forum">4.3. TI E2E support forum</a></li>
+<li><a href="#_setting_the_serial_number_of_the_gateway_on_board_debug_probe">4.1. Setting the serial number of the gateway on-board debug probe.</a></li>
+<li><a href="#_task_1_2">4.2. Task 1</a></li>
+<li><a href="#_task_3_2">4.3. Task 3</a></li>
+<li><a href="#_task_6">4.4. Task 6</a></li>
+<li><a href="#_recompiling_from_source">4.5. Recompiling from source</a></li>
+<li><a href="#_ibm_cloud_demo_software">4.6. IBM cloud demo software</a></li>
+<li><a href="#_cannot_open_network">4.7. cannot open network</a></li>
+<li><a href="#_debugging">4.8. Debugging</a></li>
+</ul>
+</li>
+<li><a href="#_references">5. References</a>
+<ul class="sectlevel2">
+<li><a href="#_cc1352p1">5.1. CC1352P1</a></li>
+<li><a href="#_cc3220sf">5.2. CC3220SF</a></li>
+<li><a href="#_ti_e2e_support_forum">5.3. TI E2E support forum</a></li>
+<li><a href="#_ti_15_4_stack">5.4. TI-15.4 Stack</a></li>
 </ul>
 </li>
 </ul>
@@ -460,30 +473,43 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </blockquote>
 </div>
 <div class="paragraph">
-<p>I want to connect wireless sensor nodes to the IBM IoT Watson cloud infrastructure <a href="https://cloud.ibm.com">IBM Bluemix</a> based on the TI Design <a href="http://www.ti.com/tool/TIDC-01002?jktype=design">SimpleLink™ Sub-1 GHz Sensor to Cloud Gateway Reference Design for TI-RTOS Systems</a>, <a href="http://www.ti.com/lit/ug/tidud09a/tidud09a.pdf">TI Designs:TIDC-01002 Sub-1GHz Embedded Sensor to Cloud Industrial Internet of Things(IoT) Gateway Reference Design</a>.</p>
+<p>I want to connect wireless sensor nodes to the IBM IoT Watson cloud infrastructure <a href="https://cloud.ibm.com">IBM Bluemix</a> based on the TI Design <a href="http://www.ti.com/tool/TIDC-01002?jktype=design">SimpleLink™ Sub-1 GHz Sensor to Cloud Gateway Reference Design for TI-RTOS Systems</a>.
+The reference document is <a href="http://www.ti.com/lit/ug/tidud09a/tidud09a.pdf">TI Designs:TIDC-01002 Sub-1GHz Embedded Sensor to Cloud Industrial Internet of Things(IoT) Gateway Reference Design</a>. Related source code can be cloned from the <a href="https://github.com/vittali/vittali.ch-5-TIR-1002">compagnion repo</a>. I use Linux Mint 19.2 Tina and Code Composer Studio 9.2.0 (CCS).</p>
 </div>
 <div class="paragraph">
-<p>Related source code can be cloned from the <a href="https://github.com/vittali/vittali.ch-5-TIR-1002">compagnion repo</a>.
-I use Linux Mint 19.2 Tina and Code Composer Studio 9.2.0 (CCS).</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Work in progress
-</td>
-</tr>
-</table>
+<p>The software architecture described in the TI Design is now part of the official <a href="http://dev.ti.com/tirex/explore/node?devtools=LAUNCHXL-CC1352P1&amp;node=AOSQDVXMohlV5LElLx5wxA__pTTHBmu__LATEST">SimpleLink CC13x2 26x2 SDK (3.40.00.02)</a> documentation and I will follow the recommended learning path of the
+ <em>SimpleLink Academy (3.30.03.00)</em>. However the TI Design has more details and is still a useful resources for understanding the TI 15.4 example projects.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_introduction">1. Introduction</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>The proposed architecture for connecting wireless sensors to the Internet is based on four components, each of which include hardware and software:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>one or more sensors,</p>
+</li>
+<li>
+<p>a collector that manages and interacts with sensors,</p>
+</li>
+<li>
+<p>a coprocessor that combines the collector function with host communication interface</p>
+</li>
+<li>
+<p>a gateway that relays data between an internet-based application like a webserver</p>
+</li>
+<li>
+<p>a cloud service that allows for two way commmunication between an internet user and a set of sensors/actuators.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>In this memo, I recount my experiences with each of these components.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -491,7 +517,7 @@ Work in progress
 <div class="sectionbody">
 <div class="paragraph">
 <p>To familiarize myself with the sensor and collector hardware,
-I follow the lab exercise <a href="http://dev.ti.com/tirex/explore/node?devtools=LAUNCHXL-CC1352P1&amp;node=AFU6dryAU8NukjdRPy4T4Q__pTTHBmu__LATEST">Sensor and Collector - TI 15.4-Stack Project Zero</a>. I use <em>GTKTerm</em> from the Mint/Ubuntu distribution.</p>
+I follow the lab exercise <a href="https://cloud.ibm.com">IBM Bluemix</a>. I use <em>GTKTerm</em> from the Mint/Ubuntu distribution.</p>
 </div>
 <div class="paragraph">
 <p>I use two <a href="http://www.ti.com/tool/LAUNCHXL-CC1352R1">SimpleLink™ Multi-Band CC1352R Wireless MCU LaunchPad™ Development Kit</a> LaunchPads:</p>
@@ -517,7 +543,7 @@ a unique serial number.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">cd $CCS_INSTALLDIR/ccs910/ccs/ccs_base/common/uscif/xds110
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">cd $CCS_INSTALLDIR/ccs/ccs_base/common/uscif/xds110
 $ ./xdsdfu -m  <i class="conum" data-value="1"></i><b>(1)</b>
 $ ./xdsdfu -s 1 -r <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
@@ -543,7 +569,7 @@ $ ./xdsdfu -s 1 -r <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">cd $CCS_INSTALLDIR/ccs910/ccs/ccs_base/common/uscif/xds110
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">cd $CCS_INSTALLDIR/ccs/ccs_base/common/uscif/xds110
 $ ./xdsdfu -m  <i class="conum" data-value="1"></i><b>(1)</b>
 $ ./xdsdfu -s 2 -r <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
@@ -563,7 +589,43 @@ $ ./xdsdfu -s 2 -r <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_edit_the_target_configuration">2.2. Edit the target configuration</h3>
+<h3 id="_copy_the_example_projects">2.2. Copy the example projects</h3>
+<div class="paragraph">
+<p>I import the following projects into the CCS workspace as described in the
+SimpleLink CC13x2 26x2 SDK (3.40.00.02) documentation of the <a href="http://www.ti.com/tool/LAUNCHXL-CC1352R1">SimpleLink™ Multi-Band CC1352R Wireless MCU LaunchPad™ Development Kit</a></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>sensor_CC1352P1_LAUNCHXL_tirtos_ccs_syscfg</p>
+</li>
+<li>
+<p>collector_CC1352P1_LAUNCHXL_tirtos_ccs_syscfg</p>
+</li>
+<li>
+<p>coprocessor_CC1352P1_LAUNCHXL_tirtos_ccs_syscfg</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Within CCS, I then copy the projects into <a href="https://github.com/vittali/vittali.ch-5-TIR-1002">compagnion repo</a>, with the following abbreviated names:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>sensor</p>
+</li>
+<li>
+<p>collector</p>
+</li>
+<li>
+<p>coprocessor</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_edit_the_target_configuration">2.3. Edit the target configuration</h3>
 <div class="paragraph">
 <p>Each CCS project needs to be configured such that the programs for collector and sensor are loaded to the correct LaunchPad:</p>
 </div>
@@ -575,7 +637,7 @@ $ ./xdsdfu -s 2 -r <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_task_1">2.3. Task 1</h3>
+<h3 id="_task_1">2.4. Task 1</h3>
 <div class="paragraph">
 <p>I can&#8217;t set the Sub-1 Ghz Frequency to 868 Mhz as I expected,
 the only choice for the european band seems to be 863 Mhz. This might be related
@@ -589,7 +651,7 @@ to the channel selection, see <a href="#e2e1">[e2e1]</a>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_task_3">2.4. Task 3</h3>
+<h3 id="_task_3">2.5. Task 3</h3>
 <div class="paragraph">
 <p>On my host box, I select <code>/dev/ttyACM0</code> for the collector and <code>dev/ttyACM2</code> for the
 sensor virtual UART connection.</p>
@@ -633,23 +695,85 @@ Channel: 0</pre>
 <div class="title">Figure 5. Collector (top) and sensor (bottom) terminal output after the sensor joined the network.</div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_problems_with_flashing_on_the_launchpad">2.6. Problems with flashing on the LaunchPad</h3>
+<div class="paragraph">
+<p>On one occasion, the collector binary flashed to the LaunchPad produced scrambled output on the terminal connection.
+I reflashed, recompiled the program, to no avail. I then used UniFlash to clear the entire flash and this solved the problem:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/erase-all.png" alt="erase flash">
+</div>
+<div class="title">Figure 6. Clearing the flash with UniFlash</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_gateway">3. Gateway</h2>
+<h2 id="_coprocessor">3. Coprocessor</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_copy_the_example_project">3.1. Copy the example project</h3>
+<div class="paragraph">
+<p>I import the following projects into the CCS workspace as described in the
+SimpleLink CC13x2 26x2 SDK (3.40.00.02) documentation of the <a href="http://dev.ti.com/tirex/explore/node?devtools=LAUNCHXL-CC1352P1&amp;node=AFU6dryAU8NukjdRPy4T4Q" class="bare">http://dev.ti.com/tirex/explore/node?devtools=LAUNCHXL-CC1352P1&amp;node=AFU6dryAU8NukjdRPy4T4Q</a><em>pTTHBmu</em>LATEST[Sensor and Collector - TI 15.4-Stack Project Zero]</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>coprocessor_CC1352P1_LAUNCHXL_tirtos_ccs_syscfg</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Within CCS, I then copy the projects into <a href="https://github.com/vittali/vittali.ch-5-TIR-1002">compagnion repo</a>, with the following abbreviated names:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>coprocessor-uart</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_uart_configuration">3.2. UART configuration</h3>
+<div class="paragraph">
+<p>According to the TI Design, I need to modifiy the UART configuration:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>When re-compiling the Mac CoP firmware, the pin configuration for the UART needs to be modified since the default Mac CoP example
+in the CC13xxSDK uses IOID3 and IOID2 pins for UART and the gateway uses IOID11 and IOID9.</p>
+</div>
+</blockquote>
+<div class="attribution">
+&#8212; 3.2.1.1.4.3 Compiling the Mac-CoP fromSource
+</div>
+</div>
+<div class="paragraph">
+<p>However, the CC1352P1 LaunchPad uses DIO12 and DIO13 corresponding to J4/J3 on the <a href="https://processors.wiki.ti.com/images/c/c2/BoosterPack_Standard_PUBLIC_2PAGE.pdf">BoosterPack Standard Header Pin Assignment</a>, just like the CC3220 LaunchPad for the gateway.
+No modification is required on either board, other than the Jumper adjustements explained in <em>3.2.1.1.5 Connecting the MAC-CoP and the CC3220SFLaunchPad™</em>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_gateway">4. Gateway</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>To familiarize myself with the gateway hardware,
-I follow the lab exercise <a href="http://dev.ti.com/tirex/explore/node?devtools=LAUNCHXL-CC1352P1&amp;node=AFU6dryAU8NukjdRPy4T4Q__pTTHBmu__LATEST">Meet the CC3235x LaunchPad Development Kit</a>.</p>
+<p>To familiarize myself with the gateway hardware <a href="http://www.ti.com/tool/CC3220SF-LAUNCHXL">SimpleLink™ Wi-Fi® CC3220SF wireless microcontroller LaunchPad™ development kit</a>, I follow the lab exercise <a href="http://dev.ti.com/tirex/explore/node?devtools=CC3220SF-LAUNCHXL&amp;node=AMbaIpevqf00fzNR.N96jg__fc2e6sr__LATEST">Meet the CC3220x LaunchPad Development Kit</a>.</p>
 </div>
 <div class="sect2">
-<h3 id="_setting_the_serial_number_of_the_gateway_on_board_debug_probe">3.1. Setting the serial number of the gateway on-board debug probe.</h3>
+<h3 id="_setting_the_serial_number_of_the_gateway_on_board_debug_probe">4.1. Setting the serial number of the gateway on-board debug probe.</h3>
 <div class="paragraph">
-<p>This is the same procedure as in the previous chapter. I choose to the the serial number to <strong>3</strong>.</p>
+<p>This is the same procedure as in the previous chapter. I choose to set the serial number to <strong>3</strong>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_task_1_2">3.2. Task 1</h3>
+<h3 id="_task_1_2">4.2. Task 1</h3>
 <div class="paragraph">
 <p>I could not complete this task with the LaunchPad as shipped.</p>
 </div>
@@ -660,14 +784,14 @@ I follow the lab exercise <a href="http://dev.ti.com/tirex/explore/node?devtools
 <div class="content">
 <img src="./images/gateway-network-terminal-demo.png" alt="network terminal demo">
 </div>
-<div class="title">Figure 6. Terminal output for the network terminal demo.</div>
+<div class="title">Figure 7. Terminal output for the network terminal demo.</div>
 </div>
 <div class="paragraph">
 <p>I then flashed the <code>out_of_box_CC3220SF_LAUNCHXL_tirtos_ccs</code> demo project as described.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_task_3_2">3.3. Task 3</h3>
+<h3 id="_task_3_2">4.3. Task 3</h3>
 <div class="paragraph">
 <p>In order to find out the port of the USB serial connection, I run:</p>
 </div>
@@ -689,7 +813,7 @@ lrwxrwxrwx 1 root root 13 Nov  7 18:34 usb-Texas_Instruments_XDS110__03.00.00.05
 <div class="content">
 <img src="./images/CC3220SF-debug-error.png" alt="error message">
 </div>
-<div class="title">Figure 7. Error message when opening a debug session to the CC3220SF LaunchPad.</div>
+<div class="title">Figure 8. Error message when opening a debug session to the CC3220SF LaunchPad.</div>
 </div>
 <div class="paragraph">
 <p>I am not sure what finally allowed me to connect, but I suppose I needed to unpluck/repluck the micro USB connector.
@@ -703,7 +827,7 @@ I did not need to change jumper positions on the board.</p>
 <div class="content">
 <img src="./images/CC3220SF-target-conf-default.png" alt="target conf">
 </div>
-<div class="title">Figure 8. Default target with the custom serial number</div>
+<div class="title">Figure 9. Default target with the custom serial number</div>
 </div>
 <div class="paragraph">
 <p>While I was able to also start a debug session for the <code>out_of_box_CC3220SF_LAUNCHXL_tirtos_ccs</code> project,
@@ -713,10 +837,10 @@ the binaries I flashed in Task 1 and the one I created with CCS.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_task_6">3.4. Task 6</h3>
+<h3 id="_task_6">4.4. Task 6</h3>
 <div class="paragraph">
-<p>I was unable to provision the LaunchPad with the android app: the scan for deivces to configure always times out.
-Rather I created a profile from the website running on the LaunchPad.</p>
+<p>I was unable to provision the LaunchPad with the android app: the scan for devices to configure always times out.
+Instead, I created a profile from the website running on the LaunchPad.</p>
 </div>
 <div class="paragraph">
 <p>Upon reset, the board connects automatically to the AP <code>APSchuppen</code>:</p>
@@ -725,48 +849,106 @@ Rather I created a profile from the website running on the LaunchPad.</p>
 <div class="content">
 <img src="./images/sta-connect-to-AP.png" alt="STA connects to AP">
 </div>
-<div class="title">Figure 9. Provisioning via internal webserver seems to be succesfull.</div>
+<div class="title">Figure 10. Provisioning via internal webserver seems to be succesfull.</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_recompiling_from_source">4.5. Recompiling from source</h3>
+<div class="paragraph">
+<p>import <code>15_4_Stack_Gtway_IBM_CC3220SF_LAUNCHXL_tirtos_ccs</code> from vittali.ch-5-TIR-1002/tidc01002/examples/cc3220sf_gateway_app/15_4_Stack_Gtway_IBM_CC3220SF_LAUNCHXL_tirtos_ccs</p>
+</div>
+<div class="paragraph">
+<p>where vittali.ch-5-TIR-1002 is the compagnion repo and tidc01002 the source repo of the TI Design ( a git submodule)</p>
+</div>
+<div class="paragraph">
+<p>/media/p/nuage/dev/ti/ccs920/simplelink_cc32xx_sdk_3_30_01_02/source/ti/posix/ccs</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ibm_cloud_demo_software">4.6. IBM cloud demo software</h3>
+<div class="paragraph">
+<p>I added the  <a href="https://git.ti.com/cgit/tidc01002/tidc01002">tidc01003 git repo</a> compagnion repo of the TI reference design
+as a git submodule <a href="#r21">[r21]</a>to the <a href="http://dev.ti.com/tirex/explore/node?devtools=CC3220SF-LAUNCHXL&amp;node=AMbaIpevqf00fzNR.N96jg__fc2e6sr__LATEST">Meet the CC3220x LaunchPad Development Kit</a> of this document:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ git submodule add https://git.ti.com/git/tidc01002/tidc01002.git
+$ git submodule update --init
+$ git remote rename origin ti
+$ git remote add origin git@github.com:vittali/vittali.ch-5-TIR-1002-tidc01002.git</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After a couple of modifications inside the <code>ibm_cloud_application</code> directory (see git log), I was able to
+push the application to the IBM cloud:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ cd vittali.ch-5-TIR-1002/tidc01002/examples/ibm_cloud_application
+$ ibmcloud login
+$ ibmclound target --cf
+$ ibmcloud push --cf</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>I am unable to open the network as explained in Figure 67 of the reference document <a href="#e2e2">[e2e2]</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_cannot_open_network">4.7. cannot open network</h3>
+<div class="paragraph">
+<p>I select the sensor_cc13x2_lp_default_863.hex image.</p>
+</div>
+<div class="paragraph">
+<p>recompile coprocessor image for 863 Mhz.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_debugging">4.8. Debugging</h3>
+<div class="paragraph">
+<p>I copied the <code>sensor_CC1352P1_LAUNCHXL_tirtos_ccs_syscfg</code> project imported from the <code>simplelink_cc13x2_26x2_sdk_3_30_00_03</code> sdk to the <code>sensor</code> project
+in the compagnion repo.</p>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_references">4. References</h2>
+<h2 id="_references">5. References</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_cc1352p1">4.1. CC1352P1</h3>
+<h3 id="_cc1352p1">5.1. CC1352P1</h3>
 <div class="ulist">
 <ul>
 <li>
-<p><a id="r1"></a>[r1]: <a href="http://www.ti.com/lit/an/swra048/swra048.pdf">ISM-Band and Short Range Device Regulatory Compliance Overview</a></p>
+<p><a id="r1"></a>[r1] <a href="http://www.ti.com/lit/an/swra048/swra048.pdf">ISM-Band and Short Range Device Regulatory Compliance Overview</a></p>
 </li>
 </ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_cc3220sf">4.2. CC3220SF</h3>
+<h3 id="_cc3220sf">5.2. CC3220SF</h3>
 <div class="ulist">
 <ul>
 <li>
-<p><a id="r11"></a>[r11]: <a href="http://www.ti.com/lit/wp/swry011a/swry011a.pdf">A primer to Wi-Fi  ®provisioning for IoT applications</a></p>
+<p><a id="r11"></a>[r11] <a href="http://www.ti.com/lit/wp/swry011a/swry011a.pdf">A primer to Wi-Fi  ®provisioning for IoT applications</a></p>
 </li>
 <li>
-<p><a id="r12"></a>[r12]: <a href="http://software-dl.ti.com/ecs/SIMPLELINK_CC32XX_SDK/3_30_01_02/exports/docs/Documentation_Overview.html">Documentation Overview for SimpleLink™ CC32xx SDK</a></p>
+<p><a id="r12"></a>[r12] <a href="http://software-dl.ti.com/ecs/SIMPLELINK_CC32XX_SDK/3_30_01_02/exports/docs/Documentation_Overview.html">Documentation Overview for SimpleLink™ CC32xx SDK</a></p>
 </li>
 <li>
-<p><a id="r13"></a>[r13]: <a href="http://software-dl.ti.com/targetcontent/watsoniot/1_20_00_04/exports/watson_cc32xx_1_20_00_04/docs/Documentation_Overview.html">Documentation Overview for CC32XX Watson IoT Plugin</a></p>
+<p><a id="r13"></a>[r13] <a href="http://software-dl.ti.com/targetcontent/watsoniot/1_20_00_04/exports/watson_cc32xx_1_20_00_04/docs/Documentation_Overview.html">Documentation Overview for CC32XX Watson IoT Plugin</a></p>
 </li>
 </ul>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_ti_e2e_support_forum">4.3. TI E2E support forum</h3>
+<h3 id="_ti_e2e_support_forum">5.3. TI E2E support forum</h3>
 <div class="sect3">
-<h4 id="_dicussions_started_by_me">4.3.1. dicussions started by me</h4>
+<h4 id="_dicussions_started_by_me">5.3.1. dicussions started by me</h4>
 <div class="ulist">
 <ul>
 <li>
-<p><a id="e2e1"></a>[e2e1]: <a href="https://e2e.ti.com/support/wireless-connectivity/sub-1-ghz/f/156/t/848811">Frequency and channel selection</a></p>
+<p><a id="e2e1"></a>[e2e1] <a href="https://e2e.ti.com/support/wireless-connectivity/sub-1-ghz/f/156/t/848811">Frequency and channel selection</a></p>
 <div class="ulist">
 <ul>
 <li>
@@ -774,6 +956,42 @@ Rather I created a profile from the website running on the LaunchPad.</p>
 </li>
 </ul>
 </div>
+</li>
+<li>
+<p><a id="e2e2"></a>[e2e2] <a href="https://e2e.ti.com/support/wireless-connectivity/sub-1-ghz/f/156/t/855309" class="bare">https://e2e.ti.com/support/wireless-connectivity/sub-1-ghz/f/156/t/855309</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ti_15_4_stack">5.4. TI-15.4 Stack</h3>
+<div class="sect3">
+<h4 id="_technical_documents">5.4.1. Technical Documents</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="15_4-td1"></a>[15_4-td1] <a href="http://dev.ti.com/tirex/content/simplelink_cc13x0_sdk_1_50_00_08/docs/ti154stack/ti154stack-users-guide/ti154stack/introduction.html" class="bare">http://dev.ti.com/tirex/content/simplelink_cc13x0_sdk_1_50_00_08/docs/ti154stack/ti154stack-users-guide/ti154stack/introduction.html</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_more_literature">5.4.2. More literature</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="15_4-ml1"></a>[15_4-ml1] <a href="https://training.ti.com/simplelink-academy-ti-154-stack-sensor-and-collector-ti-154-stack-project-zero">4.1 SimpleLink™ Academy - TI-15.4 Stack | Sensor and Collector TI-15.4 Stack Project Zero</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_software">5.4.3. Software</h4>
+<div class="ulist">
+<ul>
+<li>
+<p><a id="15_4-sw1"></a>[15_4-sw1] <a href="http://www.ti.com/tool/TI-15.4-STACK-GATEWAY-LINUX-SDK">TI 15.4-Stack Gateway Linux Software Development Kit</a></p>
 </li>
 </ul>
 </div>
