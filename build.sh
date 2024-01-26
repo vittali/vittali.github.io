@@ -1,9 +1,29 @@
 #!/bin/zsh
 
-rsync -a --verbose --perms --times  --prune-empty-dirs ../vittali.ch/build/ .
-rsync -a --verbose --perms --times  --prune-empty-dirs ../TiPs_1/build/ TiPs_1
-rsync -a --verbose --perms --times  --prune-empty-dirs ../TiPs_2/build/ TiPs_2
-rsync -a --verbose --perms --times  --prune-empty-dirs ../TiPs_3/build/ TiPs_3
-rsync -a --verbose --perms --times  --prune-empty-dirs ../TiPs_4/build/ TiPs_4
-rsync -a --verbose --perms --times  --prune-empty-dirs ../TiPs_5/build/ TiPs_5
-rsync -a --verbose --perms --times  --prune-empty-dirs ../TiPs_6/build/ TiPs_6
+
+fr() {
+    dir=$(pwd)
+    cd ../vittali.ch/adoc
+    pwd
+     ./build.sh
+     cd $dir
+  rsync -a  --perms --times  --prune-empty-dirs ../vittali.ch/build/ .
+}
+
+f() {
+    dir=$(pwd)
+    cd ../TiPs_$1/adoc
+    pwd
+     ./build.sh
+     cd $dir
+   rsync -a  --perms --times  --prune-empty-dirs ../TiPs_$1/build/ TiPs_$1
+}
+
+fr
+#f 1
+#f 2
+#f 2
+#f 4
+#f 5
+#f 6
+f 7

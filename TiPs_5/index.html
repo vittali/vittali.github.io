@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.16">
-<title>TI Reference Design TIDC-01002: Sub-1GHz Embedded Sensor to Cloud Industrial Internet of Things(IoT) Gateway Reference Design</title>
+<title>Choosing a hardware toolchain for a cloud connected sensor (microcontroller based)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -441,7 +441,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>TI Reference Design TIDC-01002: Sub-1GHz Embedded Sensor to Cloud Industrial Internet of Things(IoT) Gateway Reference Design</h1>
+<h1>Choosing a hardware toolchain for a cloud connected sensor (microcontroller based)</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -503,7 +503,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div class="paragraph">
 <p>I want to connect wireless sensor nodes to the IBM IoT Watson cloud infrastructure <a href="https://cloud.ibm.com">IBM Bluemix</a> based on the TI Design <a href="http://www.ti.com/tool/TIDC-01002?jktype=design">SimpleLink™ Sub-1 GHz Sensor to Cloud Gateway Reference Design for TI-RTOS Systems</a>.
-The reference document is <a href="http://www.ti.com/lit/ug/tidud09a/tidud09a.pdf">TI Designs:TIDC-01002 Sub-1GHz Embedded Sensor to Cloud Industrial Internet of Things(IoT) Gateway Reference Design</a>. Related source code can be cloned from the <a href="https://github.com/vittali/vittali.ch-5-TIR-1002">compagnion repo</a>. I use Linux Mint 19.2 Tina and Code Composer Studio 9.2.0 (CCS).</p>
+The reference document is <a href="http://www.ti.com/lit/ug/tidud09a/tidud09a.pdf">TI Designs:TIDC-01002 Sub-1GHz Embedded Sensor to Cloud Industrial Internet of Things(IoT) Gateway Reference Design</a>. Related source code can be cloned from the <a href="https://github.com/vittali/TiPs_5">compagnion repo</a>. I use Linux Mint 19.2 Tina and Code Composer Studio 9.2.0 (CCS).</p>
 </div>
 <div class="paragraph">
 <p>The software architecture described in the TI Design is now part of the official <a href="http://dev.ti.com/tirex/explore/node?devtools=LAUNCHXL-CC1352P1&amp;node=AOSQDVXMohlV5LElLx5wxA__pTTHBmu__LATEST">SimpleLink CC13x2 26x2 SDK (3.40.00.02)</a> documentation and I will follow the recommended learning path of the
@@ -614,7 +614,7 @@ I believe that having seen the error message in this memo up front, it becomes l
 <div class="paragraph">
 <p>While one part of the source code of the TI Design is now in the official SKD <a href="#r12">[r12]</a>,
 the other part involving the gateway and the cloud/web front ent must be obtained from the <a href="https://git.ti.com/cgit/tidc01002/tidc01002">tidc01003 git repo</a> hosted by TI.
-Since I am likely to make changes to the TI repo, it is useful to add it to the <a href="https://github.com/vittali/vittali.ch-5-TIR-1002">compagnion repo</a> of this memo as a git submodule:</p>
+Since I am likely to make changes to the TI repo, it is useful to add it to the <a href="https://github.com/vittali/TiPs_5">compagnion repo</a> of this memo as a git submodule:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -908,7 +908,7 @@ SimpleLink CC13x2 26x2 SDK (3.40.00.02) documentation of the <a href="#r13">[r13
 </ol>
 </div>
 <div class="paragraph">
-<p>Within CCS, I then copy the projects into <a href="https://github.com/vittali/vittali.ch-5-TIR-1002">compagnion repo</a>, with the following abbreviated names:</p>
+<p>Within CCS, I then copy the projects into <a href="https://github.com/vittali/TiPs_5">compagnion repo</a>, with the following abbreviated names:</p>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
@@ -973,7 +973,7 @@ to the channel selection, I need to read <a href="#r11">[r11]</a>.</p>
 <p>I import the project <code>coprocessor_CC1352P1_LAUNCHXL_tirtos_ccs_syscfg</code> into the CCS workspace.</p>
 </div>
 <div class="paragraph">
-<p>Within CCS, I then copy the project as <code>coprocessor-uart</code> into the <a href="https://github.com/vittali/vittali.ch-5-TIR-1002">compagnion repo</a>.</p>
+<p>Within CCS, I then copy the project as <code>coprocessor-uart</code> into the <a href="https://github.com/vittali/TiPs_5">compagnion repo</a>.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1074,7 +1074,7 @@ tirtos_builds_CC3220SF_LAUNCHXL_release_ccs</pre>
 </div>
 </div>
 <div class="paragraph">
-<p>where <code>vittali.ch-5-TIR-1002</code> is the <a href="https://github.com/vittali/vittali.ch-5-TIR-1002">compagnion repo</a> and <code>tidc01002</code> the source code repo of the TI Design (used as a git submodule).
+<p>where <code>vittali.ch-5-TIR-1002</code> is the <a href="https://github.com/vittali/TiPs_5">compagnion repo</a> and <code>tidc01002</code> the source code repo of the TI Design (used as a git submodule).
 I then copied these projects to</p>
 </div>
 <div class="literalblock">

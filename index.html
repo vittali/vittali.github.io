@@ -451,8 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_tips_3">TiPs #3</a></li>
 <li><a href="#_tips_2">TiPs #2</a></li>
 <li><a href="#_tips_1">TiPs #1</a></li>
-<li><a href="#_contact_impressum">Contact &amp; Impressum</a></li>
-<li><a href="#_legal">Legal</a></li>
+<li><a href="#_contact_imprint">Contact &amp; Imprint</a></li>
 </ul>
 </div>
 </div>
@@ -462,9 +461,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>Tiny software and electronics projects (TiPs) are ubiquitous. The <a href="https://www.arduino.cc">The Arduino Ecosystem</a> has facilitated many of them.
 But some TiPs do not evolve and eventually become obsolete.
-Others do evolve and have a tendancy to become un-tiny and untidy and unfit.
+Others do evolve and have a tendency to become un-tiny and untidy and unfit.
 I would like my TiPs to evolve and to adapt to my needs while staying tiny.<br>
-In other words: I would like to make my TiPs resilient when submitted to changes.</p>
+In other words: I would like to make my TiPs resilient when submitted to changes.
+This website is about exploring strategies to make TiPs resilient.
+By the way: projects that are not tiny - in particular those that look tiny but turn out to be otherwise - are called <em>Not a TiPs</em> (NoTips).</p>
 </div>
 <div class="paragraph">
 <p>Each project has a companion github repository. Please use the github issue tracker for questions, feedback and corrections.
@@ -484,9 +485,15 @@ Or contact me directly with the email form below.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://vittali.ch/TiPs_6">TI Reference Design TIDEP0084: Sub-1 GHz Sensor to Cloud Industrial IoT Gateway Reference Design for Linux Systems</a></p>
+<p><a href="https://vittali.ch/TiPs_6">Choosing a hardware toolchain for a cloud connected sensor (Linux host based)</a></p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>This projects is very similar to <a href="#TiPs_5">TiPs #5</a>.</p>
+</div>
+<div class="paragraph">
+<p><strong>Status</strong>: on hold.</p>
 </div>
 </div>
 </div>
@@ -496,9 +503,64 @@ Or contact me directly with the email form below.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://vittali.ch/TiPs_5">TI Reference Design TIDC-01002: Sub-1 GHz Embedded Sensor to Cloud Industrial Internet of Things(IoT) Gateway Reference Design</a></p>
+<p><a href="https://vittali.ch/TiPs_5">Choosing a hardware toolchain for a cloud connected sensor (microcontroller based)</a></p>
 </li>
 </ul>
+</div>
+<div class="olist arabic">
+<div class="title">Objectives (<em>Apr 2020</em>)</div>
+<ol class="arabic">
+<li>
+<p>Complement <a href="#TiPs_3">TiPs #3</a> with a set of hardware components.</p>
+</li>
+<li>
+<p>Build a low power water metering system in a remote location using a Sub 1 Ghz radio to transmit sensor readings to the cloud.</p>
+</li>
+<li>
+<p>Use a Sub 1 Ghz network rather than a cellular network.</p>
+</li>
+</ol>
+</div>
+<div class="ulist">
+<div class="title">Building Resilience</div>
+<ul>
+<li>
+<p>I consider reducing power consumption a strong resilience building technique.</p>
+</li>
+<li>
+<p>Vendor independence  is a fundamental requirement for resilient TiPs. In this case, this means independence from cellular network operators (and SIM cards) and
+thus reduced transmission costs. More importantly, though, this is also a path to longevity. GSM 2 has ceased to operate in at least several
+european countries and GSM 3 is bound for the same fate within the next five years. Many projects and installations will be rendered obsolete or will at least require upgrades.</p>
+</li>
+</ul>
+</div>
+<div class="olist none">
+<div class="title">Resilience Report  (<em>Jan 2024</em>)</div>
+<ol class="none">
+<li>
+<p><span class="icon green"><i class="fa fa-plus"></i></span> <span class="icon green"><i class="fa fa-plus"></i></span> <span class="icon green"><i class="fa fa-plus"></i></span> Objectives still hold.</p>
+</li>
+<li>
+<p><span class="icon green"><i class="fa fa-plus"></i></span> <span class="icon white"><i class="fa fa-plus"></i></span> <span class="icon white"><i class="fa fa-plus"></i></span> [Checked 103 links, 47 destination URLs, 1 have errors,]</p>
+</li>
+<li>
+<p><span class="icon red"><i class="fa fa-minus"></i></span> <span class="icon red"><i class="fa fa-minus"></i></span> <span class="icon white"><i class="fa fa-minus"></i></span> Not a TiPs (NoTiPs), at least not for me.</p>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<div class="title">Lessons Learned (<em>Jan 2024</em>)</div>
+<ol class="arabic">
+<li>
+<p>Don&#8217;t start a TiPs with multiple coupled sub-components. This is in fact not <strong>one</strong> TiPs but a whole set of TiPs.</p>
+</li>
+<li>
+<p>Break up NoTiPs until the real TiPs show up. Projects that can be easily and understood and tested.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Status</strong>: on hold.</p>
 </div>
 </div>
 </div>
@@ -508,9 +570,16 @@ Or contact me directly with the email form below.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://vittali.ch/TiPs_4">Getting started with the TI CC1350 Sensor Tag</a></p>
+<p><a href="https://vittali.ch/TiPs_4">Choosing another wireless microcontroller with sensors</a></p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>This projects is very similar to <a href="#TiPs_3">TiPs #3</a>. However, the getting-started tools in this project have better vendor-support. I might pick up this project
+when I know more about BLE and microcontrollers.</p>
+</div>
+<div class="paragraph">
+<p><strong>Status</strong>: on hold.</p>
 </div>
 </div>
 </div>
@@ -520,9 +589,72 @@ Or contact me directly with the email form below.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://vittali.ch/TiPs_3">Getting started with the TI CC2650 Sensor Tag</a></p>
+<p><a href="https://vittali.ch/TiPs_3">Choosing a toolchain for a bluetooth (BLE) connected sensor</a></p>
 </li>
 </ul>
+</div>
+<div class="olist arabic">
+<div class="title">Objectives (<em>Sep 2019</em>)</div>
+<ol class="arabic">
+<li>
+<p>Learn to use bluetooth (BLE) connected microcontrollers and sensors.</p>
+</li>
+<li>
+<p>Learn to use <a href="https://docs.asciidoctor.org/asciidoc/latest">asciidoctor</a> for technical documentation, specifically for managing references and bibliography.</p>
+</li>
+</ol>
+</div>
+<div class="ulist">
+<div class="title">Building Resilience</div>
+<ul>
+<li>
+<p>Bluetooth connectivity allows to replace hardware dependent I/O (display, buttons) with software defined I/O (for example, Android apps). This strengthens flexibility and thus resilience.</p>
+</li>
+<li>
+<p>Managing references and bibliography across related projects improves documentation coherence and thus resilience and productivity.</p>
+</li>
+</ul>
+</div>
+<div class="olist none">
+<div class="title">Resilience Report  (<em>Jan 2024</em>)</div>
+<ol class="none">
+<li>
+<p><span class="icon green"><i class="fa fa-plus"></i></span> <span class="icon green"><i class="fa fa-plus"></i></span> <span class="icon green"><i class="fa fa-plus"></i></span> Objectives still hold.</p>
+</li>
+<li>
+<p><span class="icon green"><i class="fa fa-plus"></i></span> <span class="icon white"><i class="fa fa-plus"></i></span> <span class="icon white"><i class="fa fa-plus"></i></span> [Checked 165 links, 56 destination URLs (1 ignored), 0 have warnings or errors]</p>
+</li>
+<li>
+<p><span class="icon white"><i class="fa fa-plus"></i></span> <span class="icon white"><i class="fa fa-plus"></i></span> <span class="icon white"><i class="fa fa-plus"></i></span> I am personally still satisfied with the documentation, except with the management of references and bibliography.</p>
+</li>
+<li>
+<p><span class="icon red"><i class="fa fa-minus"></i></span> <span class="icon red"><i class="fa fa-minus"></i></span> <span class="icon red"><i class="fa fa-minus"></i></span> Tightly coupled to proprietary software and hardware.</p>
+</li>
+<li>
+<p><span class="icon red"><i class="fa fa-minus"></i></span> <span class="icon red"><i class="fa fa-minus"></i></span> <span class="icon white"><i class="fa fa-minus"></i></span> Poor choice in getting-started tools.</p>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<div class="title">Lessons Learned (<em>Jan 2024</em>)</div>
+<ol class="arabic">
+<li>
+<p>The chosen <em>SensorTag</em> mini evaluation kit was utterly unsuited to get started with a complex technology like BLE. I was clearly undereducated when starting this project
+and I should have watched for example some of the excellent videos by <a href="https://www.youtube.com/@AndreasSpiess">Andreas Spiess</a> first.
+It was a bad idea to start from the vendor&#8217;s website.</p>
+</li>
+<li>
+<p>Be more selectively in choosing the right tools for each TiPs. For example, the quality of <a href="https://www.youtube.com/watch?v=c9Xt6Me3mJ4">T.T.H.W - Time To Hello World</a> evaluation boards
+differs enormously. So does the quality of IDEs (Integrated Development Environment).</p>
+</li>
+<li>
+<p>Choose a different toolchain to manage references and bibliography. While asciidoctor is an excellent tool, I feel that I need more help to keep track
+of all the documentation that is typically involved in microcontroller TiPs.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Status</strong>: <mark>failed</mark>.</p>
 </div>
 </div>
 </div>
@@ -532,9 +664,77 @@ Or contact me directly with the email form below.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://vittali.ch/TiPs_2">Getting started with Node-RED and the IBM bluemix cloud</a></p>
+<p><a href="https://vittali.ch/TiPs_2">Choosing a software toolchain for a cloud connected sensor</a></p>
 </li>
 </ul>
+</div>
+<div class="olist arabic">
+<div class="title">Objectives (<em>Aug 2019</em>)</div>
+<ol class="arabic">
+<li>
+<p>Learn to use cloud connected microcontrollers and sensors.</p>
+</li>
+<li>
+<p>Learn to use <a href="https://docs.asciidoctor.org/asciidoc/latest">asciidoctor</a> for technical documentation.</p>
+</li>
+</ol>
+</div>
+<div class="ulist">
+<div class="title">Building Resilience</div>
+<ul>
+<li>
+<p>The cloud as a reliable data store and application container.</p>
+</li>
+<li>
+<p>Tools for documentation.</p>
+</li>
+</ul>
+</div>
+<div class="olist none">
+<div class="title">Resilience Report  (<em>Jan 2024</em>)</div>
+<ol class="none">
+<li>
+<p><span class="icon green"><i class="fa fa-plus"></i></span> <span class="icon green"><i class="fa fa-plus"></i></span> <span class="icon green"><i class="fa fa-plus"></i></span> Objectives still hold.</p>
+</li>
+<li>
+<p><span class="icon green"><i class="fa fa-plus"></i></span> <span class="icon white"><i class="fa fa-plus"></i></span> <span class="icon white"><i class="fa fa-plus"></i></span>  I am personally still satisfied with the documentation. Asciidoctor was a good choice.</p>
+</li>
+<li>
+<p><span class="icon red"><i class="fa fa-minus"></i></span> <span class="icon red"><i class="fa fa-minus"></i></span> <span class="icon red"><i class="fa fa-minus"></i></span> Tightly coupled to proprietary software.</p>
+</li>
+<li>
+<p><span class="icon red"><i class="fa fa-minus"></i></span> <span class="icon red"><i class="fa fa-minus"></i></span> <span class="icon red"><i class="fa fa-minus"></i></span> Conflict with the principle of Separation of Concerns.</p>
+</li>
+<li>
+<p><span class="icon red"><i class="fa fa-minus"></i></span> <span class="icon white"><i class="fa fa-minus"></i></span> <span class="icon white"><i class="fa fa-minus"></i></span> [Checked 98 links, 52 destination URLs, 6 have errors], 5 of 6 broken links go to the vendor website, 4 of them to the support &amp; knowledge center.</p>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<div class="title">Lessons Learned (<em>Jan 2024</em>)</div>
+<ol class="arabic">
+<li>
+<p>I will never, ever, again use "free", proprietary packaged cloud services like IBM bluemix for TiPs. While this offer certainly had benefits for industrial projects,
+it produced a massive overhead of security related ceremony (many different passwords and tokens) that completed outweighed its benefits for TiPs.</p>
+</li>
+<li>
+<p>The cloud service I used did not offer any kind of backward compatibility. After a year or so, the initial project stopped working. Worse, the documentation
+of tools related to the service was not available anymore on the company&#8217;s website.</p>
+</li>
+<li>
+<p>The cloud service promoted the use of "quick-start" tools like <a href="https://nodered.org/">Node-RED</a> and a complete integrated toolchain including a hosted git repo and an application deployment service.
+This conveyed a feeling of comfort and easiness. Clearly, I fell for the <a href="https://www.youtube.com/watch?v=c9Xt6Me3mJ4">T.T.H.W - Time To Hello World</a> fallacy.
+As soon as I started to adapt different parts of this quick-start package, things became very difficult. For example, rather than developing my code
+in the cloud, I wanted to continue developing on my desktop. This in turn required complicated mechanisms to provide passwords from the local machine to the application deployment service.</p>
+</li>
+<li>
+<p>Node-RED is certainly an amazing project as it promotes a modular way of coding without actually writing code. As such, it is a perfect example for a TiPs enabler. However,
+mixing code and visualization elements (dashboards) runs foul of established software design practices promoting clear separation of semantics (model) and visualization (views).</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Status</strong>: <mark>failed</mark>.</p>
 </div>
 </div>
 </div>
@@ -544,14 +744,56 @@ Or contact me directly with the email form below.</p>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://vittali.ch/TiPs_1">Getting started with the BeagleBone Black and the PRU via JTAG</a></p>
+<p><a href="https://vittali.ch/TiPs_1">Test automation with the Programmable Real-Time Unit (PRU) on the TI/Sitara processor</a></p>
 </li>
 </ul>
+</div>
+<div class="olist arabic">
+<div class="title">Objectives (<em>Jun 2020</em>)</div>
+<ol class="arabic">
+<li>
+<p>Build a tool to test TiPs with microcontrollers.</p>
+</li>
+<li>
+<p>Learn to use <a href="https://docs.asciidoctor.org/asciidoc/latest">asciidoctor</a> for technical documentation.</p>
+</li>
+</ol>
+</div>
+<div class="ulist">
+<div class="title">Building Resilience</div>
+<ul>
+<li>
+<p>Tools for automatic testing.</p>
+</li>
+<li>
+<p>Tools for documentation.</p>
+</li>
+</ul>
+</div>
+<div class="olist none">
+<div class="title">Resilience Report  (<em>Jan 2024</em>)</div>
+<ol class="none">
+<li>
+<p><span class="icon green"><i class="fa fa-plus"></i></span> <span class="icon green"><i class="fa fa-plus"></i></span> <span class="icon green"><i class="fa fa-plus"></i></span> Objectives still hold.</p>
+</li>
+<li>
+<p><span class="icon green"><i class="fa fa-plus"></i></span> <span class="icon white"><i class="fa fa-plus"></i></span> <span class="icon white"><i class="fa fa-plus"></i></span>  I am personally still satisfied with the documentation. Asciidoctor was a good choice.</p>
+</li>
+<li>
+<p><span class="icon red"><i class="fa fa-minus"></i></span> <span class="icon red"><i class="fa fa-minus"></i></span> <span class="icon red"><i class="fa fa-minus"></i></span> Tightly coupled to proprietary software and hardware.</p>
+</li>
+<li>
+<p><span class="icon red"><i class="fa fa-minus"></i></span> <span class="icon white"><i class="fa fa-minus"></i></span> <span class="icon white"><i class="fa fa-minus"></i></span> [Checked 73 links, 41 destination URLs, 2 have errors].</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Status</strong>: on hold.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_contact_impressum">Contact &amp; Impressum</h2>
+<h2 id="_contact_imprint">Contact &amp; Imprint</h2>
 <div class="sectionbody">
 <form id="contactform" method="POST">
     <input type="text" name="name" placeholder="Your name">
@@ -571,19 +813,10 @@ Weidenweg 1<br>
 CH-4127 Birsfelden, Schweiz<br>
 +41 61 271 89 33</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_legal">Legal</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>The content on this website may contain technical inaccuracies or typographical errors
-and may be changed or updated without notice.
-The authors of this website may also make improvements and/or changes to the content at any time without notice.</p>
-</div>
-<div class="paragraph">
-<p>The authors of vittali.ch assume no responsibility
-regarding the accuracy of the content and use of the content is at the recipients own risk.
+<p><strong>Legal</strong>: The content on this website may contain technical inaccuracies or typographical errors
+and may be changed or updated without notice. The authors of this website may also make improvements and/or changes to the content at any time without notice.
+The authors of vittali.ch assume no responsibility regarding the accuracy of the content and use of the content is at the recipients own risk.
 The authors of vittali.ch provide no assurances that any reported problems with any content will be resolved.</p>
 </div>
 </div>
