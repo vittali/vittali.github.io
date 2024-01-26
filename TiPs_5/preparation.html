@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.16">
-<title>Building resilience in Tiny Projects (TiPs)</title>
+<title>Preparation</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -436,165 +436,296 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
-<body class="article toc2 toc-left">
+<body class="article">
 <div id="header">
-<h1>Building resilience in Tiny Projects (TiPs)</h1>
-<div id="toc" class="toc2">
-<div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#_tips_6">TiPs #6</a></li>
-<li><a href="#_tips_5">TiPs #5</a></li>
-<li><a href="#_tips_4">TiPs #4</a></li>
-<li><a href="#_tips_3">TiPs #3</a></li>
-<li><a href="#_tips_2">TiPs #2</a></li>
-<li><a href="#_tips_1">TiPs #1</a></li>
-<li><a href="#_contact_impressum">Contact &amp; Impressum</a></li>
-<li><a href="#_legal">Legal</a></li>
-</ul>
-</div>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>Tiny software and electronics projects (TiPs) are ubiquitous. The <a href="https://www.arduino.cc">The Arduino Ecosystem</a> has facilitated many of them.
-But some TiPs do not evolve and eventually become obsolete.
-Others do evolve and have a tendancy to become un-tiny and untidy and unfit.
-I would like my TiPs to evolve and to adapt to my needs while staying tiny.<br>
-In other words: I would like to make my TiPs resilient when submitted to changes.</p>
-</div>
-<div class="paragraph">
-<p>Each project has a companion github repository. Please use the github issue tracker for questions, feedback and corrections.
-Or contact me directly with the email form below.</p>
-</div>
-<div class="paragraph">
-<p>Feel free to copy (MIT license).</p>
-</div>
-<div class="paragraph">
-<p>Copyright &#169; 2024 Peter Vittali</p>
-</div>
-</div>
-</div>
 <div class="sect1">
-<h2 id="_tips_6">TiPs #6</h2>
+<h2 id="_preparation">Preparation</h2>
 <div class="sectionbody">
-<div class="ulist">
-<ul>
+<div class="paragraph">
+<p>I summarize a couple of steps that helped me to streamline the development and testing workflow.
+I also present a couple of error messages, some of which I am unable to reproduce, that occurred when I tried to flash a binary to the MCU during a CCS debug session.
+I believe that having seen the error message in this memo up front, it becomes less frightening when it shows up in the IDE.</p>
+</div>
+<div class="sect2">
+<h3 id="_the_companion_repo">The companion repo</h3>
+<div class="paragraph">
+<p>While one part of the source code of the TI Design is now in the official SKD <a href="#r12">[r12]</a>,
+the other part involving the gateway and the cloud/web front ent must be obtained from the <a href="https://git.ti.com/cgit/tidc01002/tidc01002">tidc01003 git repo</a> hosted by TI.
+Since I am likely to make changes to the TI repo, it is useful to add it to the {r0} of this memo as a git submodule:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ git submodule add https://git.ti.com/git/tidc01002/tidc01002.git
+$ git submodule update --init
+$ git remote rename origin ti
+$ git remote add origin git@github.com:vittali/vittali.ch-5-TIR-1002-tidc01002.git</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>I can then clone the submodule:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ git clone --recurse-submodules https://git.ti.com/git/tidc01002/tidc01002.git</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>I then need to checkout a branch <strong>before I make changes</strong>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ cd tidc01002
+$ git checkout master
+&lt;make changes&gt;
+$ git add .
+$ git commit -m"my changes"
+$ git push origin master</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_disambiguating_launchpads">Disambiguating LaunchPads</h3>
+<div class="paragraph">
+<p>Since at least two LaunchPads are connected simultaneously, I must ensure that:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p><a href="https://vittali.ch/TiPs_6">TI Reference Design TIDEP0084: Sub-1 GHz Sensor to Cloud Industrial IoT Gateway Reference Design for Linux Systems</a></p>
+<p>when programming a LaunchPad with CCS, the flash utility knows which LaunchPad is supposed to receive the binary,</p>
 </li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_5">TiPs #5</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
 <li>
-<p><a href="https://vittali.ch/TiPs_5">TI Reference Design TIDC-01002: Sub-1 GHz Embedded Sensor to Cloud Industrial Internet of Things(IoT) Gateway Reference Design</a></p>
+<p>when testing the application components, the user knows which serial port corresponds to each LaunchPad in order to be able to open a terminal session.</p>
 </li>
-</ul>
+</ol>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_4">TiPs #4</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_4">Getting started with the TI CC1350 Sensor Tag</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_3">TiPs #3</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_3">Getting started with the TI CC2650 Sensor Tag</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_2">TiPs #2</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_2">Getting started with Node-RED and the IBM bluemix cloud</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_1">TiPs #1</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_1">Getting started with the BeagleBone Black and the PRU via JTAG</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_contact_impressum">Contact &amp; Impressum</h2>
-<div class="sectionbody">
-<form id="contactform" method="POST">
-    <input type="text" name="name" placeholder="Your name">
-    <input type="email" name="_replyto" placeholder="Your email">
-    <input type="hidden" name="_subject" value="Website contact" />
-    <textarea name="message" placeholder="Your message"></textarea>
-    <input type="text" name="_gotcha" style="display:none" />
-    <input type="submit" value="Send">
-</form>
-<script>
-    var contactform =  document.getElementById('contactform');
-    contactform.setAttribute('action', '//formspree.io/' + 'vittali' + '@' + 'sunrise' + '.' + 'ch');
-</script>
+<div class="sect3">
+<h4 id="_setting_a_unique_serial_number_for_each_launchpad">Setting a unique serial number for each LaunchPad.</h4>
 <div class="paragraph">
-<p>Peter Vittali<br>
-Weidenweg 1<br>
-CH-4127 Birsfelden, Schweiz<br>
-+41 61 271 89 33</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_legal">Legal</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The content on this website may contain technical inaccuracies or typographical errors
-and may be changed or updated without notice.
-The authors of this website may also make improvements and/or changes to the content at any time without notice.</p>
+<p>The first step is to give each LaunchPad<sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup>
+a unique serial number.</p>
 </div>
 <div class="paragraph">
-<p>The authors of vittali.ch assume no responsibility
-regarding the accuracy of the content and use of the content is at the recipients own risk.
-The authors of vittali.ch provide no assurances that any reported problems with any content will be resolved.</p>
+<p>I first label the LaunchPad board (see <a href="#hardware">[hardware]</a>) with the desired unique serial number (a non negative integer).
+I then connect the LaunchPad (and only this one) to the host and use the <code>xdsdfu</code> utility<sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup>
+to write the choosen number to the LaunchPad. Here is an example session:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd $CCS_INSTALLDIR/ccs/ccs_base/common/uscif/xds110
+$ ./xdsdfu -e  <b class="conum">(1)</b>
+
+USB Device Firmware Upgrade Utility
+Copyright (c) 2008-2019 Texas Instruments Incorporated.  All rights reserved.
+
+Scanning USB buses for supported XDS110 devices...
+
+
+&lt;&lt;&lt;&lt; Device 0 &gt;&gt;&gt;&gt;
+
+VID: 0x0451    PID: 0xbef3
+Device Name:   XDS110 Embed with CMSIS-DAP
+Version:       3.0.0.5
+Manufacturer:  Texas Instruments
+Serial Num:    6
+Mode:          Runtime
+Configuration: Standard
+
+Found 1 device.
+
+$ ./xdsdfu -m  <b class="conum">(2)</b>
+$ ./xdsdfu -s 1 -r <b class="conum">(3)</b></pre>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>enumerate (list) all currently connected devices. Only one device must be connected at this time.</p>
+</li>
+<li>
+<p>set the device into DFU mode (required)</p>
+</li>
+<li>
+<p>set the serial number to <em>1</em> (replacing <em>6</em>) and reset the device</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The new serial number is persistently stored.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_targeting_a_serial_number_in_a_ccs_project">Targeting a serial number in a CCS project</h4>
+<div class="paragraph">
+<p>Each CCS contains a target configuration file with the extension <code>*.ccxml</code>.</p>
+</div>
+<div class="paragraph">
+<p>The connection properties page needs to be populated with the serial number of the target LaunchPad:</p>
+</div>
+<div id="targetconf" class="imageblock">
+<div class="content">
+<img src="target-conf.png" alt="target configuration">
+</div>
+<div class="title">Figure 1. Both target configurations are populated with the choosen serial numbers (shown is the collector project).</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_controlling_serial_port_enumeration">Controlling serial port enumeration</h3>
+<div class="paragraph">
+<p>After the installation of CCS, a driver installation script must be run to complete the installation.
+Under linux, the script <code>$CCS_HOME/ccs/ccs_base/common/uscif/install/ti_permissions_install.sh</code> will install the
+udev<sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup> rules file <code>71-ti-permissions.rules</code> under
+<code>/etc/udev/rules.d</code>.</p>
+</div>
+<div class="paragraph">
+<p>When I connect a LaunchPad to the host via USB, <code>udev</code> will load the required driver and allocate two port names, for example <code>ttyACM0</code> and <code>ttyACM1</code>.
+The first one is the one I need to choose in my terminal host program.</p>
+</div>
+<div class="paragraph">
+<p>A second LaunchPad will then enumerate for example as <code>ttyACM2</code> and <code>ttyACM3</code>.</p>
+</div>
+<div class="paragraph">
+<p>If I disconnect/reconnect a LaunchPad - something that happens during development work - a new the port name will be assigned.
+Since the old port name is still available, I might be tempted to resuse it in my terminal application. This results in an an error message.
+This is extremely annoying as I am forced to discover the new port name by trial and error.
+It also prevents me from using default configurations for my terminal program.</p>
+</div>
+<div class="paragraph">
+<p>A couple of hints on how to solve this problems can be found here <a href="#r41">[r41]</a>, <a href="#r42">[r42]</a>, <a href="#r43">[r43]</a></p>
+</div>
+<div class="paragraph">
+<p>Here is my rules file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash"># Minimal extract from TI: $CCS_HOME/ccs920/ccs/ccs_base/common/uscif/install/71-ti-permissions.rules
+# perms are 644
+
+# mandatory
+SUBSYSTEM=="usb",ENV{DEVTYPE}=="usb_device",ATTRS{idVendor}=="1cbe",ATTRS{idProduct}=="00fd",MODE:="0666"
+SUBSYSTEM=="usb",ENV{DEVTYPE}=="usb_device",ATTRS{idVendor}=="1cbe",ATTRS{idProduct}=="00ff",MODE:="0666"
+
+# all my launchpads have idProduct bef3
+SUBSYSTEMS=="usb",ATTRS{idVendor}=="0451",ATTRS{idProduct}=="bef3",MODE:="0666",SYMLINK+="ti%E{ID_SERIAL_SHORT}%E{ID_USB_INTERFACE_NUM}"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The combination of properties <code>ID_SERIAL_SHORT</code> and <code>ID_USB_INTERFACE_NUM</code> is a unique key for each serial channel.
+The first property is the serial number I set at the beginning of this chapter.</p>
+</div>
+<div class="paragraph">
+<p>The last rule will enumerate the first channel on a LaunchPad with serial number 5 as <code>dev/ti500</code>, the second channel as <code>dev/ti503</code>.
+Currently, I don&#8217;t know if the second channel is of any importance to the user.</p>
+</div>
+<div class="paragraph">
+<p>Here is an example where two LaunchPads with serial numbers <em>2</em> and <em>6</em> are connected to the host:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ ls /dev/ti*
+lrwxrwxrwx 1 root root  7 Apr 15 21:43 /dev/ti -&gt; hidraw4
+lrwxrwxrwx 1 root root 15 Apr 15 21:43 /dev/ti2 -&gt; bus/usb/002/025
+lrwxrwxrwx 1 root root  7 Apr 15 21:43 /dev/ti200 -&gt; ttyACM2
+lrwxrwxrwx 1 root root  7 Apr 15 21:43 /dev/ti203 -&gt; ttyACM3
+lrwxrwxrwx 1 root root 15 Apr 15 19:39 /dev/ti6 -&gt; bus/usb/002/024
+lrwxrwxrwx 1 root root  7 Apr 15 19:39 /dev/ti600 -&gt; ttyACM0
+lrwxrwxrwx 1 root root  7 Apr 15 19:39 /dev/ti603 -&gt; ttyACM1</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>I used the following commands to write these rules:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ udevadm info -a /dev/ttyACMx
+$ udevadm test /sys/class/tty/ttyACMx</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_connection_problems">Connection problems</h3>
+<div class="paragraph">
+<p>In no particular order a grab bag of problems I encountered.</p>
+</div>
+<div class="sect3">
+<h4 id="_force_clearing_the_flash">Force-clearing the flash</h4>
+<div class="paragraph">
+<p>On one occasion, the collector binary flashed to the LaunchPad produced scrambled output on the terminal connection.
+I reflashed, recompiled the program, to no avail. I then used UniFlash to clear the entire flash and this solved the problem:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="erase-all.png" alt="erase flash">
+</div>
+<div class="title">Figure 2. Clearing the flash with UniFlash</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_error_connecting_to_the_target_error_260_0x0">Error connecting to the target: (Error -260 @ 0x0)</h4>
+<div class="paragraph">
+<p>When I try to run the first debug session for the <code>network_terminal_CC3220SF_LAUNCHXL_tirtos_ccs</code> project from CCS , I got this:</p>
+</div>
+<div id="error1" class="imageblock">
+<div class="content">
+<img src="CC3220SF-debug-error.png" alt="error message">
+</div>
+<div class="title">Figure 3. Error message when opening a debug session to the CC3220SF LaunchPad.</div>
+</div>
+<div class="paragraph">
+<p>I am not sure what finally allowed me to connect, but I suppose I needed to unpluck/repluck the micro USB connector.
+Presumably, the Uniflash application that I used to flash the binaries still kept a connection to the board.
+I did not need to change jumper positions on the board.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_debug_configuration_auto_run_and_launch_options">Debug Configuration: Auto Run and Launch Options</h4>
+<div class="paragraph">
+<p>I encountered different error messages (that I failed to write down), when the option</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>Connect to target on debugger startup</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>is not checked in the Debug Configuration.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="DebugConfiguration_connect_ok.png" alt="options">
+</div>
+<div class="title">Figure 4. Debug Configuration with the 'Auto Run and Launch Options'</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_other_problems">Other problems</h3>
+<div class="paragraph">
+<p>I had to deactivate Remote System Explorer Operation to speed up compilation, see <a href="#e2e4">[e2e4]</a></p>
 </div>
 </div>
 </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
-<script>
-if (!hljs.initHighlighting.called) {
-  hljs.initHighlighting.called = true
-  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
-}
-</script>
+</div>
+<div id="footnotes">
+<hr>
+<div class="footnote" id="_footnotedef_1">
+<a href="#_footnoteref_1">1</a>. more precisely, the debug probe included on the LaunchPad
+</div>
+<div class="footnote" id="_footnotedef_2">
+<a href="#_footnoteref_2">2</a>. part of the CCS installation
+</div>
+<div class="footnote" id="_footnotedef_3">
+<a href="#_footnoteref_3">3</a>. udev is the Linux subsystem for managing driver events
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2020-05-14 16:35:19 +0200
+</div>
+</div>
 </body>
 </html>

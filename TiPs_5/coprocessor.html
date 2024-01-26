@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.16">
-<title>Building resilience in Tiny Projects (TiPs)</title>
+<title>Coprocessor</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -436,165 +436,51 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
-<body class="article toc2 toc-left">
+<body class="article">
 <div id="header">
-<h1>Building resilience in Tiny Projects (TiPs)</h1>
-<div id="toc" class="toc2">
-<div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#_tips_6">TiPs #6</a></li>
-<li><a href="#_tips_5">TiPs #5</a></li>
-<li><a href="#_tips_4">TiPs #4</a></li>
-<li><a href="#_tips_3">TiPs #3</a></li>
-<li><a href="#_tips_2">TiPs #2</a></li>
-<li><a href="#_tips_1">TiPs #1</a></li>
-<li><a href="#_contact_impressum">Contact &amp; Impressum</a></li>
-<li><a href="#_legal">Legal</a></li>
-</ul>
-</div>
 </div>
 <div id="content">
-<div id="preamble">
+<div class="sect1">
+<h2 id="_coprocessor">Coprocessor</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_copy_the_example_project">Copy the example project</h3>
 <div class="paragraph">
-<p>Tiny software and electronics projects (TiPs) are ubiquitous. The <a href="https://www.arduino.cc">The Arduino Ecosystem</a> has facilitated many of them.
-But some TiPs do not evolve and eventually become obsolete.
-Others do evolve and have a tendancy to become un-tiny and untidy and unfit.
-I would like my TiPs to evolve and to adapt to my needs while staying tiny.<br>
-In other words: I would like to make my TiPs resilient when submitted to changes.</p>
-</div>
-<div class="paragraph">
-<p>Each project has a companion github repository. Please use the github issue tracker for questions, feedback and corrections.
-Or contact me directly with the email form below.</p>
+<p>I import the project <code>coprocessor_CC1352P1_LAUNCHXL_tirtos_ccs_syscfg</code> into the CCS workspace.</p>
 </div>
 <div class="paragraph">
-<p>Feel free to copy (MIT license).</p>
+<p>Within CCS, I then copy the project as <code>coprocessor-uart</code> into the {r0}.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_uart_configuration">UART configuration</h3>
+<div class="paragraph">
+<p>According to the TI Design, I need to modifiy the UART configuration:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>When re-compiling the Mac CoP firmware, the pin configuration for the UART needs to be modified since the default Mac CoP example
+in the CC13xxSDK uses IOID3 and IOID2 pins for UART and the gateway uses IOID11 and IOID9.</p>
+</div>
+</blockquote>
+<div class="attribution">
+&#8212; 3.2.1.1.4.3 Compiling the Mac-CoP fromSource
+</div>
 </div>
 <div class="paragraph">
-<p>Copyright &#169; 2024 Peter Vittali</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_6">TiPs #6</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_6">TI Reference Design TIDEP0084: Sub-1 GHz Sensor to Cloud Industrial IoT Gateway Reference Design for Linux Systems</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_5">TiPs #5</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_5">TI Reference Design TIDC-01002: Sub-1 GHz Embedded Sensor to Cloud Industrial Internet of Things(IoT) Gateway Reference Design</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_4">TiPs #4</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_4">Getting started with the TI CC1350 Sensor Tag</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_3">TiPs #3</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_3">Getting started with the TI CC2650 Sensor Tag</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_2">TiPs #2</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_2">Getting started with Node-RED and the IBM bluemix cloud</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_1">TiPs #1</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_1">Getting started with the BeagleBone Black and the PRU via JTAG</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_contact_impressum">Contact &amp; Impressum</h2>
-<div class="sectionbody">
-<form id="contactform" method="POST">
-    <input type="text" name="name" placeholder="Your name">
-    <input type="email" name="_replyto" placeholder="Your email">
-    <input type="hidden" name="_subject" value="Website contact" />
-    <textarea name="message" placeholder="Your message"></textarea>
-    <input type="text" name="_gotcha" style="display:none" />
-    <input type="submit" value="Send">
-</form>
-<script>
-    var contactform =  document.getElementById('contactform');
-    contactform.setAttribute('action', '//formspree.io/' + 'vittali' + '@' + 'sunrise' + '.' + 'ch');
-</script>
-<div class="paragraph">
-<p>Peter Vittali<br>
-Weidenweg 1<br>
-CH-4127 Birsfelden, Schweiz<br>
-+41 61 271 89 33</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_legal">Legal</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The content on this website may contain technical inaccuracies or typographical errors
-and may be changed or updated without notice.
-The authors of this website may also make improvements and/or changes to the content at any time without notice.</p>
-</div>
-<div class="paragraph">
-<p>The authors of vittali.ch assume no responsibility
-regarding the accuracy of the content and use of the content is at the recipients own risk.
-The authors of vittali.ch provide no assurances that any reported problems with any content will be resolved.</p>
+<p>However, the CC1352P1 LaunchPad uses DIO12 and DIO13 corresponding to J4/J3 on the <a href="https://processors.wiki.ti.com/images/c/c2/BoosterPack_Standard_PUBLIC_2PAGE.pdf">BoosterPack Standard Header Pin Assignment</a>, just like the CC3220 LaunchPad for the gateway.
+No modification is required on either board, other than the Jumper adjustements explained in <em>3.2.1.1.5 Connecting the MAC-CoP and the CC3220SFLaunchPad™</em>.</p>
 </div>
 </div>
 </div>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
-<script>
-if (!hljs.initHighlighting.called) {
-  hljs.initHighlighting.called = true
-  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
-}
-</script>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2020-05-14 16:35:19 +0200
+</div>
+</div>
 </body>
 </html>

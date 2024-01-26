@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.16">
-<title>Building resilience in Tiny Projects (TiPs)</title>
+<title>TI E2E support forum</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -436,165 +436,209 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/styles/github.min.css">
 </head>
-<body class="article toc2 toc-left">
+<body class="article">
 <div id="header">
-<h1>Building resilience in Tiny Projects (TiPs)</h1>
-<div id="toc" class="toc2">
-<div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#_tips_6">TiPs #6</a></li>
-<li><a href="#_tips_5">TiPs #5</a></li>
-<li><a href="#_tips_4">TiPs #4</a></li>
-<li><a href="#_tips_3">TiPs #3</a></li>
-<li><a href="#_tips_2">TiPs #2</a></li>
-<li><a href="#_tips_1">TiPs #1</a></li>
-<li><a href="#_contact_impressum">Contact &amp; Impressum</a></li>
-<li><a href="#_legal">Legal</a></li>
-</ul>
-</div>
 </div>
 <div id="content">
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p>Tiny software and electronics projects (TiPs) are ubiquitous. The <a href="https://www.arduino.cc">The Arduino Ecosystem</a> has facilitated many of them.
-But some TiPs do not evolve and eventually become obsolete.
-Others do evolve and have a tendancy to become un-tiny and untidy and unfit.
-I would like my TiPs to evolve and to adapt to my needs while staying tiny.<br>
-In other words: I would like to make my TiPs resilient when submitted to changes.</p>
-</div>
-<div class="paragraph">
-<p>Each project has a companion github repository. Please use the github issue tracker for questions, feedback and corrections.
-Or contact me directly with the email form below.</p>
-</div>
-<div class="paragraph">
-<p>Feel free to copy (MIT license).</p>
-</div>
-<div class="paragraph">
-<p>Copyright &#169; 2024 Peter Vittali</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_6">TiPs #6</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_ti_e2e_support_forum">TI E2E support forum</h3>
+<div class="sect3">
+<h4 id="_dicussions_started_by_the_author">dicussions started by the author</h4>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://vittali.ch/TiPs_6">TI Reference Design TIDEP0084: Sub-1 GHz Sensor to Cloud Industrial IoT Gateway Reference Design for Linux Systems</a></p>
+<p>[<a id="e2e1"></a>] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/822386">CC2650STK: SensorTag doesn&#8217;t show up in device list of TI SensorTag App</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>choosing the right app: the flyer in the box mentions an app that is not available anymore, the <em>SimpleLink SensorTag</em> on Google Play is the correct one, although the CC2650STK is not part of the SimpleLink family</p>
+</li>
+<li>
+<p>granting permissions: for some reason you must grant access to your phone&#8217;s location. This is not only annoying because this is supposed to be demo software,
+but also the app doesn&#8217;t work without warning if you don&#8217;t grant access.</p>
+</li>
+<li>
+<p>also applies to the CC1350STK.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>[<a id="e2e2"></a>] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/828436">CC2650STK: Cloud Settings for the IBM IOT platform for BlueMix Free</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>currently the IBM Watson IoT platform access (as opposed to the IBM Quickstart access)
+is not available with the <em>SimpleLink SensorTag</em> app due to a bug.</p>
+</li>
+<li>
+<p>also applies to the CC1350STK.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>[<a id="e2e3"></a>] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/831544">CC2650STK: Is there a linux compatible BLE stack for the CC2650STK</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>no, this is one of the idiosyncrasies of the CC2650STK, refer to the {rTI-3} for a Linux compatible BLE development environment.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>[<a id="e2e4"></a>] <a href="https://e2e.ti.com/support/tools/ccs/f/81/t/828577">CCS/CC2650STK: Failed to launch debug session for CC2650STK</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>contrary to what the discussion suggests, the target configuration of the <em>uartecho_CC2650STK</em> project is correct, no modification is required.</p>
+</li>
+<li>
+<p>contrary to what the discussion suggests, the {rTI-5} is currently not supported for the Sensor Tags, use the {rTI-6}.</p>
+</li>
+<li>
+<p>contrary to what the discussion suggests, the coin battery must not be inserted during debugging, the target is powered by the {rTI-6}.</p>
+</li>
+<li>
+<p>also applies to the CC1350STK.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>[<a id="e2e5"></a>] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/827756">CCS/CC2650STK: Can I use CCS and the XDS110 debug probe to program and debug the CC2650STK SensorTag</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>while it is possible to connect the {rTI-5}, see Figure <a href="#JTAG">[JTAG]</a>, this debug probe is currently not supported for the Sensor Tag.</p>
+</li>
+<li>
+<p>also applies to the CC1350STK.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>[<a id="e2e6"></a>] <a href="https://e2e.ti.com/support/wireless-connectivity/sub-1-ghz/f/156/t/832998">CC1350STK: Downloading new firmware images to the device via the Over-the-Air-Download (OAD) service not as described in doc</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>this is currently an open question for the <em>SimpleLink SensorTag</em> app team.</p>
+</li>
+<li>
+<p>also applies to the CC2650STK.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>[<a id="e2e7"></a>] <a href="https://e2e.ti.com/support/tools/ccs/f/81/p/831543/3077956">CCS/CC2650STK: Can&#8217;t start the System Analyzer despite the README.md saying so</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>see chapter <a href="#logging">[logging]</a></p>
+</li>
+<li>
+<p>applies to all TI-RTOS based projects.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>[<a id="e2e8"></a>] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/831951">CC2650STK: Can&#8217;t use UART on CC2650 STK</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>this was due to the usage of the {rTI-5} debug probe in conjunction with the suggested modification of the target configuration file in <a href="#e2e5">[e2e5]</a>.</p>
+</li>
+<li>
+<p>also applies to the CC1350STK.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>[<a id="e2e9"></a>] <a href="https://e2e.ti.com/support/wireless-connectivity/sub-1-ghz/f/156/t/837456"> CC1350STK: Where is the out-of-box demo source code for the CC1350 and CC2650 Sensor Tags ?</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>the out-of-box demo source code is not available. Why ?</p>
+</li>
+<li>
+<p>also applies to the CC2650STK.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>[<a id="e2e10"></a>] <a href="https://e2e.ti.com/support/wireless-connectivity/sub-1-ghz/f/156/t/832999">CCS/CC1350STK: Empty project debug session not as expected</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>I am unable to reproduce the errors mentioned.
+I suppose that they were related to the usage of the {rTI-5} rathern than the {rTI-6}.</p>
+</li>
+<li>
+<p>also applies to the CC2650STK.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>[<a id="e2e11"></a>] <a href="https://e2e.ti.com/support/tools/ccs/f/81/t/832755">CCS/CODECOMPOSER: Code Composer Studio 9 Installer hangs on Windows 7 SP1</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>installing the CC13x and CC26xx device support on Windows 7 Pro fails, this is a bug related to the TI emulator driver installation.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>[<a id="e2e12"></a>] <a href="https://e2e.ti.com/support/wireless-connectivity/sub-1-ghz/f/156/t/833000">CCS/CC1350STK: Setting for Power Selection for CC1350STK and for CC2650STK</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p>the power selection in the target configuration files of the example projects are correct, when using {rTI-6}.
+The battery/power supply must be removed during debugging.</p>
+</li>
+<li>
+<p>also applies to the CC2650STK.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_related_discussions_started_by_other_users">related discussions started by other users</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>[<a id="e2e20"></a>] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/766831?CCS-CC2640R2F-INFO-Cortex-M3-0-File-Loader-Memory-write-failed-Timed-out-waiting-for-target-flashloader-to-execute-command-">CCS/CC2640R2F: INFO&#8201;&#8212;&#8201;Cortex_M3_0: File Loader: Memory write failed: Timed out waiting for target flashloader to execute command.</a>
+Tags: Connection &#8230;&#8203;.</p>
+</li>
+<li>
+<p>[<a id="e2e21"></a>]  <a href="https://e2e.ti.com/support/tools/ccs/f/81/t/578693">CCS/CC2650: Memory write failed: Timed out waiting for target to halt</a></p>
+</li>
+<li>
+<p>[<a id="e2e22"></a>]  <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/803609?CCS-CC2640-The-program-works-perfectly-on-first-launch-but-has-Memory-write-failed-error-on-the-next-launch-">CCS/CC2640: The program works perfectly on first launch, but has "Memory write failed" error on the next launch.</a></p>
+</li>
+<li>
+<p>[<a id="e2e23"></a>] <a href="https://e2e.ti.com/support/wireless-connectivity/bluetooth/f/538/t/744902?CCS-CC2652R-Cant-run-ble5-simple-central-cc2640r2lp-app">CCS/CC2652R: Cant run ble5_simple_central_cc2640r2lp_app</a></p>
 </li>
 </ul>
 </div>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_tips_5">TiPs #5</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_5">TI Reference Design TIDC-01002: Sub-1 GHz Embedded Sensor to Cloud Industrial Internet of Things(IoT) Gateway Reference Design</a></p>
-</li>
-</ul>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2024-01-26 00:45:27 +0100
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_tips_4">TiPs #4</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_4">Getting started with the TI CC1350 Sensor Tag</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_3">TiPs #3</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_3">Getting started with the TI CC2650 Sensor Tag</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_2">TiPs #2</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_2">Getting started with Node-RED and the IBM bluemix cloud</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_1">TiPs #1</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_1">Getting started with the BeagleBone Black and the PRU via JTAG</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_contact_impressum">Contact &amp; Impressum</h2>
-<div class="sectionbody">
-<form id="contactform" method="POST">
-    <input type="text" name="name" placeholder="Your name">
-    <input type="email" name="_replyto" placeholder="Your email">
-    <input type="hidden" name="_subject" value="Website contact" />
-    <textarea name="message" placeholder="Your message"></textarea>
-    <input type="text" name="_gotcha" style="display:none" />
-    <input type="submit" value="Send">
-</form>
-<script>
-    var contactform =  document.getElementById('contactform');
-    contactform.setAttribute('action', '//formspree.io/' + 'vittali' + '@' + 'sunrise' + '.' + 'ch');
-</script>
-<div class="paragraph">
-<p>Peter Vittali<br>
-Weidenweg 1<br>
-CH-4127 Birsfelden, Schweiz<br>
-+41 61 271 89 33</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_legal">Legal</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The content on this website may contain technical inaccuracies or typographical errors
-and may be changed or updated without notice.
-The authors of this website may also make improvements and/or changes to the content at any time without notice.</p>
-</div>
-<div class="paragraph">
-<p>The authors of vittali.ch assume no responsibility
-regarding the accuracy of the content and use of the content is at the recipients own risk.
-The authors of vittali.ch provide no assurances that any reported problems with any content will be resolved.</p>
-</div>
-</div>
-</div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
-<script>
-if (!hljs.initHighlighting.called) {
-  hljs.initHighlighting.called = true
-  ;[].slice.call(document.querySelectorAll('pre.highlight > code')).forEach(function (el) { hljs.highlightBlock(el) })
-}
-</script>
 </body>
 </html>

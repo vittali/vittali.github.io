@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.16">
-<title>Building resilience in Tiny Projects (TiPs)</title>
+<title>TI Reference Design TIDEP0084: Sub-1 GHz Sensor to Cloud Industrial IoT Gateway Reference Design for Linux Systems</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -441,150 +441,238 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Building resilience in Tiny Projects (TiPs)</h1>
+<h1>TI Reference Design TIDEP0084: Sub-1 GHz Sensor to Cloud Industrial IoT Gateway Reference Design for Linux Systems</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_tips_6">TiPs #6</a></li>
-<li><a href="#_tips_5">TiPs #5</a></li>
-<li><a href="#_tips_4">TiPs #4</a></li>
-<li><a href="#_tips_3">TiPs #3</a></li>
-<li><a href="#_tips_2">TiPs #2</a></li>
-<li><a href="#_tips_1">TiPs #1</a></li>
-<li><a href="#_contact_impressum">Contact &amp; Impressum</a></li>
-<li><a href="#_legal">Legal</a></li>
+<li><a href="#_introduction">1. Introduction</a></li>
+<li><a href="#_the_coprocessor">2. The Coprocessor</a>
+<ul class="sectlevel2">
+<li><a href="#_copy_the_example_project">2.1. Copy the example project</a></li>
+<li><a href="#_setting_the_serial_number_of_the_gateway_on_board_debug_probe">2.2. Setting the serial number of the gateway on-board debug probe.</a></li>
+</ul>
+</li>
+<li><a href="#_host_based_version">3. Host based version</a>
+<ul class="sectlevel2">
+<li><a href="#_task_3">3.1. Task 3</a></li>
+<li><a href="#_intermezzo">3.2. Intermezzo</a></li>
+<li><a href="#_copy_the_source_code_for_the_host_based_software">3.3. Copy the source code for the host based software</a></li>
+<li><a href="#_modify_collector_cfg">3.4. Modify collector.cfg</a></li>
+</ul>
+</li>
+<li><a href="#_references">4. References</a>
+<ul class="sectlevel2">
+<li><a href="#_ti_design_tidep0084">TI Design TIDEP0084</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph">
-<p>Tiny software and electronics projects (TiPs) are ubiquitous. The <a href="https://www.arduino.cc">The Arduino Ecosystem</a> has facilitated many of them.
-But some TiPs do not evolve and eventually become obsolete.
-Others do evolve and have a tendancy to become un-tiny and untidy and unfit.
-I would like my TiPs to evolve and to adapt to my needs while staying tiny.<br>
-In other words: I would like to make my TiPs resilient when submitted to changes.</p>
+<div class="quoteblock abstract">
+<blockquote>
+<span class="icon"><a class="image" href="https://vittali.ch"><i class="fa fa-home"></i></a></span>
+</blockquote>
 </div>
 <div class="paragraph">
-<p>Each project has a companion github repository. Please use the github issue tracker for questions, feedback and corrections.
-Or contact me directly with the email form below.</p>
-</div>
-<div class="paragraph">
-<p>Feel free to copy (MIT license).</p>
-</div>
-<div class="paragraph">
-<p>Copyright &#169; 2024 Peter Vittali</p>
+<p>I want to connect wireless sensor nodes to the IBM IoT Watson cloud infrastructure <a href="https://cloud.ibm.com">IBM Bluemix</a> based on the TI Reference Design TIDEP0084 <a href="http://www.ti.com/tool/TIDEP0084?jktype=design">Sub-1 GHz Sensor to Cloud Industrial IoT Gateway Reference Design for Linux Systems</a>.
+The reference document <a href="http://www.ti.com/lit/ug/tiduci9c/tiduci9c.pdf">TI Designs:TIDEP0084 Sub-1 GHz Sensor-to-Cloud Industrial Internet-of-Things (IoT) Gateway Reference Design</a> is refered to as TI Design in this memo.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_tips_6">TiPs #6</h2>
+<h2 id="_introduction">1. Introduction</h2>
 <div class="sectionbody">
-<div class="ulist">
-<ul>
+<div class="paragraph">
+<p>The TI Design is based on the BeagleBone Black (BBB) and has become part of the SimpleLink CC13x2 SDK Academy <a href="http://dev.ti.com/tirex/explore/node?node=AKhHIwnc97rQCOueQrdD8w__eCfARaV__LATEST">TI 15.4-Stack - Linux Gateway Project Zero</a>, more precisely the part of the Academy
+covering the <a href="http://dev.ti.com/tirex/content/simplelink_cc13x0_sdk_1_40_00_10/docs/ti154stack/ti154stack-users-guide/ti154stack/linux-index.html">TI 15.4-Stack Linux SDK</a>.
+The BBB version has been complemented with Linux PC host based version.
+I will follow the documentation in the CC13x2 SDK Academy and in the <a href="http://software-dl.ti.com/lprf/simplelink_cc13x0_sdk/1_30_00_06/exports/docs/ti154stack/ti154stack-sdg/ti154stack-sdg/index.html">TI 15.4-Stack Software Developer’s Guide</a> and revert to the original TI Design only if necessary.</p>
+</div>
+<div class="paragraph">
+<p>In this project, I will first look at the PC based version, the BBB based version will follow later.</p>
+</div>
+<div class="paragraph">
+<p>In either case, a <em>coprocessor</em> based on a <a href="http://www.ti.com/tool/LAUNCHXL-CC1352R1">SimpleLink™ Multi-Band CC1352R Wireless MCU LaunchPad™ Development Kit</a> is used, which has been the subject of a previous <a href="https://www.vittali.ch/5-TIR-1002">memo</a>.</p>
+</div>
+<div class="paragraph">
+<p>Why this memo ?</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_coprocessor">2. The Coprocessor</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The coprocessor runs the TI 15.4 stack and handles the wireless communication with the sensor nodes.
+It communicates with the host (PC, BBB) via a serial port.</p>
+</div>
+<div class="sect2">
+<h3 id="_copy_the_example_project">2.1. Copy the example project</h3>
+<div class="paragraph">
+<p>I import the <code>coprocessor_CC1352P1_LAUNCHXL_tirtos_ccs_syscfg</code> into the CCS workspace as described in the
+SimpleLink CC13x2 26x2 SDK (3.40.00.02) documentation of the
+<a href="http://dev.ti.com/tirex/explore/node?devtools=LAUNCHXL-CC1352P1&amp;node=AFU6dryAU8NukjdRPy4T4Q" class="bare">http://dev.ti.com/tirex/explore/node?devtools=LAUNCHXL-CC1352P1&amp;node=AFU6dryAU8NukjdRPy4T4Q</a><em>pTTHBmu</em>LATEST[Sensor and Collector - TI 15.4-Stack Project Zero]</p>
+</div>
+<div class="paragraph">
+<p>Within CCS, I then copy the project into <a href="https://github.com/vittali/vittali.ch-6-TIR-0084">compagnion repo</a>, with the following abbreviated names:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p><a href="https://vittali.ch/TiPs_6">TI Reference Design TIDEP0084: Sub-1 GHz Sensor to Cloud Industrial IoT Gateway Reference Design for Linux Systems</a></p>
+<p>coprocessor-usb</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The coprocessor is configured to communicate with the host via a serial-USB connection.
+In another <a href="https://www.vittali.ch/5-TIR-1002">project</a>, the coprocessor is configured to communicate with
+an embedded gateway board directly via UART pins.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_setting_the_serial_number_of_the_gateway_on_board_debug_probe">2.2. Setting the serial number of the gateway on-board debug probe.</h3>
+<div class="paragraph">
+<p>The procedure for setting the serial number has been explained here ??. I choose to set the serial number to <strong>5</strong>.
+The serial port will therefore be available under  <code>/dev/ti500</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_host_based_version">3. Host based version</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>TI 15.4-Stack - Linux Gateway Project Zero</p>
+</div>
+<div class="paragraph">
+<p><a href="http://www.ti.com/tool/TI-15.4-STACK-GATEWAY-LINUX-SDK" class="bare">http://www.ti.com/tool/TI-15.4-STACK-GATEWAY-LINUX-SDK</a></p>
+</div>
+<div class="paragraph">
+<p><a href="http://www.ti.com/tool/SIMPLELINK-CC13X0-SDK" class="bare">http://www.ti.com/tool/SIMPLELINK-CC13X0-SDK</a></p>
+</div>
+<div class="sect2">
+<h3 id="_task_3">3.1. Task 3</h3>
+<div class="paragraph">
+<p>download from here <a href="http://www.ti.com/tool/TI-15.4-STACK-GATEWAY-LINUX-SDK" class="bare">http://www.ti.com/tool/TI-15.4-STACK-GATEWAY-LINUX-SDK</a></p>
+</div>
+<div class="paragraph">
+<p>here is the <a href="http://software-dl.ti.com/simplelink/esd/ti15.4stack_linux_x64/3.40.00.10/exports/docs/ti154stack/html/ti154stack-guide/index-linux.html">Linux TI 15.4-Stack User’s Guide</a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_intermezzo">3.2. Intermezzo</h3>
+<div class="paragraph">
+<p>Trying to fix the port naming mess:</p>
+</div>
+<div class="paragraph">
+<p><a href="https://unix.stackexchange.com/questions/66901/how-to-bind-usb-device-under-a-static-name" class="bare">https://unix.stackexchange.com/questions/66901/how-to-bind-usb-device-under-a-static-name</a></p>
+</div>
+<div class="paragraph">
+<p>I got rid of all TI related .rules in /etc/udev/rules.d
+and added:</p>
+</div>
+<div class="paragraph">
+<p>99-my-usb-serial.rules</p>
+</div>
+<div class="paragraph">
+<p>SUBSYSTEMS=="usb",ATTRS{idVendor}=="0451",ATTRS{idProduct}=="bef3",MODE:="0666",SYMLINK+="ti5%E{ID_USB_INTERFACE_NUM}"</p>
+</div>
+<div class="paragraph">
+<p>this will create:</p>
+</div>
+<div class="paragraph">
+<p>5 is the serial number I gave to the coprocessor LaunchPad.</p>
+</div>
+<div class="paragraph">
+<p>/dev/ti500
+/dev/ti503</p>
+</div>
+<div class="paragraph">
+<p>see <a href="http://www.reactivated.net/writing_udev_rules.html#env" class="bare">http://www.reactivated.net/writing_udev_rules.html#env</a> in general
+see <a href="https://txlab.wordpress.com/2016/06/14/udev-rules-for-ttyusb-devices/" class="bare">https://txlab.wordpress.com/2016/06/14/udev-rules-for-ttyusb-devices/</a> in particular which solves the disambiguaton problem.</p>
+</div>
+<div class="paragraph">
+<p>To find out idVendor and idProduct run</p>
+</div>
+<div class="paragraph">
+<p>$ udevadm info -a /dev/ttyACMx</p>
+</div>
+<div class="paragraph">
+<p>to test the rules :</p>
+</div>
+<div class="paragraph">
+<p>$ udevadm test /sys/class/tty/ttyACMx</p>
+</div>
+<div class="paragraph">
+<p>this shows the env vars ID_xxx</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>where x can be obtained like so:</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>$ ls /dev/ttyACM*
+ /dev/ttyACM2  /dev/ttyACM3</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_copy_the_source_code_for_the_host_based_software">3.3. Copy the source code for the host based software</h3>
+<div class="paragraph">
+<p>I copy relevant parts from ti154stack_linux_x64_3_40_00_10 to the folder <code>ti154stack</code> inside the compagnion demo:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ cd ti154stack
+$ ls
+./components
+example
+scripts
+build_all.sh</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_modify_collector_cfg">3.4. Modify collector.cfg</h3>
+<div class="paragraph">
+<p>devname = /dev/ti500
+config-phy-id 131
+config-scan-duration 5</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>=== Configuring the demo program</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>in bin/collector.cfg;</pre>
+</div>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>devname = /dev/ti500
+	config-phy-id = 131 // 863 Long Range</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_references">4. References</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_ti_design_tidep0084">TI Design TIDEP0084</h3>
+<div class="ulist bibliography">
+<ul class="bibliography">
+<li>
+<p><a id="r11"></a>[r11] <a href="http://www.ti.com/lit/ug/tiduci9c/tiduci9c.pdf">TI Designs:TIDEP0084 Sub-1 GHz Sensor-to-Cloud Industrial Internet-of-Things (IoT) Gateway Reference Design</a></p>
 </li>
 </ul>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_5">TiPs #5</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_5">TI Reference Design TIDC-01002: Sub-1 GHz Embedded Sensor to Cloud Industrial Internet of Things(IoT) Gateway Reference Design</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_4">TiPs #4</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_4">Getting started with the TI CC1350 Sensor Tag</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_3">TiPs #3</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_3">Getting started with the TI CC2650 Sensor Tag</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_2">TiPs #2</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_2">Getting started with Node-RED and the IBM bluemix cloud</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_tips_1">TiPs #1</h2>
-<div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://vittali.ch/TiPs_1">Getting started with the BeagleBone Black and the PRU via JTAG</a></p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_contact_impressum">Contact &amp; Impressum</h2>
-<div class="sectionbody">
-<form id="contactform" method="POST">
-    <input type="text" name="name" placeholder="Your name">
-    <input type="email" name="_replyto" placeholder="Your email">
-    <input type="hidden" name="_subject" value="Website contact" />
-    <textarea name="message" placeholder="Your message"></textarea>
-    <input type="text" name="_gotcha" style="display:none" />
-    <input type="submit" value="Send">
-</form>
-<script>
-    var contactform =  document.getElementById('contactform');
-    contactform.setAttribute('action', '//formspree.io/' + 'vittali' + '@' + 'sunrise' + '.' + 'ch');
-</script>
-<div class="paragraph">
-<p>Peter Vittali<br>
-Weidenweg 1<br>
-CH-4127 Birsfelden, Schweiz<br>
-+41 61 271 89 33</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_legal">Legal</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The content on this website may contain technical inaccuracies or typographical errors
-and may be changed or updated without notice.
-The authors of this website may also make improvements and/or changes to the content at any time without notice.</p>
-</div>
-<div class="paragraph">
-<p>The authors of vittali.ch assume no responsibility
-regarding the accuracy of the content and use of the content is at the recipients own risk.
-The authors of vittali.ch provide no assurances that any reported problems with any content will be resolved.</p>
 </div>
 </div>
 </div>
