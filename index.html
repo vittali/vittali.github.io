@@ -483,15 +483,65 @@ Or contact me directly with the email form below.</p>
 <div class="sect1">
 <h2 id="_tips_7">TiPs #7</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p><span class="icon"><a class="image" href="pdf/130_50_cd_std_scelsi.pdf"><i class="fa fa-file"></i></a></span></p>
-</div>
 <div class="ulist">
 <ul>
 <li>
-<p><a href="https://vittali.ch/TiPs_6">Choosing a hardware toolchain for a cloud connected sensor (Linux host based)</a></p>
+<p>Smart Village: Remote monitoring of drinking water consumption in a rural environment <span class="icon"><a class="image" href="TiPs_7/main.pdf"><i class="fa fa-file"></i></a></span>.</p>
 </li>
 </ul>
+</div>
+<div class="olist arabic">
+<div class="title">Objectives (<em>Jan 2024</em>)</div>
+<ol class="arabic">
+<li>
+<p>Build a low power water metering system in a remote location.</p>
+</li>
+<li>
+<p>Having failed to do so in <a href="#TiPs_5">TiPs #5</a>, drop the requirements for low power and non-cellular.</p>
+</li>
+<li>
+<p>Learn Latex for document typesetting involving math and for improved tooling for references and bibliography.</p>
+</li>
+<li>
+<p>Transfer document base to <a href="https://www.zotero.org/">zotero</a>.</p>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<div class="title">Building Resilience</div>
+<ol class="arabic">
+<li>
+<p>Describe the electronics design part of this TiPs as a set of modules.</p>
+</li>
+<li>
+<p>Propose an approach to reason about electronic circuits that is inspired from API ( Application Programming Interface) design.</p>
+</li>
+<li>
+<p>Each circuit module should be as autonomous, reusable and testable as possible.</p>
+</li>
+<li>
+<p>Apply Unit Testing, a standard software development method, to electronics design.</p>
+</li>
+<li>
+<p>Improve document management.</p>
+</li>
+</ol>
+</div>
+<div class="olist none">
+<div class="title">Resilience Report  (<em>Jan 2024</em>)</div>
+<ol class="none">
+<li>
+<p><span class="icon green"><i class="fa fa-plus"></i></span> <span class="icon white"><i class="fa fa-plus"></i></span> <span class="icon white"><i class="fa fa-plus"></i></span> I believe that the proposed documentation approach can be useful, but it has to be applied to many TiPs before making more conclusive statements.</p>
+</li>
+<li>
+<p><span class="icon red"><i class="fa fa-minus"></i></span> <span class="icon red"><i class="fa fa-minus"></i></span> <span class="icon red"><i class="fa fa-minus"></i></span> The Arduino firmware that is part of this TiPs is
+not resilient at all. It suffers from the same problem as  <a href="#TiPs_5">TiPs #5</a>: Two software subsystems are
+coupled and can not be tested in isolation.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><strong>Status</strong>: in production.</p>
 </div>
 <div class="paragraph">
 <p><a href="https://github.com/vittali/TiPs_7">compagnion repo</a></p>
@@ -575,6 +625,9 @@ european countries and GSM 3 is bound for the same fate within the next five yea
 </li>
 <li>
 <p>Break up NoTiPs until the real TiPs show up. Projects that can be understood and tested.</p>
+</li>
+<li>
+<p>Every TiPs contains at least one even tinier TiPs struggling to get out (;-.</p>
 </li>
 </ol>
 </div>
